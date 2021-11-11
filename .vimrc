@@ -79,11 +79,7 @@ highlight Comment cterm=italic
 " nnoremap jj <Esc>
 imap jj <Esc>
 
-" Press the space bar to type the : character in command mode.
 nnoremap <space> :
-
-" Pressing the letter o will open a new line below the current one.
-" Exit insert mode after creating a new line above or below the current line.
 nnoremap o o<esc>
 nnoremap O O<esc>
 
@@ -91,7 +87,6 @@ nnoremap O O<esc>
 nnoremap n nzz
 nnoremap N Nzz
 
-" Yank from cursor to the end of line.
 nnoremap Y y$
 
 " Resize split windows using arrow keys by pressing:
@@ -101,17 +96,13 @@ noremap <c-down> <c-w>-
 noremap <c-left> <c-w>>
 noremap <c-right> <c-w><
 
-" NERDTree specific mappings.
-" Map the F3 key to toggle NERDTree open and close.
-" nnoremap <F3> :NERDTreeToggle<cr>
 nnoremap b :NERDTreeToggle<CR>
-
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 let g:airline_powerline_fonts = 1
+let NERDTreeShowHidden=1
 " let g:NERDTreeWinPos = "right"
-
 
 " }}}
 
