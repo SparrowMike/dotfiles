@@ -54,6 +54,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'dense-analysis/ale'
 Plug 'morhetz/gruvbox'
 Plug 'haishanh/night-owl.vim'
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
 Plug 'preservim/nerdtree'
 Plug 'git@github.com:Valloric/YouCompleteMe.git'
 Plug 'ryanoasis/vim-devicons'
@@ -68,7 +70,7 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
-colorscheme night-owl
+colorscheme gruvbox 
 
 highlight Comment cterm=italic
 
@@ -104,6 +106,9 @@ let g:airline_powerline_fonts = 1
 let NERDTreeShowHidden=1
 " let g:NERDTreeWinPos = "right"
 
-" }}}
+highlight Normal     ctermbg=NONE guibg=NONE
+highlight LineNr     ctermbg=NONE guibg=NONE
+highlight SignColumn ctermbg=NONE guibg=NONE
 
+" }}}
 
