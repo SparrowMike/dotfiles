@@ -30,7 +30,7 @@ set tabstop=4
 set expandtab
 set nobackup
 set scrolloff=10
-set nowrap
+set wrap 
 set incsearch
 set ignorecase
 set smartcase
@@ -61,6 +61,7 @@ Plug 'git@github.com:Valloric/YouCompleteMe.git'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'sedm0784/vim-you-autocorrect'
 
 call plug#end()
 
