@@ -44,7 +44,7 @@ set wildmode=list:longest
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 set relativenumber
 set backspace=indent,eol,start
-
+set mouse=a
 set encoding=UTF-8
 
 " PLUGINS ---------------------------------------------------------------- {{{
@@ -62,6 +62,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sedm0784/vim-you-autocorrect'
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 

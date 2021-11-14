@@ -90,14 +90,14 @@ alias lt='ls --tree'
 alias c='colorls'
 alias cc='colorls -lA --sd'
 alias ccc='colorls --tree'
-
 alias lc='lolcat'
-
 alias v='vim'
-
+alias b='bat'
 # alias f='fuck'
 alias k='clear'
 alias n='npx git-cz'
+
+alias rm="rm -i"
 
 bindkey "^X\x7f" backward-kill-line
 bindkey "^X\x7f" backward-kill-line
