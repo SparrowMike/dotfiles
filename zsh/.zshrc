@@ -121,4 +121,3 @@ source /usr/local/share/chruby/auto.sh
 chruby ruby-2.7.2
 
 . /usr/local/opt/asdf/libexec/asdf.sh
-

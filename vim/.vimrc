@@ -51,18 +51,19 @@ set encoding=UTF-8
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'dense-analysis/ale'
 Plug 'morhetz/gruvbox'
 Plug 'haishanh/night-owl.vim'
 Plug 'tomasr/molokai'
-Plug 'altercation/vim-colors-solarized'
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 Plug 'preservim/nerdtree'
+Plug 'dense-analysis/ale'
 Plug 'git@github.com:Valloric/YouCompleteMe.git'
+" tbc => Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sedm0784/vim-you-autocorrect'
-Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 
@@ -72,7 +73,7 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
-colorscheme gruvbox 
+colorscheme gruvbox
 
 highlight Comment cterm=italic
 
@@ -106,6 +107,7 @@ nnoremap b :NERDTreeToggle<CR>
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 let g:airline_powerline_fonts = 1
 let NERDTreeShowHidden=1
+let g:NERDTreeWinSize=28
 " let g:NERDTreeWinPos = "right"
 
 highlight Normal     ctermbg=NONE guibg=NONE
