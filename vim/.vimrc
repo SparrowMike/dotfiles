@@ -46,6 +46,8 @@ set relativenumber
 set backspace=indent,eol,start
 set mouse=a
 set encoding=UTF-8
+set noswapfile
+
 
 " PLUGINS ---------------------------------------------------------------- {{{
 
@@ -96,21 +98,22 @@ nnoremap N Nzz
 
 nnoremap Y y$
 
-" Resize split windows using arrow keys by pressing:
-" CTRL+UP, CTRL+DOWN, CTRL+LEFT, or CTRL+RIGHT.
-noremap <c-up> <c-w>+
-noremap <c-down> <c-w>-
-noremap <c-left> <c-w>>
-noremap <c-right> <c-w><
-
 nnoremap b :NERDTreeToggle<CR>
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 let g:airline_powerline_fonts = 1
 let NERDTreeShowHidden=1
-let g:NERDTreeWinSize=28
+let g:NERDTreeWinSize=32
+let g:NERDTreeGitStatusWithFlags = 1
 " let g:NERDTreeWinPos = "right"
+"
+" sync open file with NERDTree
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()        
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction"
+
 
 highlight Normal     ctermbg=NONE guibg=NONE
 highlight LineNr     ctermbg=NONE guibg=NONE
@@ -126,4 +129,8 @@ let g:coc_global_extensions = [
   \ 'coc-eslint', 
   \ 'coc-prettier', 
   \ 'coc-json', 
+  \ 'coc-html',
+  \ 'coc-css',
   \ ]
+" if hidden not set, TextEdit might fail.
+set hidden
