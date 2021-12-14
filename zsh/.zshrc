@@ -3,7 +3,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 export ZSH="/Users/mike/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"   
 
 # Set list of themes to pick from when loading at random 
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +70,7 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
-# export ARCHFLAGS="-arch x86_64"
+ export ARCHFLAGS="-arch x86_64"
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -83,8 +83,7 @@ source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 alias ls='lsd'
 alias l='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
+alias ll='ls -al'
 alias lt='ls --tree'
 
 alias c='colorls'

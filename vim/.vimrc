@@ -25,8 +25,8 @@ syntax on
 
 
 set number
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set expandtab
 set nobackup
 set scrolloff=10
@@ -74,6 +74,7 @@ call plug#end()
 set t_Co=256
 
 if (has("termguicolors"))
+
  set termguicolors
 endif
 
@@ -98,16 +99,17 @@ nnoremap N Nzz
 
 nnoremap Y y$
 
-nnoremap b :NERDTreeToggle<CR>
+" nnoremap b :NERDTreeToggle<CR>
+nnoremap nb :NERDTreeToggle<CR>
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 let g:airline_powerline_fonts = 1
 let NERDTreeShowHidden=1
-let g:NERDTreeWinSize=32
+let g:NERDTreeWinSize=37
 let g:NERDTreeGitStatusWithFlags = 1
 " let g:NERDTreeWinPos = "right"
-"
+
 " sync open file with NERDTree
 " Check if NERDTree is open or active
 function! IsNERDTreeOpen()        
