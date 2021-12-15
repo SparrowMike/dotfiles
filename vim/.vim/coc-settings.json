@@ -1,0 +1,17 @@
+{
+  "suggest.noselect": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "angular",
+    "html",
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "react",
+    "vue",
+    "json",
+    "javascriptreact",
+    "typescript.tsx",
+    "graphql"
+  ]
+}

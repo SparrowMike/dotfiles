@@ -62,7 +62,7 @@ plugins=(git node npm autojump history-substring-search zsh-syntax-highlighting 
 source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
-#
+
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -75,11 +75,6 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
-
-# path+=(
-# $(ruby -e 'puts File.join(Gem.user_dir, "bin")')
-# )
-# source $(dirname $(gem which colorls))/tab_complete.sh
 
 alias ls='lsd'
 alias l='ls -l'
@@ -106,6 +101,10 @@ export PATH="$PATH:/Users/mike/.local/bin"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+export GEM_HOME="$HOME/.gem"
+
+PATH=$PATH:$(ruby -e 'puts Gem.bindir')
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # export FZF_DEFAULT_OPTS=‘—height=40%—preview=“cat {}” —preview-window=right:60%wrap’
 
@@ -115,8 +114,4 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh
-chruby ruby-2.7.2
-
-. /usr/local/opt/asdf/libexec/asdf.sh
+# . /usr/local/opt/asdf/libexec/asdf.sh
