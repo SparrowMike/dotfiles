@@ -99,6 +99,7 @@
     todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
     timewarrior             # timewarrior tracking status (https://timewarrior.net/)
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
+    wifi                  # wifi speed
     time                    # current time
     # =========================[ Line #2 ]=========================
     newline                 # \n
@@ -106,7 +107,6 @@
     # public_ip             # public IP address
     # proxy                 # system-wide http/https/ftp proxy
     # battery               # internal battery
-    # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
   )
 

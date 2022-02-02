@@ -91,6 +91,7 @@ alias b='bat'
 alias k='clear'
 alias n='npx git-cz'
 
+alias trsg='cd Documents/tradingroom && code . && npm start'
 alias rm="rm -i"
 
 bindkey "^X\x7f" backward-kill-line
