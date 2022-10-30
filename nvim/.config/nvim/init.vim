@@ -13,7 +13,7 @@ set relativenumber
 " set splitbelow splitright " Change the split screen behavior
 set title " Show file title
 set wildmenu " Show a more advance menu
-set cc=80 " Show at 80 column a border for good code style
+" set cc=80
 set spell" enable spell check (may need to download language package)
 set ttyfast " Speed up scrolling in Vim 
 

@@ -91,7 +91,11 @@ alias b='bat'
 alias k='clear'
 alias n='npx git-cz'
 
-alias trsg='cd Documents/tradingroom && code . && npm start'
+alias trg='cd Documents/Genesiv/tradingroom && code . && npm start'
+alias trc='cd Documents/Genesiv/tc-library && code . && npm start'
+alias trd='cd Documents/Genesiv/themeGenesiv && code .'
+alias trm="cd Documents/Genesiv/tradingroom-mobile/chat && npx react-native run-ios"
+alias play='cd Documents && cd PlayJS && code . && nodemon app.js'
 alias rm="rm -i"
 
 bindkey "^X\x7f" backward-kill-line
