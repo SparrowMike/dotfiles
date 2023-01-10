@@ -1,0 +1,6 @@
+oh-my-posh init pwsh --config ~/jandedobbeleer.omp.json | Invoke-Expression
+Import-Module -Name Terminal-Icons
+
+function trg {cd Documents/tradingroom && code . && npm run dev}
+function n {npx git-cz}
+function d {npm run dev}
