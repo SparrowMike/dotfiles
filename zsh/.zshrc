@@ -90,11 +90,14 @@ alias b='bat'
 # alias f='fuck'
 alias k='clear'
 alias n='npx git-cz'
+alias d='npm run dev'
 
-alias trg='cd Documents/Genesiv/tradingroom && code . && npm start'
-alias trc='cd Documents/Genesiv/tc-library && code . && npm start'
+alias trg='cd Documents/Genesiv/tradingroom && code . && npm run dev'
+alias trc='cd Documents/Genesiv/tc-library && code . && npm run dev'
 alias trd='cd Documents/Genesiv/themeGenesiv && code .'
 alias trm="cd Documents/Genesiv/tradingroom-mobile/chat && npx react-native run-ios"
+alias e='cd Documents/WorkWise && code . && npm run dev'
+alias m='cd Documents/mobile && code . && npm run start'
 alias play='cd Documents && cd PlayJS && code . && nodemon app.js'
 alias rm="rm -i"
 
