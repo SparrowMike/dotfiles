@@ -17,6 +17,9 @@ set wildmenu " Show a more advance menu
 set spell" enable spell check (may need to download language package)
 set ttyfast " Speed up scrolling in Vim 
 
+set guicursor=i:ver1
+set guicursor+=a:blinkon1
+
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 Plug 'morhetz/gruvbox'

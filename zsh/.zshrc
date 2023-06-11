@@ -96,10 +96,14 @@ alias trg='cd Documents/Genesiv/tradingroom && code . && npm run dev'
 alias trc='cd Documents/Genesiv/tc-library && code . && npm run dev'
 alias trd='cd Documents/Genesiv/themeGenesiv && code .'
 alias trm="cd Documents/Genesiv/tradingroom-mobile/chat && npx react-native run-ios"
+
 alias e='cd Documents/WorkWise && code . && npm run dev'
-alias m='cd Documents/mobile && code . && npm run start'
+alias m='cd Documents/mobile && code . && d' 
 alias play='cd Documents && cd PlayJS && code . && nodemon app.js'
 alias rm="rm -i"
+
+# alias cp="ls main.cpp | entr -s 'g++ -std=c++17 main.cpp -o main && ./main'"
+alias cp="ls *.cpp src/*.cpp | entr -s 'g++ -std=c++17 -I./include *.cpp src/*.cpp -o main && ./main'"
 
 bindkey "^X\x7f" backward-kill-line
 bindkey "^X\x7f" backward-kill-line
