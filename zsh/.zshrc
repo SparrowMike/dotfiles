@@ -2,10 +2,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH="/Users/mike/.oh-my-zsh"
-# ZSH_THEME="powerlevel10k/powerlevel10k"   
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
-# Set list of themes to pick from when loading at random 
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# ZSH_THEME="robbyrussell"
+
+# Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
@@ -18,14 +25,13 @@ export ZSH="/Users/mike/.oh-my-zsh"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -40,8 +46,9 @@ export ZSH="/Users/mike/.oh-my-zsh"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -57,11 +64,25 @@ export ZSH="/Users/mike/.oh-my-zsh"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git node npm autojump history-substring-search zsh-syntax-highlighting zsh-autosuggestions colored-man-pages web-search )
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+
+plugins=(git node npm autojump history-substring-search zsh-syntax-highlighting zsh-autosuggestions colored-man-pages web-search)
 
 source $ZSH/oh-my-zsh.sh
 
+# User configuration
+
 # export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -70,11 +91,17 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
- export ARCHFLAGS="-arch x86_64"
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias ls='lsd'
 alias l='ls -l'
@@ -86,20 +113,19 @@ alias cc='colorls -lA --sd'
 alias ccc='colorls --tree'
 alias lc='lolcat'
 alias v='vim'
-alias b='bat'
 # alias f='fuck'
 alias k='clear'
-alias n='npx git-cz'
-alias d='npm run dev'
+alias n='bunx git-cz'
+alias s='bun run start'
+alias d='bun run dev'
+alias b='bun run build'
+alias p='bun run prettier'
 
-alias trg='cd Documents/Genesiv/tradingroom && code . && npm run dev'
-alias trc='cd Documents/Genesiv/tc-library && code . && npm run dev'
-alias trd='cd Documents/Genesiv/themeGenesiv && code .'
-alias trm="cd Documents/Genesiv/tradingroom-mobile/chat && npx react-native run-ios"
+alias chordie='cd ~/Documents/chordie && code . && bun run dev'
 
-alias e='cd Documents/WorkWise && code . && npm run dev'
-alias m='cd Documents/mobile && code . && d' 
-alias play='cd Documents && cd PlayJS && code . && nodemon app.js'
+alias ww='cd ~/Documents/WorkWise && code . && bun run dev'
+alias m='cd ~/Documents/mobile && code . && d' 
+alias play='cd ~/Documents && cd PlayJS && code . && nodemon app.js'
 alias rm="rm -i"
 
 # alias cp="ls main.cpp | entr -s 'g++ -std=c++17 main.cpp -o main && ./main'"
@@ -108,22 +134,29 @@ alias cp="ls *.cpp src/*.cpp | entr -s 'g++ -std=c++17 -I./include *.cpp src/*.c
 bindkey "^X\x7f" backward-kill-line
 bindkey "^X\x7f" backward-kill-line
 
-export PATH=~/.local/bin:$PATH
-export PATH="$PATH:/Users/mike/.local/bin"
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
-export GEM_HOME="$HOME/.gem"
+# anaconda
+export PATH="/opt/homebrew/anaconda3/bin:$PATH"
 
-PATH=$PATH:$(ruby -e 'puts Gem.bindir')
+# bun completions
+[ -s "/Users/mike/.bun/_bun" ] && source "/Users/mike/.bun/_bun"
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# JAVA 
+javahome() {
+  unset JAVA_HOME 
+  export JAVA_HOME=$(/usr/libexec/java_home -v "$1");
+  java -version
+}
+
+alias j11='javahome 11'
+alias j17='javahome 17'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# export FZF_DEFAULT_OPTS=‘—height=40%—preview=“cat {}” —preview-window=right:60%wrap’
-
-# eval $(thefuck --alias)
-
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# . /usr/local/opt/asdf/libexec/asdf.sh

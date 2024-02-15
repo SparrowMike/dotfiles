@@ -13,5 +13,6 @@
     "javascriptreact",
     "typescript.tsx",
     "graphql"
-  ]
+  ],
+  "snippets.ultisnips.pythonPrompt": false
 }

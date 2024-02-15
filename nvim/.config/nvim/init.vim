@@ -12,9 +12,9 @@ set number
 set relativenumber
 " set splitbelow splitright " Change the split screen behavior
 set title " Show file title
-set wildmenu " Show a more advance menu
+set wildmenu " Show a more advanced menu
 " set cc=80
-set spell" enable spell check (may need to download language package)
+set spell " Enable spell check (may need to download language package)
 set ttyfast " Speed up scrolling in Vim 
 
 set guicursor=i:ver1
@@ -23,7 +23,6 @@ set guicursor+=a:blinkon1
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 Plug 'morhetz/gruvbox'
-
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
@@ -37,12 +36,12 @@ Plug 'tpope/vim-fugitive'
 call plug#end()
 
 colorscheme gruvbox
+
 autocmd VimEnter * hi Normal ctermbg=none
 highlight Comment cterm=italic
 
-
 let g:bargreybars_auto=0
-let g:airline_solorized_bg='dark'
+let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts=1
 let g:airline#extension#tabline#enable=1
 let g:airline#extension#tabline#left_sep=' '
