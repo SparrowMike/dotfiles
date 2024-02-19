@@ -1,4 +1,2 @@
 require('mike.remap')
-
-print('hello from the mike')
-
+require('mike.set')
