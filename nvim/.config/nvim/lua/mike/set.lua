@@ -1,5 +1,3 @@
-vim.opt.guicursor = ""
-
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -28,4 +26,8 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"
+
+vim.opt.foldmethod = "expr" -- default is "normal"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
+vim.opt.foldenable = false
