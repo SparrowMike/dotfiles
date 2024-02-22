@@ -3,7 +3,7 @@ function pine()
         disable_background = true,
         variant = "moon", -- auto, main, moon, or dawn
         dark_variant = "moon", -- main, moon, or dawn
-        dim_inactive_windows = true,
+        dim_inactive_windows = false,
 
         styles = {
             bold = true,
@@ -43,7 +43,10 @@ function catppuccin()
 end
 
 function gruv()
-    vim.g.gruvbox_contrast_dark = 'soft'
+    vim.g.gruvbox_contrast_dark = 'medium'
+    vim.g.gruvbox_contrast_light = 'medium'
+    vim.g.gruvbox_termcolors = 16
+
     vim.g.gruvbox_italic = 1
 end
 
@@ -68,7 +71,4 @@ function ColorMyPencils(color)
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
--- ColorMyPencils('gruvbox');
--- ColorMyPencils();
-
-ColorMyPencils('catppuccin');
+ColorMyPencils('rose-pine');

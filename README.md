@@ -44,6 +44,12 @@ You can also stow multiple programs at once:
 stow vim zsh git
 ```
 
+Customize Stow for different folder structure:
+
+```sh
+stow --target=/home/user/ vim
+```
+
 ### Step 3: Unstowing Your Dotfiles
 
 If you no longer want Stow to manage a program, you can 'unstow' it:
@@ -69,4 +75,3 @@ If you're happy with the proposed changes, you can then run the command without 
 stow -v vim
 ```
 
----

@@ -7,20 +7,13 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
-
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.5',
         -- or                            , branch = '0.1.x',
         requires = { {'nvim-lua/plenary.nvim'} }
     }
 
-    use({
-        'rose-pine/neovim',
-        as = 'rose-pine',
-        config = function()
-            vim.cmd('colorscheme rose-pine')
-        end
-    })
+    use({'rose-pine/neovim', as = 'rose-pine'})
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "morhetz/gruvbox" }
 
@@ -84,5 +77,36 @@ return require('packer').startup(function(use)
             -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
         }
     }
+
+    use({
+	      "Pocco81/auto-save.nvim",
+	      config = function()
+	      	 require("auto-save").setup {
+	      		-- your config goes here
+	      		-- or just leave it empty :)
+	      	 }
+	    end,
+    })      
+
+    use {
+      'numToStr/Comment.nvim',
+      config = function()
+        require('Comment').setup()
+      end
+    }
+
+    use({
+      "folke/trouble.nvim",
+      config = function()
+        require("trouble").setup {
+          icons = true,
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
+        }
+      end
+    })
+
+    use("eandrju/cellular-automaton.nvim")
 end)
 
