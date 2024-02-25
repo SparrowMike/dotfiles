@@ -9,7 +9,7 @@ return {
                 -- your configuration comes here
                 -- or leave it empty to the default settings
                 -- refer to the configuration section below
-            }) 
+            })
 
             vim.keymap.set("n", "<leader>tt", function() require("trouble").toggle() end)
             vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end)
@@ -19,4 +19,4 @@ return {
             vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
         end
     },
-} 
+}

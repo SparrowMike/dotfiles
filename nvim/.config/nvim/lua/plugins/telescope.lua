@@ -1,21 +1,17 @@
 return {
+    "nvim-telescope/telescope-ui-select.nvim",
     {
         "nvim-telescope/telescope.nvim",
-        "nvim-telescope/telescope-ui-select.nvim",
         tag = "0.1.5",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
-            local config = require("telescope")
-
-            config.setup({
+            require("telescope").setup({
                 extensions = {
                     ["ui-select"] = {
                         require("telescope.themes").get_dropdown({}),
                     },
                 },
             })
-
-            config.load_extension("session-lens")
 
             local builtin = require("telescope.builtin")
 
