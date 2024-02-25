@@ -26,4 +26,7 @@ return {
         event = "InsertEnter",
         opts = {} -- this is equalent to setup({}) function
     },
+    {
+        'windwp/nvim-ts-autotag',
+    }
 }

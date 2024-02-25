@@ -7,8 +7,7 @@ return {
         init = function()
             -- Disable automatic setup, we are doing it manually
             vim.g.lsp_zero_extend_cmp = 0
-            vim.g.lsp_zero_extend_lspconfig = 0
-        end,
+            vim.g.lsp_zero_extend_lspconfig = 0 end,
     },
     {
         'williamboman/mason.nvim',
@@ -21,7 +20,7 @@ return {
         'hrsh7th/nvim-cmp',
         event = 'InsertEnter',
         dependencies = {
-            {'L3MON4D3/LuaSnip'},
+            { 'L3MON4D3/LuaSnip' },
         },
         config = function()
             -- Here is where you configure the autocompletion settings.
@@ -34,12 +33,17 @@ return {
 
             cmp.setup({
                 sources = {
-                    {name = 'path'},
-                    {name = 'nvim_lsp'},
-                    {name = 'nvim_lua'},
-                    {name = 'luasnip', keyword_length = 2},
-                    {name = 'buffer', keyword_length = 3},
+                    { name = 'path' },
+                    { name = 'nvim_lsp' },
+                    { name = 'nvim_lua' },
+                    { name = 'luasnip', keyword_length = 2 },
+                    { name = 'buffer',  keyword_length = 3 },
                 },
+
+                -- window = {
+                --     completion = cmp.config.window.bordered(),
+                --     documentation = cmp.config.window.bordered(),
+                -- },
 
                 formatting = lsp_zero.cmp_format(),
                 mapping = cmp.mapping.preset.insert({
@@ -47,27 +51,51 @@ return {
                     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
                     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
                     ['<C-Space>'] = cmp.mapping.complete(),
-                    ['<CR>'] = cmp.mapping.confirm({select = false}),
+                    ['<CR>'] = cmp.mapping.confirm({ select = false }),
                     ['<Tab>'] = cmp_action.tab_complete(),
                     ['<S-Tab>'] = cmp_action.select_prev_or_fallback(),
                 })
             })
         end
     },
+    { "rafamadriz/friendly-snippets" },
 
     -- LSP
     {
         'neovim/nvim-lspconfig',
-        cmd = {'LspInfo', 'LspInstall', 'LspStart'},
-        event = {'BufReadPre', 'BufNewFile'},
+        cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
+        event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
-            {'hrsh7th/cmp-nvim-lsp'},
-            {'williamboman/mason-lspconfig.nvim'},
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'williamboman/mason-lspconfig.nvim' },
         },
         config = function()
             -- This is where all the LSP shenanigans will live
             local lsp_zero = require('lsp-zero')
             lsp_zero.extend_lspconfig()
+
+--            local lspconfig = require("lspconfig")
+--            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+--
+--            lspconfig.html.setup({
+--                capabilities = capabilities,
+--            })
+--
+--            lspconfig.tsserver.setup({
+--                capabilities = capabilities,
+--            })
+--
+--            lspconfig.cssls.setup({
+--                capabilities = capabilities,
+--            })
+--
+--            lspconfig.lsp_lua.setup({
+--                capabilities = capabilities,
+--            })
+--
+--            lspconfig.tailwindcss.setup({
+--                capabilities = capabilities,
+--            })
 
             --- if you want to know more about lsp-zero and mason.nvim
             --- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
@@ -75,7 +103,7 @@ return {
                 -- see :help lsp-zero-keybindings
                 -- to learn the available actions
                 -- lsp_zero.default_keymaps({buffer = bufnr})
-                local opts = {buffer = bufnr, remap = false}
+                local opts = { buffer = bufnr, remap = false }
 
                 vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
                 vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
@@ -90,7 +118,7 @@ return {
             end)
 
             require('mason-lspconfig').setup({
-                ensure_installed = {'lua_ls', 'tsserver', 'rust_analyzer'},
+                ensure_installed = { 'lua_ls', 'tsserver', 'rust_analyzer', 'cssls', 'html', 'tailwindcss' },
                 handlers = {
                     lsp_zero.default_setup,
                     lua_ls = function()
