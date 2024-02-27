@@ -1,14 +1,21 @@
 return {
     -- {
-    --     'rmagatti/auto-session',
-    --     config = function()
-    --         require("auto-session").setup {
-    --             log_level = "error",
-    --             auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
-    --         }
-    --     end
+    --     "folke/persistence.nvim",
+    --     event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    --     opts = {
+    --         -- add any custom options here
+    --     }
     -- },
 
+    {
+        'rmagatti/auto-session',
+        config = function()
+            require("auto-session").setup {
+                log_level = "error",
+                auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+            }
+        end
+    },
     {
         'rmagatti/session-lens',
         dependencies = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
