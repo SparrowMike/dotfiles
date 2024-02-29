@@ -1,0 +1,7 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "cmp_select",
+        "theme_conf"
+    ]
+}

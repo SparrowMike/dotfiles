@@ -17,7 +17,17 @@ return {
     {
         'numToStr/Comment.nvim',
         config = function()
-            require('Comment').setup()
+            require('Comment').setup({
+                pre_hook = function()
+                    return vim.bo.commentstring
+                end,
+            })
+        end
+    },
+    {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        config = function()
+            vim.g.skip_ts_context_commentstring_module = true
         end
     },
     {
