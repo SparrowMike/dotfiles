@@ -21,6 +21,7 @@ return {
         config = function()
             vim.g.skip_ts_context_commentstring_module = true
             vim.keymap.set("n", "<leader>go", "<cmd>GitBlameOpenCommitURL<cr>")
+            vim.keymap.set("n", "<leader>gb", "<cmd>GitBlameToggle<cr>")
         end,
     },
     {
@@ -34,8 +35,7 @@ return {
             vim.keymap.set("n", "<leader>ga", ":Gitsigns stage_hunk<CR>")
             vim.keymap.set("n", "<leader>gu", ":Gitsigns undo_stage_hunk<CR>")
             vim.keymap.set("n", "<leader>gr", ":Gitsigns reset_hunk<CR>")
-            vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>")
-
+            -- vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>")
         end,
     },
 }

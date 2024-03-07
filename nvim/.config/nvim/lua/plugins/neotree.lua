@@ -42,7 +42,7 @@ return {
             },
             filesystem = {
                 follow_current_file = {
-                    enabled = false, -- This will find and focus the file in the active buffer every time
+                    enabled = true, -- This will find and focus the file in the active buffer every time
                 },
                 filtered_items = {
                     hide_dotfiles = false,

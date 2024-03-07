@@ -2,7 +2,7 @@ return {
     { "windwp/nvim-ts-autotag" },
     { "mfussenegger/nvim-lint" },
     {
-       "mg979/vim-visual-multi",
+        "mg979/vim-visual-multi",
         branch = "master",
     },
     {
