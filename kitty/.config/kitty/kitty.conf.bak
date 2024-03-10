@@ -757,7 +757,7 @@ remember_window_size  yes
 #: that setting a non-zero window_margin_width overrides this and
 #: causes all borders to be drawn.
 
-window_margin_width 4
+# window_margin_width 0
 
 #: The window margin (in pts) (blank area outside the border). A
 #: single value sets all four sides. Two values set the vertical and
@@ -772,7 +772,7 @@ window_margin_width 4
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
-window_padding_width 0 0 0
+window_padding_width 1 0 0
 # single_window_padding_width -1
 #
 # placement_strategy center
@@ -803,6 +803,7 @@ window_padding_width 0 0 0
 #: Fade the text in inactive windows by the specified amount (a number
 #: between zero and one, with zero being fully faded).
 
+# hide_window_decorations no
 hide_window_decorations titlebar-only
 
 #: Hide the window decorations (title-bar and window borders) with
@@ -1564,7 +1565,7 @@ shell .
 #: this option is obsolete (although still supported). Consider using
 #: text_composition_strategy instead.
 
-# macos_traditional_fullscreen yes
+macos_traditional_fullscreen yes
 
 #: Use the macOS traditional full-screen transition, that is faster,
 #: but less pretty.
@@ -2341,7 +2342,7 @@ shell .
 
 
 # BEGIN_KITTY_THEME
-# Tokyo Night Moon
+# Gruvbox Dark Hard
 include current-theme.conf
 # END_KITTY_THEME
 

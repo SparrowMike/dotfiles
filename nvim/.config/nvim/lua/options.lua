@@ -34,4 +34,3 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
 vim.opt.foldenable = false
 
 vim.g.mapleader = ' '
-

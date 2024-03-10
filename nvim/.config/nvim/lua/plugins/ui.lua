@@ -1,42 +1,22 @@
 return {
-    'ryanoasis/vim-devicons',
+    { "nvim-tree/nvim-web-devicons" },
+    { "ryanoasis/vim-devicons" },
     {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        "nvim-lualine/lualine.nvim",
         config = function()
-            require('lualine').setup({
-                options = { theme = 'gruvbox' }
-            })
-        end
-    },
-    {
-        "morhetz/gruvbox", name = "gruvbox",
-        config = function()
-            vim.g.gruvbox_contrast_dark = 'medium'
-            vim.g.gruvbox_contrast_light = 'medium'
-            vim.g.gruvbox_termcolors = 16
-
-            vim.g.gruvbox_italic = 1
-
-            vim.cmd.colorscheme('gruvbox')
-
-            vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-            vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-        end
+            require("lualine").setup({})
+        end,
     },
     {
         "folke/noice.nvim",
         event = "VeryLazy",
-        opts = {
-            -- add any options here
-        },
         dependencies = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             "MunifTanjim/nui.nvim",
             -- OPTIONAL:
             --   `nvim-notify` is only needed, if you want to use the notification view.
             --   If not available, we use `mini` as the fallback
---            "rcarriga/nvim-notify",
+            --            "rcarriga/nvim-notify",
         },
         config = function()
             -- require("notify").setup({

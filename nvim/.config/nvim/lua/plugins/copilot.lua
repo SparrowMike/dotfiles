@@ -1,10 +1,10 @@
 return {
     'github/copilot.vim',
     config = function()
-        vim.keymap.set('n', '<leader>cp', ':Copilot panel<CR>')
+        vim.keymap.set('n', '<leader>cp', ':copilot panel<cr>')
 
-        --vim.keymap.set('i', '<Tab>', 'copilot#Accept("\\<Tab>")', {
-        vim.keymap.set('i', '<C-C>', 'copilot#Accept("\\<CR>")', {
+        -- vim.keymap.set('i', '<tab>', 'copilot#accept("\\<tab>")', {
+        vim.keymap.set('i', '<c-c>', 'copilot#accept("\\<cr>")', {
             expr = true,
             replace_keycodes = false
         })

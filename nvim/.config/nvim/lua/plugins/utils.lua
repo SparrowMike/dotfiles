@@ -62,7 +62,7 @@ return {
         dependencies = "kevinhwang91/promise-async",
         config = function()
             require("ufo").setup({
-                provider_selector = function(bufnr, filetype, buftype)
+                provider_selector = function()
                     return { "treesitter", "indent" }
                 end,
             })
@@ -76,4 +76,18 @@ return {
             vim.keymap.set("n", "zR", require("ufo").openAllFolds)
         end,
     },
+    {
+        'nvimdev/lspsaga.nvim',
+        config = function()
+            require('lspsaga').setup({})
+        end,
+    },
+    -- {
+    --     'edluffy/hologram.nvim',
+    --     config = function()
+    --         require('hologram').setup({
+    --             auto_disable = true,
+    --         })
+    --     end,
+    -- }
 }

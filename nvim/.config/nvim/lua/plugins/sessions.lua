@@ -13,6 +13,14 @@ return {
             require("auto-session").setup {
                 log_level = "error",
                 auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+
+                -- pre_save_cmds = { "Neotree close" },
+                -- save_extra_cmds = {
+                --     "Neotree open"
+                -- },
+                -- post_restore_cmds = {
+                --     "Neotree open"
+                -- }
             }
         end
     },

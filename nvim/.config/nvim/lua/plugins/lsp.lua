@@ -53,8 +53,8 @@ return {
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<CR>"] = cmp.mapping.confirm({ select = false }),
-                    ["<Tab>"] = cmp_action.tab_complete(),
-                    ["<S-Tab>"] = cmp_action.select_prev_or_fallback(),
+                    -- ["<Tab>"] = cmp_action.tab_complete(),
+                    -- ["<S-Tab>"] = cmp_action.select_prev_or_fallback(),
                 }),
             })
         end,
