@@ -21,7 +21,13 @@ return {
         "hrsh7th/nvim-cmp",
         event = "InsertEnter",
         dependencies = {
-            { "L3MON4D3/LuaSnip" },
+            "L3MON4D3/LuaSnip",    -- Snippets plugin
+            "hrsh7th/cmp-path",    -- Path completion
+            "hrsh7th/cmp-cmdline", -- Command line completion
+            "saadparwaiz1/cmp_luasnip", -- Snippets source
+            "hrsh7th/cmp-buffer",  -- Buffer source
+            "rafamadriz/friendly-snippets", -- Snippets collection
+            "onsails/lspkind.nvim", -- LSP icons
         },
         config = function()
             -- Here is where you configure the autocompletion settings.
@@ -32,7 +38,37 @@ return {
             local cmp = require("cmp")
             local cmp_action = lsp_zero.cmp_action()
 
+            require("luasnip.loaders.from_vscode").lazy_load()
+
+            local lspkind = require('lspkind')
+
+
+            cmp.setup.cmdline("/", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = "buffer" },
+                },
+            })
+
+            cmp.setup.cmdline(":", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = "path" },
+                }, {
+                    { name = "cmdline" },
+                    {
+                        option = {
+                            ignore_cmds = { "Man", "!" },
+                        },
+                    },
+                }),
+            })
+
             cmp.setup({
+                preselect = "item",
+                completion = {
+                    completeopt = "menu,menuone,noinsert",
+                },
                 sources = {
                     { name = "path" },
                     { name = "nvim_lsp" },
@@ -41,20 +77,36 @@ return {
                     { name = "buffer",  keyword_length = 3 },
                 },
 
-                -- window = {
-                --     completion = cmp.config.window.bordered(),
-                --     documentation = cmp.config.window.bordered(),
-                -- },
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
 
-                formatting = lsp_zero.cmp_format(),
+                formatting = {
+                    format = lspkind.cmp_format({
+                        mode = 'symbol_text', -- show only symbol annotations
+                        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                        -- can also be a function to dynamically calculate max width such as 
+                        -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
+                        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                        show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+
+                        -- The function below will be called before any actual modifications from lspkind
+                        -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+                        before = function (entry, vim_item)
+                            return vim_item
+                        end
+                    })
+                },
+
                 mapping = cmp.mapping.preset.insert({
                     ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
                     ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<CR>"] = cmp.mapping.confirm({ select = false }),
-                    -- ["<Tab>"] = cmp_action.tab_complete(),
-                    -- ["<S-Tab>"] = cmp_action.select_prev_or_fallback(),
+                    -- ["<Tab>"] = cmp_action.luasnip_supertab(),
+                    -- ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
                 }),
             })
         end,
@@ -74,6 +126,8 @@ return {
             local lsp_zero = require("lsp-zero")
             lsp_zero.extend_lspconfig()
 
+            -- -----------------------------------------------------------
+            -- This is a custom on_list function that prevents nodemodules search
             local function filter(arr, fn)
                 if type(arr) ~= "table" then
                     return arr
@@ -102,6 +156,7 @@ return {
                 vim.fn.setqflist({}, " ", { title = options.title, items = items, context = options.context })
                 vim.api.nvim_command("cfirst") -- or maybe you want 'copen' instead of 'cfirst'
             end
+            -- -----------------------------------------------------------
 
             --- if you want to know more about lsp-zero and mason.nvim
             --- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md

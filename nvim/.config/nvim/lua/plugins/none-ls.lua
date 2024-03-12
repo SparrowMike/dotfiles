@@ -1,5 +1,5 @@
 return {
-    'nvimtools/none-ls.nvim',
+    "nvimtools/none-ls.nvim",
     config = function()
         local null_ls = require("null-ls")
         null_ls.setup({
@@ -10,6 +10,6 @@ return {
             },
         })
 
-        vim.keymap.set('n', '<leader>ll', vim.lsp.buf.format, {})
+        vim.keymap.set("n", "<leader>ll", vim.lsp.buf.format, {})
     end,
 }
