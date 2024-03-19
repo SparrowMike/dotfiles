@@ -30,6 +30,7 @@
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
     os_icon                 # os identifier
+    vi_mode                 # vi mode (you don't need this if you've enabled prompt_char)
     dir                     # current directory
     vcs                     # git status
     # =========================[ Line #2 ]=========================
@@ -92,7 +93,6 @@
     midnight_commander      # midnight commander shell (https://midnight-commander.org/)
     nix_shell               # nix shell (https://nixos.org/nixos/nix-pills/developing-with-nix-shell.html)
     chezmoi_shell           # chezmoi shell (https://www.chezmoi.io/)
-    vi_mode                 # vi mode (you don't need this if you've enabled prompt_char)
     # vpn_ip                # virtual private network indicator
     load                    # CPU load
     disk_usage              # disk usage
@@ -807,7 +807,7 @@
   typeset -g POWERLEVEL9K_VI_OVERWRITE_MODE_STRING=OVERTYPE
   typeset -g POWERLEVEL9K_VI_MODE_OVERWRITE_FOREGROUND=172
   # Text and color for insert vi mode.
-  typeset -g POWERLEVEL9K_VI_INSERT_MODE_STRING=
+  typeset -g POWERLEVEL9K_VI_INSERT_MODE_STRING=INSERT
   typeset -g POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND=66
 
   # Custom icon.
