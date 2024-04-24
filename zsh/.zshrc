@@ -150,5 +150,5 @@ alias j17='javahome 17'
 figlet -f isometric1 -c 'ETC' | lolcat
 figlet -f small -c 'is there a better way?' | lolcat
 
-set -o vi
+# set -o vi
 
