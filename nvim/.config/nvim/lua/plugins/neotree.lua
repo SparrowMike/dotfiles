@@ -25,6 +25,7 @@ return {
             })
         end,
     },
+
     config = function()
         local config = require("neo-tree")
         config.setup({
@@ -49,8 +50,13 @@ return {
                 },
             },
         })
+        vim.keymap.set("n", "<C-B>", function()
+            require("neo-tree.command").execute { source = "filesystem", toggle = true, position = "right" }
+        end)
 
-        vim.keymap.set("n", "<C-B>", ":Neotree source=filesystem toggle position=right<CR>")
-        vim.keymap.set("n", "<C-G>", ":Neotree float git_status<CR>")
+        vim.keymap.set("n", "<C-G>", function()
+            require("neo-tree.command").execute { toggle = true, source = "git_status", position = "float" }
+        end)
+
     end,
 }
