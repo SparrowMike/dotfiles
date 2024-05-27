@@ -13,4 +13,6 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
-vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]])
+

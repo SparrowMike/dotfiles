@@ -1,6 +1,10 @@
 return {
     { "windwp/nvim-ts-autotag" },
-    { "mfussenegger/nvim-lint" },
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        opts = {}, -- this is equalent to setup({}) function
+    },
     {
         "mg979/vim-visual-multi",
         branch = "master",
@@ -14,27 +18,22 @@ return {
             })
         end,
     },
-    {
-        "numToStr/Comment.nvim",
-        config = function()
-            require("Comment").setup({
-                pre_hook = function()
-                    return vim.bo.commentstring
-                end,
-            })
-        end,
-    },
-    {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        config = function()
-            vim.g.skip_ts_context_commentstring_module = true
-        end,
-    },
-    {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        opts = {}, -- this is equalent to setup({}) function
-    },
+    -- {
+    --     "numToStr/Comment.nvim",
+    --     config = function()
+    --         require("Comment").setup({
+    --             pre_hook = function()
+                    -- return vim.bo.commentstring
+    --             end,
+    --         })
+    --     end,
+    -- },
+    -- {
+    --     "JoosepAlviste/nvim-ts-context-commentstring",
+    --     config = function()
+    --         vim.g.skip_ts_context_commentstring_module = true
+    --     end,
+    -- },
     {
         "christoomey/vim-tmux-navigator",
         cmd = {
@@ -76,12 +75,12 @@ return {
             vim.keymap.set("n", "zR", require("ufo").openAllFolds)
         end,
     },
-    {
-        'nvimdev/lspsaga.nvim',
-        config = function()
-            require('lspsaga').setup({})
-        end,
-    },
+    -- {
+    --     'nvimdev/lspsaga.nvim',
+    --     config = function()
+    --         require('lspsaga').setup({})
+    --     end,
+    -- },
     {
         "dstein64/vim-startuptime",
         -- lazy-load on a command
@@ -91,6 +90,17 @@ return {
             vim.g.startuptime_tries = 10
         end,
     },
+  {
+       "m4xshen/hardtime.nvim",
+       dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+       event = "VeryLazy",
+       opts = {}
+  },
+  {
+      "tris203/precognition.nvim",
+      event = "VeryLazy",
+      config = {}
+  }
     -- {
     --     'edluffy/hologram.nvim',
     --     config = function()
