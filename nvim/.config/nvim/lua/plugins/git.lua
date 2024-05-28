@@ -1,6 +1,7 @@
 return {
     {
         "tpope/vim-fugitive",
+        event = "VeryLazy",
         config = function()
             vim.keymap.set("n", "<leader>gs", ":vert Git<CR>")
             vim.keymap.set("n", "<leader>gd", vim.cmd.Gvdiff)
@@ -8,6 +9,7 @@ return {
     },
     {
         "kdheepak/lazygit.nvim",
+        event = "VeryLazy",
         -- optional for floating window border decoration
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -18,6 +20,7 @@ return {
     },
     {
         "f-person/git-blame.nvim",
+        event = "VeryLazy",
         config = function()
             vim.g.skip_ts_context_commentstring_module = true
             vim.g.gitblame_display_virtual_text = 0
@@ -27,6 +30,7 @@ return {
     },
     {
         "lewis6991/gitsigns.nvim",
+        event = "VeryLazy",
         config = function()
             require("gitsigns").setup({
                 current_line_blame = false,

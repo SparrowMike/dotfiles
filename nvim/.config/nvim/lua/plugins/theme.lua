@@ -66,8 +66,8 @@ local themes = {
             vim.g.gruvbox_contrast_light = "medium"
             vim.g.gruvbox_termcolors = 16
             vim.g.gruvbox_italic = 1
-            -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-            -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+            vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+            vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
             vim.cmd.colorscheme("gruvbox")
         end,
     },
@@ -77,11 +77,16 @@ local themes = {
         lazy = false,
         priority = 1000,
         config = function()
-            vim.cmd([[colorscheme tokyonight-storm]])
-            -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-            -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+            require("tokyonight").setup {
+                transparent = true,
+                styles = {
+                   sidebars = "transparent",
+                   floats = "transparent",
+                }
+            }
+            vim.cmd([[colorscheme tokyonight-moon]])
         end,
     },
 }
 
-return themes.rosepine
+return themes.tokyonight;
