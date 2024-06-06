@@ -20,7 +20,11 @@ return {
         },
         config = function()
             require("notify").setup({
+                timeout = 3000,
                 background_colour = "#000000",
+                render = "default",
+                top_down = false,
+                stages = "fade_in_slide_out",
             })
 
             require("noice").setup({
