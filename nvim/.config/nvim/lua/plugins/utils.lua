@@ -18,22 +18,22 @@ return {
       })
     end,
   },
-  -- {
-  --     "numToStr/Comment.nvim",
-  --     config = function()
-  --         require("Comment").setup({
-  --             pre_hook = function()
-  -- return vim.bo.commentstring
-  --             end,
-  --         })
-  --     end,
-  -- },
-  -- {
-  --     "JoosepAlviste/nvim-ts-context-commentstring",
-  --     config = function()
-  --         vim.g.skip_ts_context_commentstring_module = true
-  --     end,
-  -- },
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup({
+        pre_hook = function()
+          return vim.bo.commentstring
+        end,
+      })
+    end,
+  },
+  {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      config = function()
+          vim.g.skip_ts_context_commentstring_module = true
+      end,
+  },
   {
     "christoomey/vim-tmux-navigator",
     lazy = true,
@@ -117,4 +117,9 @@ return {
   -- 		require("neoscroll").setup({})
   -- 	end,
   -- },
+  {
+    "luckasRanarison/tailwind-tools.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = {}, -- your configuration
+  },
 }

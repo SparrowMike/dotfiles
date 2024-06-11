@@ -38,7 +38,12 @@ return {
             local cmp = require("cmp")
             local cmp_action = lsp_zero.cmp_action()
 
-            require("luasnip.loaders.from_vscode").lazy_load()
+            local luasnip = require("luasnip")
+
+            luasnip.filetype_extend("javascript", {"html"})
+            luasnip.filetype_extend("javascriptreact", {"html"})
+            luasnip.filetype_extend("typescriptreact", {"html"})
+            require("luasnip/loaders/from_vscode").lazy_load()
 
             local lspkind = require('lspkind')
 
