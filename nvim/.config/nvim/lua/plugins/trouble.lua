@@ -1,6 +1,7 @@
 return {
   {
     "folke/trouble.nvim",
+    -- commit = "971ad925ff6fdb57950d7c5d4c5d65e2cdbaecec",
     branch = "main",
     opts = {}, -- for default options, refer to the configuration section for custom setup.
     cmd = "Trouble",

@@ -35,5 +35,6 @@ return {
     })
 
     vim.keymap.set("n", "<leader>ll", vim.lsp.buf.format, {})
+    -- TailwindSortSelection
   end,
 }

@@ -76,12 +76,6 @@ return {
       vim.keymap.set("n", "zR", require("ufo").openAllFolds)
     end,
   },
-  -- {
-  --     'nvimdev/lspsaga.nvim',
-  --     config = function()
-  --         require('lspsaga').setup({})
-  --     end,
-  -- },
   {
     "dstein64/vim-startuptime",
     -- lazy-load on a command
@@ -111,12 +105,6 @@ return {
   --     end,
   -- }
 
-  -- {
-  -- 	"karb94/neoscroll.nvim",
-  -- 	config = function()
-  -- 		require("neoscroll").setup({})
-  -- 	end,
-  -- },
   {
     "luckasRanarison/tailwind-tools.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
