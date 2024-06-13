@@ -34,7 +34,23 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<leader>ll", vim.lsp.buf.format, {})
-    -- TailwindSortSelection
+    vim.keymap.set("n", "<leader>ll", function()
+      vim.lsp.buf.format()
+
+      -- Check if Tailwind CSS LSP client is active for the current buffer
+      local clients = vim.lsp.get_clients()
+      local tailwind_active = false
+      for _, client in ipairs(clients) do
+        if client.name == "tailwindcss" then
+          tailwind_active = true
+          break
+        end
+      end
+
+      -- Run TailwindSort if Tailwind LSP client is active
+      if tailwind_active then
+        vim.cmd(":TailwindSort")
+      end
+    end, { desc = "Format buffer and Tailwind sort" })
   end,
 }
