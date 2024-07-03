@@ -32,6 +32,16 @@ vim.opt.colorcolumn = "100"
 
 vim.opt.foldmethod = "expr"                     -- default is "normal"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
-vim.opt.foldenable = false
+-- vim.opt.foldenable = false
 
 vim.g.mapleader = " "
+
+vim.g.indent_blankline_show_current_context = true
+vim.g.indent_blankline_context_patterns = {
+  "declaration",
+  "expression",
+  "pattern",
+  "primary_expression",
+  "statement",
+  "switch_body",
+}

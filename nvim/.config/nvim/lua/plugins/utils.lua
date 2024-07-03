@@ -91,11 +91,11 @@ return {
     event = "VeryLazy",
     opts = {},
   },
-  {
-    "tris203/precognition.nvim",
-    event = "VeryLazy",
-    config = {},
-  },
+  -- {
+  --   "tris203/precognition.nvim",
+  --   event = "VeryLazy",
+  --   config = {},
+  -- },
   -- {
   --     'edluffy/hologram.nvim',
   --     config = function()

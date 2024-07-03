@@ -62,15 +62,25 @@ local themes = {
         "morhetz/gruvbox",
         name = "gruvbox",
         config = function()
-            vim.g.gruvbox_contrast_dark = "medium"
-            vim.g.gruvbox_contrast_light = "medium"
-            vim.g.gruvbox_termcolors = 16
-            vim.g.gruvbox_italic = 1
-            vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-            vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-            vim.cmd.colorscheme("gruvbox")
+            -- vim.g.gruvbox_contrast_dark = "medium"
+            -- vim.g.gruvbox_contrast_light = "medium"
+            -- vim.g.gruvbox_termcolors = 16
+            -- vim.g.gruvbox_italic = 1
+            -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+            -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+            -- vim.cmd.colorscheme("gruvbox")
+            vim.cmd([[colorscheme gruvbox]])
         end,
     },
+
+    -- gruvbox = {
+    --     "ellisonleao/gruvbox.nvim",
+    --     priority = 1000,
+    --     config = function()
+    --         vim.o.background = "dark"
+    --         vim.cmd([[colorscheme gruvbox]])
+    --     end,
+    -- },
 
     tokyonight = {
         "folke/tokyonight.nvim",
@@ -89,4 +99,4 @@ local themes = {
     },
 }
 
-return themes.tokyonight;
+return themes.gruvbox;
