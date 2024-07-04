@@ -99,4 +99,4 @@ local themes = {
     },
 }
 
-return themes.gruvbox;
+return themes.tokyonight;
