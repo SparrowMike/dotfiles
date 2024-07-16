@@ -85,12 +85,12 @@ return {
       vim.g.startuptime_tries = 10
     end,
   },
-  {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    event = "VeryLazy",
-    opts = {},
-  },
+  -- {
+  --   "m4xshen/hardtime.nvim",
+  --   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+  --   event = "VeryLazy",
+  --   opts = {},
+  -- },
   -- {
   --   "tris203/precognition.nvim",
   --   event = "VeryLazy",

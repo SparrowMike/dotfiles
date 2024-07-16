@@ -29,6 +29,8 @@ return {
     config = function()
         local config = require("neo-tree")
         config.setup({
+            enable_git_status = false,
+            enable_diagnostics = false,
             auto_clean_after_session_restore = true,
             event_handlers = {
                 {

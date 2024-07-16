@@ -15,9 +15,9 @@ return {
                 },
                 defaults = {
                     mappings = {
-                        i = {
-                            ["<esc>"] = actions.close,
-                        },
+                        -- i = {
+                        --     ["<esc>"] = actions.close,
+                        -- },
                     },
                 },
             })
