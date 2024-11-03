@@ -5,7 +5,6 @@ return {
     lazy = true,
     config = false,
     init = function()
-      -- Disable automatic setup, we are doing it manually
       vim.g.lsp_zero_extend_cmp = 0
       vim.g.lsp_zero_extend_lspconfig = 0
     end,
@@ -21,25 +20,24 @@ return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-      "L3MON4D3/LuaSnip",          -- Snippets plugin
-      "hrsh7th/cmp-path",          -- Path completion
-      "hrsh7th/cmp-cmdline",       -- Command line completion
-      "saadparwaiz1/cmp_luasnip",  -- Snippets source
-      "hrsh7th/cmp-buffer",        -- Buffer source
-      "rafamadriz/friendly-snippets", -- Snippets collection
-      "onsails/lspkind.nvim",      -- LSP icons
+      "L3MON4D3/LuaSnip",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-buffer",
+      "rafamadriz/friendly-snippets",
+      "onsails/lspkind.nvim",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
     },
     config = function()
-      -- Here is where you configure the autocompletion settings.
       local lsp_zero = require("lsp-zero")
       lsp_zero.extend_cmp()
 
-      -- And you can configure cmp even more, if you want to.
       local cmp = require("cmp")
       local cmp_action = lsp_zero.cmp_action()
-
       local luasnip = require("luasnip")
 
+      -- Enable HTML snippets in JS(X)/TS(X) files
       luasnip.filetype_extend("javascript", { "html" })
       luasnip.filetype_extend("javascriptreact", { "html" })
       luasnip.filetype_extend("typescriptreact", { "html" })
@@ -47,73 +45,83 @@ return {
 
       local lspkind = require("lspkind")
 
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
-
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-          {
-            option = {
-              ignore_cmds = { "Man", "!" },
-            },
-          },
-        }),
-      })
+      -- Add snippet support
+      local has_words_before = function()
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0
+            and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+      end
 
       cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
         preselect = "item",
         completion = {
           completeopt = "menu,menuone,noinsert",
         },
-        sources = {
-          { name = "path" },
-          { name = "nvim_lsp" },
-          { name = "nvim_lua" },
-          { name = "luasnip", keyword_length = 2 },
-          { name = "buffer",  keyword_length = 3 },
-        },
+        sources = cmp.config.sources({
+          { name = "nvim_lsp",                priority = 1000 },
+          { name = "nvim_lsp_signature_help", priority = 900 },
+          { name = "luasnip",                 priority = 750 },
+          { name = "codeium",                 priority = 500 },
+          { name = "path",                    priority = 250 },
+          { name = "buffer",                  priority = 100, keyword_length = 3 },
+        }),
 
         window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+          completion = cmp.config.window.bordered({
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+          }),
+          documentation = cmp.config.window.bordered({
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+          }),
         },
 
         formatting = {
           format = lspkind.cmp_format({
-            mode = "symbol_text", -- show only symbol annotations
-            maxwidth = 50,  -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-            -- can also be a function to dynamically calculate max width such as
-            -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-            ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-            show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-
-            -- The function below will be called before any actual modifications from lspkind
-            -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+            mode = "symbol_text",
+            maxwidth = 50,
+            ellipsis_char = "...",
+            show_labelDetails = true,
+            symbol_map = { Codeium = "" },
             before = function(entry, vim_item)
-              -- Apply the tailwind-tools formatting first
               vim_item = require("tailwind-tools.cmp").lspkind_format(entry, vim_item)
-              -- Now apply any additional custom modifications if needed
               return vim_item
             end,
           }),
         },
 
         mapping = cmp.mapping.preset.insert({
-          ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-          ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-y>"] = cmp.mapping.confirm({ select = true }),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm({ select = false }),
-          -- ["<Tab>"] = cmp_action.luasnip_supertab(),
-          -- ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            elseif has_words_before() then
+              cmp.complete()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
         }),
       })
     end,
@@ -129,133 +137,113 @@ return {
       { "williamboman/mason-lspconfig.nvim" },
     },
     config = function()
-      -- This is where all the LSP shenanigans will live
+
       local lsp_zero = require("lsp-zero")
       lsp_zero.extend_lspconfig()
 
-      -- -----------------------------------------------------------
-      -- This is a custom on_list function that prevents nodemodules search
-      local function filter(arr, fn)
-        if type(arr) ~= "table" then
-          return arr
-        end
-
-        local filtered = {}
-        for k, v in pairs(arr) do
-          if fn(v, k, arr) then
-            table.insert(filtered, v)
-          end
-        end
-
-        return filtered
+      -- Filter function for handling multiple definitions
+      local function filter_react_dts(items)
+        return vim.tbl_filter(function(item)
+          return not string.match(item.filename or "", "react/index.d.ts")
+        end, items)
       end
 
-      local function filterReactDTS(value)
-        return string.match(value.filename, "react/index.d.ts") == nil
-      end
-
-      local function on_list(options)
-        local items = options.items
-        if #items > 1 then
-          items = filter(items, filterReactDTS)
-        end
-
+      local function custom_on_list(options)
+        local items = filter_react_dts(options.items)
         vim.fn.setqflist({}, " ", { title = options.title, items = items, context = options.context })
-        vim.api.nvim_command("cfirst") -- or maybe you want 'copen' instead of 'cfirst'
+        if #items == 1 then
+          vim.api.nvim_command("cfirst")
+        else
+          vim.api.nvim_command("copen")
+        end
       end
-      -- -----------------------------------------------------------
 
-      --- if you want to know more about lsp-zero and mason.nvim
-      --- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
-      lsp_zero.on_attach(function(_, bufnr)
-        -- see :help lsp-zero-keybindings
-        -- to learn the available actions
-        -- lsp_zero.default_keymaps({buffer = bufnr})
+      -- Enhanced LSP configuration
+      lsp_zero.on_attach(function(client, bufnr)
         local opts = { buffer = bufnr, remap = false }
-        local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
+        -- Add document highlight if supported
+        if client.server_capabilities.documentHighlightProvider then
+          local group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = true })
+          vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+            group = group,
+            buffer = bufnr,
+            callback = vim.lsp.buf.document_highlight,
+          })
+          vim.api.nvim_create_autocmd("CursorMoved", {
+            group = group,
+            buffer = bufnr,
+            callback = vim.lsp.buf.clear_references,
+          })
+        end
+
+        -- Keymappings
         vim.keymap.set("n", "gd", function()
-          vim.lsp.buf.definition({ on_list = on_list })
-        end, bufopts)
-        vim.keymap.set("n", "K", function()
-          vim.lsp.buf.hover()
+          vim.lsp.buf.definition({ on_list = custom_on_list })
         end, opts)
-        vim.keymap.set("n", "<leader>vws", function()
-          vim.lsp.buf.workspace_symbol()
-        end, opts)
-        vim.keymap.set("n", "<leader>vd", function()
-          vim.diagnostic.open_float()
-        end, opts)
-        vim.keymap.set("n", "[d", function()
-          vim.diagnostic.goto_next()
-        end, opts)
-        vim.keymap.set("n", "]d", function()
-          vim.diagnostic.goto_prev()
-        end, opts)
-        vim.keymap.set("n", "<leader>ca", function()
-          vim.lsp.buf.code_action()
-        end, opts)
-        vim.keymap.set("n", "<leader>vrr", function()
-          vim.lsp.buf.references()
-        end, opts)
-        vim.keymap.set("n", "<leader>vrn", function()
-          vim.lsp.buf.rename()
-        end, opts)
-        vim.keymap.set("i", "<C-h>", function()
-          vim.lsp.buf.signature_help()
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
+        vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("n", "<leader>f", function()
+          vim.lsp.buf.format({ async = true })
         end, opts)
       end)
 
-      local lspconfig = require("lspconfig")
-      local configs = require("lspconfig/configs")
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-      lspconfig.emmet_ls.setup({
-        -- on_attach = on_attach,
-        capabilities = capabilities,
-        filetypes = {
-          "css",
-          "eruby",
-          "html",
-          "javascript",
-          "javascriptreact",
-          "less",
-          "sass",
-          "scss",
-          "svelte",
-          "pug",
-          "typescriptreact",
-          "vue",
-        },
-        init_options = {
-          html = {
-            options = {
-              -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-              ["bem.enabled"] = true,
-            },
-          },
-        },
-      })
-
+      -- LSP server configurations
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver", "rust_analyzer", "cssls", "html", "tailwindcss", "bashls" },
+        ensure_installed = {
+          "lua_ls",
+          "ts_ls",
+          "rust_analyzer",
+          "cssls",
+          "html",
+          "tailwindcss",
+          "bashls",
+          "jsonls",
+          "eslint",
+        },
         handlers = {
           lsp_zero.default_setup,
           lua_ls = function()
-            -- (Optional) Configure lua language server for neovim
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require("lspconfig").lua_ls.setup(lua_opts)
+            require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
+          end,
 
-            -- local cmp_nvim_lsp = require "cmp_nvim_lsp"
-            -- require("lspconfig").clangd.setup {
-            --     on_attach = on_attach,
-            --     capabilities = cmp_nvim_lsp.default_capabilities(),
-            --     cmd = {
-            --         "clangd",
-            --         "--offset-encoding=utf-16",
-            --     },
-            -- }
+          tsserver = function()
+            require("lspconfig").tsserver.setup({
+              settings = {
+                typescript = {
+                  inlayHints = {
+                    includeInlayParameterNameHints = "all",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayEnumMemberValueHints = true,
+                  },
+                },
+                javascript = {
+                  inlayHints = {
+                    includeInlayParameterNameHints = "all",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayEnumMemberValueHints = true,
+                  },
+                },
+              },
+            })
           end,
         },
       })

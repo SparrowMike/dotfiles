@@ -152,3 +152,4 @@ figlet -f small -c 'is there a better way?' | lolcat
 
 # set -o vi
 
+source ~/.private_keys
