@@ -1,16 +1,21 @@
 return {
-  { "windwp/nvim-ts-autotag" },
+  {
+    "windwp/nvim-ts-autotag",
+    event = "InsertEnter"
+  },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
-    opts = {}, -- this is equalent to setup({}) function
+    opts = {},
   },
   {
     "mg979/vim-visual-multi",
     branch = "master",
+    event = "VeryLazy"
   },
   {
     "Pocco81/auto-save.nvim",
+    event = "BufReadPost",
     config = function()
       require("auto-save").setup({
         -- your config goes here
@@ -20,6 +25,7 @@ return {
   },
   {
     "numToStr/Comment.nvim",
+    event = "VeryLazy",
     config = function()
       require("Comment").setup({
         pre_hook = function()
@@ -30,6 +36,7 @@ return {
   },
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
+    event = "VeryLazy",
     config = function()
       vim.g.skip_ts_context_commentstring_module = true
     end,
@@ -54,11 +61,13 @@ return {
   },
   {
     "folke/todo-comments.nvim",
+    event = "BufReadPost",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
   },
   {
     "kevinhwang91/nvim-ufo",
+    event = "BufReadPost",
     dependencies = "kevinhwang91/promise-async",
     config = function()
       require("ufo").setup({
@@ -106,9 +115,11 @@ return {
   -- }
 
   {
-    "luckasRanarison/tailwind-tools.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    opts = {}, -- your configuration
+     "luckasRanarison/tailwind-tools.nvim",
+     event = "BufRead",
+     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css" },
+     dependencies = { "nvim-treesitter/nvim-treesitter" },
+     opts = {},
   },
   {
     "iamcco/markdown-preview.nvim",

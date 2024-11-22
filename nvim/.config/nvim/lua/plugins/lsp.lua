@@ -215,7 +215,7 @@ return {
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-
+          automatic_installation = true,
 					ts_ls = function()
 						require("lspconfig").ts_ls.setup({
 							settings = {

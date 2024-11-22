@@ -13,6 +13,7 @@ return {
 
 	{
 		"Exafunction/codeium.nvim",
+    event = "InsertEnter",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"hrsh7th/nvim-cmp",
@@ -24,7 +25,7 @@ return {
 
 	{
 		"Exafunction/codeium.vim",
-		event = "BufEnter",
+		event = "InsertEnter",
 		config = function()
 			-- Add keybindings for Codeium functions here
 			vim.keymap.set("i", "<C-g>", function()
@@ -56,13 +57,12 @@ return {
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
-		lazy = false,
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
 			provider = "openai",
 			providers = { "openai" },
 			openai = {
-				model = "gpt-3.5-turbo",
+				-- model = "gpt-3.5-turbo",
 				-- model = "gpt-3.5-turbo-0125",
 				-- model = "gpt-4-turbo",
 				temperature = 0.3,
@@ -83,8 +83,14 @@ return {
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
-			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+            "nvim-tree/nvim-web-devicons",
+            lazy = true
+      }, -- or echasnovski/mini.icons
+      {
+            "zbirenbaum/copilot.lua",
+            event = "InsertEnter"
+      },
 			{
 				-- support for image pasting
 				"HakonHarnes/img-clip.nvim",
