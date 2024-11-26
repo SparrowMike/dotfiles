@@ -28,6 +28,9 @@ zinit wait lucid for \
 zinit ice wait lucid
 zinit light zsh-users/zsh-history-substring-search
 
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
 # Autojump
 zinit ice wait lucid
 zinit light wting/autojump
@@ -79,9 +82,18 @@ alias j17='javahome 17'
 
 # Key bindings
 bindkey "^X\x7f" backward-kill-line
-
+bindkey '^[[Z' reverse-menu-complete 
+bindkey '^I' menu-complete 
+#
 # Source configs
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source ~/.private_keys
+if [[ -o interactive ]]; then
+  source ~/.private_keys
+  # neofetch | lolcat
+  # figlet -f isometric1 -c 'ETC' | lolcat
+  # figlet -f small -c 'is there a better way?' | lolcat
+fi
+
+# set -o vi

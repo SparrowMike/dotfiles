@@ -34,6 +34,8 @@ vim.opt.foldmethod = "expr"                     -- default is "normal"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
 -- vim.opt.foldenable = false
 
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
 vim.g.mapleader = " "
 
 vim.g.indent_blankline_show_current_context = true

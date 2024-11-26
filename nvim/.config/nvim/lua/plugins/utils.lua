@@ -1,7 +1,7 @@
 return {
   {
     "windwp/nvim-ts-autotag",
-    event = "InsertEnter"
+    event = "InsertEnter",
   },
   {
     "windwp/nvim-autopairs",
@@ -11,7 +11,7 @@ return {
   {
     "mg979/vim-visual-multi",
     branch = "master",
-    event = "VeryLazy"
+    event = "VeryLazy",
   },
   {
     "Pocco81/auto-save.nvim",
@@ -26,20 +26,19 @@ return {
   {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
+    dependencies = {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+    },
     config = function()
       require("Comment").setup({
-        pre_hook = function()
-          return vim.bo.commentstring
-        end,
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
     end,
   },
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
     event = "VeryLazy",
-    config = function()
-      vim.g.skip_ts_context_commentstring_module = true
-    end,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
   {
     "christoomey/vim-tmux-navigator",
@@ -115,27 +114,27 @@ return {
   -- }
 
   {
-     "luckasRanarison/tailwind-tools.nvim",
-     event = "BufRead",
-     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css" },
-     dependencies = { "nvim-treesitter/nvim-treesitter" },
-     opts = {},
+    "luckasRanarison/tailwind-tools.nvim",
+    event = "BufRead",
+    ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = {},
   },
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    build = "cd app && yarn install",
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-    end,
-    ft = { "markdown" },
-    keys = {
-      {
-        "<leader>mp",
-        "<cmd>MarkdownPreview<cr>",
-      },
-    },
-  },
+  -- {
+  --   "iamcco/markdown-preview.nvim",
+  --   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+  --   build = "cd app && yarn install",
+  --   init = function()
+  --     vim.g.mkdp_filetypes = { "markdown" }
+  --   end,
+  --   ft = { "markdown" },
+  --   keys = {
+  --     {
+  --       "<leader>mp",
+  --       "<cmd>MarkdownPreview<cr>",
+  --     },
+  --   },
+  -- },
   {
     "folke/which-key.nvim",
     event = "VeryLazy",

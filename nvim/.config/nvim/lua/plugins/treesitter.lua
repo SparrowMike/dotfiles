@@ -8,6 +8,14 @@ return {
         config = function()
             local config = require("nvim-treesitter.configs")
             config.setup({
+                ensure_installed = {
+                    "lua",
+                    "typescript",
+                    "javascript",
+                    "tsx",
+                    "html",
+                    "css",
+                },
                 auto_install = true,
                 sync_install = false,
                 highlight = {

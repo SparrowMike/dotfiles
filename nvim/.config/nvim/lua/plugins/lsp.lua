@@ -41,6 +41,7 @@ return {
 			luasnip.filetype_extend("javascript", { "html" })
 			luasnip.filetype_extend("javascriptreact", { "html" })
 			luasnip.filetype_extend("typescriptreact", { "html" })
+
 			require("luasnip/loaders/from_vscode").lazy_load()
 
 			local lspkind = require("lspkind")
@@ -209,15 +210,18 @@ return {
 					"bashls",
 					"jsonls",
 					"eslint",
+					"emmet_ls",
 				},
+
 				handlers = {
 					lsp_zero.default_setup,
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-          automatic_installation = true,
+					automatic_installation = true,
 					ts_ls = function()
 						require("lspconfig").ts_ls.setup({
+							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 							settings = {
 								typescript = {
 									inlayHints = {
@@ -239,6 +243,31 @@ return {
 										includeInlayPropertyDeclarationTypeHints = true,
 										includeInlayFunctionLikeReturnTypeHints = true,
 										includeInlayEnumMemberValueHints = true,
+									},
+								},
+							},
+						})
+					end,
+					emmet_ls = function()
+						require("lspconfig").emmet_ls.setup({
+							filetypes = {
+								"css",
+								"html",
+								"javascript",
+								"javascriptreact",
+								"less",
+								"sass",
+								"scss",
+								"pug",
+								"typescriptreact",
+								"vue",
+							},
+							init_options = {
+								html = {
+									options = {
+										-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+										["jsx.enabled"] = true,
+										["bem.enabled"] = true,
 									},
 								},
 							},
