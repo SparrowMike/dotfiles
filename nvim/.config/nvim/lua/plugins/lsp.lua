@@ -183,7 +183,7 @@ return {
 				end, opts)
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-				vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+				vim.keymap.set("n", "td", vim.lsp.buf.type_definition, opts)
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
 				vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
@@ -193,10 +193,23 @@ return {
 				vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
 				vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
 				vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-				vim.keymap.set("n", "<leader>f", function()
-					vim.lsp.buf.format({ async = true })
-				end, opts)
-			end)
+				vim.keymap.set("n", "<leader>wr", function()
+					local folders = vim.lsp.buf.list_workspace_folders()
+					-- Convert to set to remove duplicates
+					local unique_folders = {}
+					for _, folder in ipairs(folders) do
+						unique_folders[folder] = true
+					end
+					-- Convert back to array
+					local result = {}
+					for folder, _ in pairs(unique_folders) do
+						table.insert(result, folder)
+					end
+					print(vim.inspect(result))
+				end)
+			end
+
+      )
 
 			-- LSP server configurations
 			require("mason-lspconfig").setup({

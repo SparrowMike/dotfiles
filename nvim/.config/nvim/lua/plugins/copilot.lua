@@ -58,7 +58,7 @@ return {
 		"yetone/avante.nvim",
 		event = "VeryLazy",
 		version = false, -- set this if you want to always pull the latest change
-		-- opts = {
+		opts = {
 		-- 	provider = "openai",
 		-- 	providers = { "openai" },
 		-- 	openai = {
@@ -68,10 +68,10 @@ return {
 		-- 		temperature = 0.3,
 		-- 		max_tokens = 1000,
 		-- 	},
-		-- 	windows = {
-		-- 		position = "left",
-		-- 	},
-		-- },
+			windows = {
+				position = "left",
+			},
+		},
 
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 

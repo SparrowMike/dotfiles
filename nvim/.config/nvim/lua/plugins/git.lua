@@ -3,8 +3,8 @@ return {
         "tpope/vim-fugitive",
         event = "VeryLazy",
         config = function()
-            vim.keymap.set("n", "<leader>gs", ":vert Git<CR>")
-            vim.keymap.set("n", "<leader>gd", vim.cmd.Gvdiff)
+            vim.keymap.set("n", "<leader>gts", ":vert Git<CR>")
+            vim.keymap.set("n", "<leader>gtd", vim.cmd.Gvdiff)
         end,
     },
     {
@@ -34,8 +34,8 @@ return {
         config = function()
             vim.g.skip_ts_context_commentstring_module = true
             vim.g.gitblame_display_virtual_text = 0
-            vim.keymap.set("n", "<leader>go", "<cmd>GitBlameOpenCommitURL<cr>")
-            -- vim.keymap.set("n", "<leader>gb", "<cmd>GitBlameToggle<cr>")
+            vim.keymap.set("n", "<leader>gto", "<cmd>GitBlameOpenCommitURL<cr>")
+            vim.keymap.set("n", "<leader>gtb", "<cmd>GitBlameToggle<cr>")
         end,
     },
     {
@@ -46,11 +46,11 @@ return {
                 current_line_blame = false,
             })
 
-            vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>")
-            vim.keymap.set("n", "<leader>ga", ":Gitsigns stage_hunk<CR>")
-            vim.keymap.set("n", "<leader>gu", ":Gitsigns undo_stage_hunk<CR>")
-            vim.keymap.set("n", "<leader>gr", ":Gitsigns reset_hunk<CR>")
-            vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>")
+            vim.keymap.set("n", "<leader>gtp", ":Gitsigns preview_hunk<CR>")
+            vim.keymap.set("n", "<leader>gta", ":Gitsigns stage_hunk<CR>")
+            vim.keymap.set("n", "<leader>gtu", ":Gitsigns undo_stage_hunk<CR>")
+            vim.keymap.set("n", "<leader>gtr", ":Gitsigns reset_hunk<CR>")
+            vim.keymap.set("n", "<leader>gtb", ":Gitsigns blame_line<CR>")
         end,
     },
 }

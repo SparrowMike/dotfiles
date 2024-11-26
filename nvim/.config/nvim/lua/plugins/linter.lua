@@ -1,6 +1,6 @@
 return {
   "nvimtools/none-ls.nvim",
-  event = 'BufReadPre',
+  event = "BufReadPre",
   dependencies = {
     "nvimtools/none-ls-extras.nvim", -- eslint_d
   },
@@ -36,22 +36,28 @@ return {
     })
 
     vim.keymap.set("n", "<leader>ll", function()
-      vim.lsp.buf.format()
-
-      -- Check if Tailwind CSS LSP client is active for the current buffer
-      local clients = vim.lsp.get_clients()
-      local tailwind_active = false
-      for _, client in ipairs(clients) do
-        if client.name == "tailwindcss" then
-          tailwind_active = true
-          break
-        end
-      end
-
-      -- Run TailwindSort if Tailwind LSP client is active
-      if tailwind_active then
-        vim.cmd(":TailwindSort")
-      end
-    end, { desc = "Format buffer and Tailwind sort" })
+      local format_done = false
+      vim.lsp.buf.format({
+        async = true,
+        callback = function()
+          if not format_done then
+            format_done = true
+            -- Check if Tailwind CSS LSP client is active for the current buffer
+            local clients = vim.lsp.get_clients()
+            local tailwind_active = false
+            for _, client in ipairs(clients) do
+              if client.name == "tailwindcss" then
+                tailwind_active = true
+                break
+              end
+            end
+            -- Run TailwindSort if Tailwind LSP client is active
+            if tailwind_active then
+              vim.cmd(":TailwindSort")
+            end
+          end
+        end,
+      })
+    end, { desc = "Format buffer and Tailwind sort (async)" })
   end,
 }
