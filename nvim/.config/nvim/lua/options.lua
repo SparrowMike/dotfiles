@@ -7,6 +7,16 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.clipboard = "unnamed"
 
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "lua",
+--   callback = function()
+--     vim.bo.shiftwidth = 4
+--     vim.bo.tabstop = 4
+--     vim.bo.softtabstop = 4
+--     vim.bo.expandtab = true
+--   end,
+-- })
+
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
@@ -20,6 +30,8 @@ vim.opt.undofile = true
 vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
+
+vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
@@ -38,6 +50,7 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 vim.g.mapleader = " "
 
+vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_context_patterns = {
   "declaration",
@@ -47,3 +60,5 @@ vim.g.indent_blankline_context_patterns = {
   "statement",
   "switch_body",
 }
+
+vim.opt.termguicolors = true

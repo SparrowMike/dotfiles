@@ -4,8 +4,44 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons"
+        },
         config = function()
-            require("lualine").setup({})
+            require("lualine").setup({
+                options = {
+                    theme = "auto",
+                    -- component_separators = { left = "", right = "" },
+                    -- section_separators = { left = "", right = "" },
+                    globalstatus = true,
+                },
+                sections = {
+                    lualine_a = { "mode" },
+                    lualine_b = { 
+                        "branch",
+                        {
+                            "diagnostics",
+                            sources = { "nvim_diagnostic" },
+                            symbols = {
+                                error = " ",
+                                warn = " ",
+                                info = " ",
+                                hint = " ",
+                            },
+                        }
+                    },
+                    lualine_c = {
+                        {
+                            "filename",
+                            path = 1,  -- Show relative path
+                            symbols = { modified = "●" }
+                        }
+                    },
+                    lualine_x = { "filetype" },
+                    lualine_y = { "progress" },
+                    lualine_z = { "location" }
+                }
+            })
         end,
     },
     {

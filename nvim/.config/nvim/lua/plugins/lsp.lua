@@ -36,6 +36,17 @@ return {
 			local cmp = require("cmp")
 			local cmp_action = lsp_zero.cmp_action()
 			local luasnip = require("luasnip")
+			local s = luasnip.snippet
+			local t = luasnip.text_node
+			local i = luasnip.insert_node
+
+			luasnip.add_snippets("all", {
+				s("cl", {
+					t("console.log("),
+					i(1),
+					t(")"),
+				}),
+			})
 
 			-- Enable HTML snippets in JS(X)/TS(X) files
 			luasnip.filetype_extend("javascript", { "html" })
@@ -72,14 +83,18 @@ return {
 					{ name = "buffer", priority = 100, keyword_length = 3 },
 				}),
 
-				window = {
-					completion = cmp.config.window.bordered({
-						winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-					}),
-					documentation = cmp.config.window.bordered({
-						winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-					}),
-				},
+        cmp.setup({
+          window = {
+            completion = {
+              border = 'rounded',
+              winhighlight = 'Normal:Pmenu,FloatBorder:PmenuBorder,CursorLine:PmenuSel,Search:None',
+            },
+            documentation = {
+              border = 'rounded',
+              winhighlight = 'Normal:Pmenu,FloatBorder:PmenuBorder,CursorLine:PmenuSel,Search:None',
+            },
+          },
+        }),
 
 				formatting = {
 					format = lspkind.cmp_format({
@@ -208,8 +223,7 @@ return {
 					print(vim.inspect(result))
 				end)
 			end
-
-      )
+)
 
 			-- LSP server configurations
 			require("mason-lspconfig").setup({
