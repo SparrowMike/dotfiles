@@ -196,8 +196,8 @@ return {
 				vim.keymap.set("n", "gd", function()
 					vim.lsp.buf.definition({ on_list = custom_on_list })
 				end, opts)
-				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 				vim.keymap.set("n", "td", vim.lsp.buf.type_definition, opts)
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
@@ -236,7 +236,7 @@ return {
 					"tailwindcss",
 					"bashls",
 					"jsonls",
-					"eslint",
+					-- "eslint",
 					"emmet_ls",
 				},
 
@@ -245,7 +245,7 @@ return {
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-					automatic_installation = true,
+					-- automatic_installation = true,
 					ts_ls = function()
 						require("lspconfig").ts_ls.setup({
 							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },

@@ -7,15 +7,15 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.clipboard = "unnamed"
 
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "lua",
---   callback = function()
---     vim.bo.shiftwidth = 4
---     vim.bo.tabstop = 4
---     vim.bo.softtabstop = 4
---     vim.bo.expandtab = true
---   end,
--- })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    vim.bo.shiftwidth = 4
+    vim.bo.tabstop = 4
+    vim.bo.softtabstop = 4
+    vim.bo.expandtab = true
+  end,
+})
 
 vim.opt.smartindent = true
 
