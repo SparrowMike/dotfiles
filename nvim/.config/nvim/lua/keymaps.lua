@@ -18,3 +18,12 @@ vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]])
 vim.keymap.set("v", "<leader>rw", [[y:%s/\V<C-r>=escape(@", '/\')<CR>//gI<Left><Left><Left>]])
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Center cursor after moving down half-page" })
+
+vim.keymap.set("n", "<leader>cp", function()
+    local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+    vim.fn.setreg("+", path)
+    vim.notify("Copied: " .. path)
+end, { desc = "Copy relative file path to clipboard" })
+
+
+vim.keymap.set("n", "QQ", ":qa<CR>", { desc = "Quit all windows" })

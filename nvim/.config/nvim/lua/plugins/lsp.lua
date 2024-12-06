@@ -14,6 +14,13 @@ return {
 		lazy = false,
 		config = true,
 	},
+	{
+		"luckasRanarison/tailwind-tools.nvim",
+		event = "BufRead",
+		ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css" },
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = {},
+	},
 
 	-- Autocompletion
 	{
@@ -36,17 +43,6 @@ return {
 			local cmp = require("cmp")
 			local cmp_action = lsp_zero.cmp_action()
 			local luasnip = require("luasnip")
-			local s = luasnip.snippet
-			local t = luasnip.text_node
-			local i = luasnip.insert_node
-
-			luasnip.add_snippets("all", {
-				s("cl", {
-					t("console.log("),
-					i(1),
-					t(")"),
-				}),
-			})
 
 			-- Enable HTML snippets in JS(X)/TS(X) files
 			luasnip.filetype_extend("javascript", { "html" })
@@ -83,18 +79,18 @@ return {
 					{ name = "buffer", priority = 100, keyword_length = 3 },
 				}),
 
-        cmp.setup({
-          window = {
-            completion = {
-              border = 'rounded',
-              winhighlight = 'Normal:Pmenu,FloatBorder:PmenuBorder,CursorLine:PmenuSel,Search:None',
-            },
-            documentation = {
-              border = 'rounded',
-              winhighlight = 'Normal:Pmenu,FloatBorder:PmenuBorder,CursorLine:PmenuSel,Search:None',
-            },
-          },
-        }),
+				cmp.setup({
+					window = {
+						completion = {
+							border = "rounded",
+							winhighlight = "Normal:Pmenu,FloatBorder:PmenuBorder,CursorLine:PmenuSel,Search:None",
+						},
+						documentation = {
+							border = "rounded",
+							winhighlight = "Normal:Pmenu,FloatBorder:PmenuBorder,CursorLine:PmenuSel,Search:None",
+						},
+					},
+				}),
 
 				formatting = {
 					format = lspkind.cmp_format({
@@ -222,8 +218,7 @@ return {
 					end
 					print(vim.inspect(result))
 				end)
-			end
-)
+			end)
 
 			-- LSP server configurations
 			require("mason-lspconfig").setup({
@@ -245,7 +240,7 @@ return {
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-					-- automatic_installation = true,
+					automatic_installation = true,
 					ts_ls = function()
 						require("lspconfig").ts_ls.setup({
 							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
@@ -282,12 +277,7 @@ return {
 								"html",
 								"javascript",
 								"javascriptreact",
-								"less",
-								"sass",
-								"scss",
-								"pug",
 								"typescriptreact",
-								"vue",
 							},
 							init_options = {
 								html = {
@@ -298,6 +288,13 @@ return {
 									},
 								},
 							},
+							on_attach = function(client, bufnr)
+								client.server_capabilities.completionProvider.triggerCharacters = {
+									">", -- Only trigger after a tag character
+									"/", -- For self-closing tags
+									"}", -- For JSX expressions
+								}
+							end,
 						})
 					end,
 				},
