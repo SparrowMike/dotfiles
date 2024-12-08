@@ -152,6 +152,21 @@ return {
 			local lsp_zero = require("lsp-zero")
 			lsp_zero.extend_lspconfig()
 
+			-- Configure diagnostics
+			vim.diagnostic.config({
+				virtual_text = true, -- Enable inline diagnostics by default
+				signs = true,
+				underline = true,
+				update_in_insert = false,
+				severity_sort = true,
+				float = {
+					border = "rounded",
+					source = true,
+					header = "",
+					prefix = "",
+				},
+			})
+
 			-- Filter function for handling multiple definitions
 			local function filter_react_dts(items)
 				return vim.tbl_filter(function(item)
@@ -200,6 +215,15 @@ return {
 				vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
 				vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 				vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+				-- Toggle inline diagnostics
+				vim.keymap.set("n", "<leader>td", function()
+					local current = vim.diagnostic.config().virtual_text
+					vim.diagnostic.config({
+						virtual_text = not current,
+						underline = true,
+						signs = true,
+					})
+				end, { desc = "Toggle inline diagnostics", buffer = bufnr })
 				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 				vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
 				vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
@@ -240,7 +264,7 @@ return {
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-					automatic_installation = true,
+					-- automatic_installation = true,
 					ts_ls = function()
 						require("lspconfig").ts_ls.setup({
 							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
