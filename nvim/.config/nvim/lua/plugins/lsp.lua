@@ -154,7 +154,7 @@ return {
 
 			-- Configure diagnostics
 			vim.diagnostic.config({
-				virtual_text = true, -- Enable inline diagnostics by default
+				virtual_text = false,
 				signs = true,
 				underline = true,
 				update_in_insert = false,
