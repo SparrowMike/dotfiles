@@ -59,15 +59,15 @@ return {
         event = "VeryLazy",
         version = false, -- set this if you want to always pull the latest change
         opts = {
-            -- 	provider = "openai",
-            -- 	providers = { "openai" },
-            -- 	openai = {
-            -- 		-- model = "gpt-3.5-turbo",
-            -- 		-- model = "gpt-3.5-turbo-0125",
-            -- 		-- model = "gpt-4-turbo",
-            -- 		temperature = 0.3,
-            -- 		max_tokens = 1000,
-            -- 	},
+            	provider = "openai",
+            	providers = { "openai" },
+            	openai = {
+            		-- model = "gpt-3.5-turbo",
+            		-- model = "gpt-3.5-turbo-0125",
+            		-- model = "gpt-4-turbo",
+            		temperature = 0.3,
+            		max_tokens = 1000,
+            	},
             windows = {
                 position = "left",
             },

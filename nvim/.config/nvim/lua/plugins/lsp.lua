@@ -152,7 +152,28 @@ return {
 			local lsp_zero = require("lsp-zero")
 			lsp_zero.extend_lspconfig()
 
-			-- Configure diagnostics
+			local signs = {
+				-- Error = "●",
+				-- Warn = "●",
+				-- Hint = "●",
+				-- Info = "●",
+
+				-- Error = "",
+				Warn = "",
+				Hint = "",
+				-- Info = "",
+
+				Error = "✘",
+				-- Warn = "⚠",
+				-- Hint = "⚡",
+				Info = "ℹ"
+			}
+
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+			end
+
 			vim.diagnostic.config({
 				virtual_text = false,
 				signs = true,
@@ -255,7 +276,7 @@ return {
 					"tailwindcss",
 					"bashls",
 					"jsonls",
-					-- "eslint",
+					"eslint",
 					"emmet_ls",
 				},
 
@@ -264,7 +285,7 @@ return {
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-					-- automatic_installation = true,
+					automatic_installation = true,
 					ts_ls = function()
 						require("lspconfig").ts_ls.setup({
 							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },

@@ -71,6 +71,8 @@ alias shif='cd ~/Documents/shift && code . && npm run ios'
 alias e='cd ~/Documents/WorkWise && code . && npm run dev'
 alias m='cd ~/Documents/mobile && code . && d'
 
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222'
+
 # Java version switching
 javahome() {
   unset JAVA_HOME 

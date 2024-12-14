@@ -15,33 +15,81 @@ return {
 			local dap = require("dap")
 			local dapui = require("dapui")
 
-			-- Add signs for breakpoints and stopped position
-			vim.fn.sign_define("DapBreakpoint", {
-				text = "🔴",
+			local sign = vim.fn.sign_define
+
+			-- Basic debug signs
+			sign("DapBreakpoint", {
+				text = "●", -- or "🔴" for unicode
 				texthl = "DapBreakpoint",
 				linehl = "",
-				numhl = "",
+				numhl = "DapBreakpoint",
 			})
-			vim.fn.sign_define("DapBreakpointCondition", {
-				text = "🔵",
+
+			sign("DapBreakpointCondition", {
+				text = "◆", -- or "🔶" for unicode
 				texthl = "DapBreakpointCondition",
 				linehl = "",
-				numhl = "",
+				numhl = "DapBreakpointCondition",
 			})
-			vim.fn.sign_define("DapLogPoint", {
-				text = "📝",
+
+			sign("DapLogPoint", {
+				text = "◆", -- or "📝" for unicode
 				texthl = "DapLogPoint",
 				linehl = "",
-				numhl = "",
+				numhl = "DapLogPoint",
 			})
-			vim.fn.sign_define("DapStopped", {
-				text = "⭐️",
+
+			sign("DapStopped", {
+				text = "▶", -- or "⭐" for unicode
 				texthl = "DapStopped",
 				linehl = "DapStoppedLine",
+				numhl = "DapStopped",
+			})
+
+			-- Additional useful debug signs
+			sign("DapBreakpointRejected", {
+				text = "●", -- or "❌" for unicode
+				texthl = "DapBreakpointRejected",
+				linehl = "",
+				numhl = "DapBreakpointRejected",
+			})
+
+			sign("DapBreakpointDisabled", {
+				text = "○", -- or "⭕" for unicode
+				texthl = "DapBreakpointDisabled",
+				linehl = "",
 				numhl = "",
 			})
 
-            require("dapui").setup()
+			sign("DapCurrentLine", {
+				text = "→", -- or "▶" for unicode
+				texthl = "DapCurrentLine",
+				linehl = "DapCurrentLine",
+				numhl = "",
+			})
+
+			sign("DapCurrentFrame", {
+				text = "▸", -- or "🔍" for unicode
+				texthl = "DapCurrentFrame",
+				linehl = "DapCurrentFrameLine",
+				numhl = "",
+			})
+
+			-- Define highlight groups for all signs
+			vim.cmd([[
+                highlight DapBreakpoint guifg=#993939 guibg=NONE
+                highlight DapBreakpointCondition guifg=#F23D3D guibg=NONE
+                highlight DapLogPoint guifg=#61afef guibg=NONE
+                highlight DapStopped guifg=#98c379 guibg=NONE
+                highlight DapStoppedLine guibg=#31353f
+                highlight DapBreakpointRejected guifg=#666666 guibg=NONE
+                highlight DapBreakpointDisabled guifg=#555555 guibg=NONE
+                highlight DapCurrentLine guifg=#98c379 guibg=NONE
+                highlight DapCurrentFrameLine guibg=#2d3139
+                highlight DapCurrentFrame guifg=#61afef guibg=NONE
+            ]])
+
+			dapui.setup({})
 
 			-- Enhanced virtual text setup
 			require("nvim-dap-virtual-text").setup({
@@ -60,7 +108,7 @@ return {
 			-- JavaScript/TypeScript debug configurations
 			require("dap-vscode-js").setup({
 				debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
-				adapters = { "pwa-chrome", "pwa-node", "node-terminal" },
+				adapters = { "chrome", "pwa-chrome", "pwa-node", "node-terminal" },
 			})
 
 			local js_based_languages = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
@@ -84,14 +132,11 @@ return {
 							end)
 						end,
 						webRoot = "${workspaceFolder}",
-						-- runtimeExecutable = "stable",
-						-- sourceMaps = true,
-						-- protocol = "inspector",
-						-- skipFiles = { "<node_internals>/**", "node_modules/**" },
-						-- resolveSourceMapLocations = {
-						-- 	"${workspaceFolder}/**",
-						-- 	"!**/node_modules/**",
-						-- },
+						runtimeExecutable = "stable",
+						sourceMaps = true,
+
+						protocol = "inspector",
+						skipFiles = { "<node_internals>/**", "node_modules/**" },
 					},
 					{
 						type = "pwa-chrome",
@@ -151,9 +196,13 @@ return {
 				vim.tbl_extend("force", keymap_opts, { desc = "Step Over" })
 			)
 			vim.keymap.set("n", "<leader>dO", dap.step_out, vim.tbl_extend("force", keymap_opts, { desc = "Step Out" }))
-			vim.keymap.set("n", "<leader>dr", function()
-				dap.repl.toggle()
-			end, vim.tbl_extend("force", keymap_opts, { desc = "Toggle REPL" }))
+
+			vim.keymap.set(
+				"n",
+				"<leader>dr",
+				dap.repl.open,
+				vim.tbl_extend("force", keymap_opts, { desc = "Open REPL" })
+			)
 			vim.keymap.set(
 				"n",
 				"<leader>du",
@@ -164,34 +213,6 @@ return {
 				dap.terminate()
 				dapui.close()
 			end, vim.tbl_extend("force", keymap_opts, { desc = "Terminate Debug Session" }))
-
-			-- Additional useful debug mappings
-			vim.keymap.set(
-				"n",
-				"<leader>dh",
-				dapui.eval,
-				vim.tbl_extend("force", keymap_opts, { desc = "Hover Variables" })
-			)
-			vim.keymap.set(
-				"v",
-				"<leader>dh",
-				dapui.eval,
-				vim.tbl_extend("force", keymap_opts, { desc = "Hover Variables" })
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>dC",
-				dap.run_to_cursor,
-				vim.tbl_extend("force", keymap_opts, { desc = "Run to Cursor" })
-			)
-			vim.keymap.set("n", "<leader>dL", function()
-				require("dap").list_breakpoints()
-				vim.cmd("copen")
-			end, vim.tbl_extend("force", keymap_opts, { desc = "List Breakpoints" }))
-			vim.keymap.set("n", "<leader>dX", function()
-				require("dap").clear_breakpoints()
-				vim.notify("Breakpoints cleared!", vim.log.levels.INFO)
-			end, vim.tbl_extend("force", keymap_opts, { desc = "Clear all Breakpoints" }))
 		end,
 	},
 }
