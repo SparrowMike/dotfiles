@@ -188,6 +188,18 @@ return {
 				},
 			})
 
+			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+				vim.lsp.handlers.hover,
+				{
+					border = "rounded",
+					max_width = 100,
+					max_height = 40,
+					title = "Hover",
+					focusable = true,
+					-- close_events = { "BufHidden", "InsertEnter" },
+				}
+			)
+
 			-- Filter function for handling multiple definitions
 			local function filter_react_dts(items)
 				return vim.tbl_filter(function(item)
@@ -276,7 +288,7 @@ return {
 					"tailwindcss",
 					"bashls",
 					"jsonls",
-					"eslint",
+					-- "eslint",
 					"emmet_ls",
 				},
 
@@ -285,7 +297,9 @@ return {
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
+
 					automatic_installation = true,
+
 					ts_ls = function()
 						require("lspconfig").ts_ls.setup({
 							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },

@@ -137,4 +137,4 @@ local themes = {
 
 }
 
-return themes.tokyonight
+return themes.gruvbox

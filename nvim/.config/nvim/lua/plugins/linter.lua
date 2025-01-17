@@ -33,31 +33,8 @@ return {
 				}),
 				null_ls.builtins.formatting.stylua,
 
-				-- TODO: only trigger if no linters files are available
-				-- require("none-ls.diagnostics.eslint_d"),
-				-- require("none-ls.code_actions.eslint_d"),
-
-				-- ESLint config with condition
-				eslint.with({
-					condition = function(utils)
-						return utils.root_has_file({
-							".eslintrc.js",
-							".eslintrc.cjs",
-							".eslintrc.json",
-							".eslintrc",
-						})
-					end,
-				}),
-				eslint_actions.with({
-					condition = function(utils)
-						return utils.root_has_file({
-							".eslintrc.js",
-							".eslintrc.cjs",
-							".eslintrc.json",
-							".eslintrc",
-						})
-					end,
-				}),
+				require("none-ls.diagnostics.eslint_d"),
+				require("none-ls.code_actions.eslint_d"),
 			},
 			-- Add debug logging if needed
 			debug = false,
@@ -88,9 +65,14 @@ return {
 			})
 		end, { desc = "Format buffer and optionally Tailwind sort" })
 
-		vim.keymap.set("v", "<leader>ts", function()
+		vim.keymap.set("v", "<leader>st", function()
 			-- Use visual selection with TailwindSortSelection
 			vim.cmd("'<,'>TailwindSortSelection")
 		end, { desc = "Sort Tailwind classes in the selected text" })
+
+		vim.keymap.set("n", "<leader>st", function()
+			-- Use TailwindSort in normal mode
+			vim.cmd("TailwindSort")
+		end, { desc = "Sort Tailwind classes in the buffer" })
 	end,
 }

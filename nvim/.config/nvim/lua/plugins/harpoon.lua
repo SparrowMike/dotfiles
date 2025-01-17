@@ -19,5 +19,10 @@ return {
        vim.keymap.set('n', '<leader>hd', "<cmd>lua require('harpoon.ui').nav_file(3)<CR>", { desc = "Go to harpoon 3" })
        vim.keymap.set('n', '<leader>hf', "<cmd>lua require('harpoon.ui').nav_file(4)<CR>", { desc = "Go to harpoon 4" })
        vim.keymap.set('n', '<leader>hg', "<cmd>lua require('harpoon.ui').nav_file(5)<CR>", { desc = "Go to harpoon 5" })
+       vim.keymap.set('n', '<leader>hz', "<cmd>lua require('harpoon.ui').nav_file(6)<CR>", { desc = "Go to harpoon 6" })
+       vim.keymap.set('n', '<leader>hx', "<cmd>lua require('harpoon.ui').nav_file(7)<CR>", { desc = "Go to harpoon 7" })
+       vim.keymap.set('n', '<leader>hc', "<cmd>lua require('harpoon.ui').nav_file(8)<CR>", { desc = "Go to harpoon 8" })
+       vim.keymap.set('n', '<leader>hv', "<cmd>lua require('harpoon.ui').nav_file(9)<CR>", { desc = "Go to harpoon 9" })
+       vim.keymap.set('n', '<leader>hb', "<cmd>lua require('harpoon.ui').nav_file(0)<CR>", { desc = "Go to harpoon 0" })
    end
 }

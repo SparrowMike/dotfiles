@@ -4,7 +4,15 @@ return {
 	{
 		"nvim-treesitter/playground",
 		build = ":TSUpdate",
+		dependencies = {
+			"windwp/nvim-ts-autotag",
+		},
 		config = function()
+			require("nvim-ts-autotag").setup({
+				enable = true,
+				filetypes = { "html", "xml", "tsx" },
+			})
+
 			local config = require("nvim-treesitter.configs")
 			config.setup({
 				ensure_installed = {
@@ -25,7 +33,7 @@ return {
 
 				-- enable nvim-ts-autotag
 				autotag = {
-					enable = true,
+					enable = false,
 				},
 			})
 		end,

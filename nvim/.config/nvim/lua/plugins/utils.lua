@@ -1,17 +1,23 @@
 return {
 	{
-		"windwp/nvim-ts-autotag",
-		event = "InsertEnter",
-	},
-	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		opts = {},
 	},
 	{
 		"mg979/vim-visual-multi",
-		branch = "master",
 		event = "VeryLazy",
+		init = function()
+			vim.g.VM_theme = "purplegray"
+			vim.g.VM_mouse_mappings = 1
+			vim.schedule(function()
+				vim.g.VM_maps = {
+					["I BS"] = "",
+					["Goto Next"] = "",
+					["Goto Prev"] = "",
+				}
+			end)
+		end,
 	},
 	{
 		"Pocco81/auto-save.nvim",
