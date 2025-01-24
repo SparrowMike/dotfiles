@@ -8,8 +8,8 @@ return {
 		"mg979/vim-visual-multi",
 		event = "VeryLazy",
 		init = function()
-			vim.g.VM_theme = "purplegray"
-			vim.g.VM_mouse_mappings = 1
+			-- vim.g.VM_theme = "purplegray"
+			-- vim.g.VM_mouse_mappings = 1
 			vim.schedule(function()
 				vim.g.VM_maps = {
 					["I BS"] = "",
@@ -40,11 +40,6 @@ return {
 				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 			})
 		end,
-	},
-	{
-		"JoosepAlviste/nvim-ts-context-commentstring",
-		event = "VeryLazy",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	{
 		"christoomey/vim-tmux-navigator",
@@ -96,40 +91,4 @@ return {
 			},
 		},
 	},
-
-	-- {
-	--   "m4xshen/hardtime.nvim",
-	--   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-	--   event = "VeryLazy",
-	--   opts = {},
-	-- },
-	-- {
-	--   "tris203/precognition.nvim",
-	--   event = "VeryLazy",
-	--   config = {},
-	-- },
-	-- {
-	--     'edluffy/hologram.nvim',
-	--     config = function()
-	--         require('hologram').setup({
-	--             auto_disable = true,
-	--         })
-	--     end,
-	-- }
-
-	-- {
-	--   "iamcco/markdown-preview.nvim",
-	--   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-	--   build = "cd app && yarn install",
-	--   init = function()
-	--     vim.g.mkdp_filetypes = { "markdown" }
-	--   end,
-	--   ft = { "markdown" },
-	--   keys = {
-	--     {
-	--       "<leader>mp",
-	--       "<cmd>MarkdownPreview<cr>",
-	--     },
-	--   },
-	-- },
 }

@@ -42,25 +42,19 @@ return {
 
 		-- Your format keybinding remains the same
 		vim.keymap.set("n", "<leader>ll", function()
+			-- Format the buffer
 			vim.lsp.buf.format({
 				async = true,
 				callback = function()
 					-- Check if Tailwind CSS LSP is active
 					local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-					local tailwind_active = false
 					for _, client in ipairs(clients) do
 						if client.name == "tailwindcss" then
-							tailwind_active = true
-							break
+							vim.cmd("TailwindSort")
+							return
 						end
 					end
-
-					-- Run TailwindSort only if Tailwind LSP is active
-					if tailwind_active then
-						vim.cmd("TailwindSort")
-					else
-						print("[tailwind-tools] Tailwind LSP is not running; skipping TailwindSort.")
-					end
+					print("[tailwind-tools] Tailwind LSP is not running; skipping TailwindSort.")
 				end,
 			})
 		end, { desc = "Format buffer and optionally Tailwind sort" })
