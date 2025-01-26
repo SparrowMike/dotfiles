@@ -11,7 +11,18 @@ return {
 			{ "mxsdev/nvim-dap-vscode-js" },
 			{ "theHamsta/nvim-dap-virtual-text" },
 		},
-        commit = "7ff6936010b7222fea2caea0f67ed77f1b7c60dd",
+		commit = "7ff6936010b7222fea2caea0f67ed77f1b7c60dd",
+		cmd = {
+			"DapContinue",
+			"DapToggleBreakpoint",
+			"DapSetBreakpoint",
+			"DapStepInto",
+			"DapStepOver",
+			"DapStepOut",
+			"DapREPLOpen",
+			"DapUIToggle",
+			"DapTerminate",
+		},
 		config = function()
 			local dap = require("dap")
 			local dapui = require("dapui")
