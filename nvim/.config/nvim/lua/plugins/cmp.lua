@@ -13,15 +13,29 @@ return {
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		config = function()
+			local lsp_zero = require("lsp-zero")
+			lsp_zero.extend_cmp()
+
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
+
 			local lspkind = require("lspkind")
+
+			local has_words_before = function()
+				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+				return col ~= 0
+					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+			end
 
 			cmp.setup({
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
 					end,
+				},
+				preselect = "item",
+				completion = {
+					completeopt = "menu,menuone,noinsert",
 				},
 				mapping = {
 					["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -36,6 +50,8 @@ return {
 							cmp.select_next_item()
 						elseif luasnip.expand_or_jumpable() then
 							luasnip.expand_or_jump()
+						elseif has_words_before() then
+							cmp.complete()
 						else
 							fallback()
 						end
@@ -50,19 +66,30 @@ return {
 						end
 					end, { "i", "s" }),
 				},
+
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "buffer" },
+					{ name = "nvim_lsp", priority = 1000 },
+					{ name = "nvim_lsp_signature_help", priority = 900 },
+					{ name = "luasnip", priority = 750 },
+					{ name = "codeium", priority = 500 },
+					{ name = "path", priority = 250 },
+					{ name = "buffer", priority = 100, keyword_length = 3 },
 				}),
+
 				formatting = {
 					format = lspkind.cmp_format({
 						mode = "symbol_text",
 						maxwidth = 50,
 						ellipsis_char = "...",
 						show_labelDetails = true,
+						symbol_map = { Codeium = "" },
+						before = function(entry, vim_item)
+							vim_item = require("tailwind-tools.cmp").lspkind_format(entry, vim_item)
+							return vim_item
+						end,
 					}),
 				},
+
 				window = {
 					completion = {
 						border = "rounded",
@@ -80,8 +107,7 @@ return {
 			luasnip.filetype_extend("javascriptreact", { "html" })
 			luasnip.filetype_extend("typescriptreact", { "html" })
 
-			-- Load snippets from VS Code
-			require("luasnip.loaders.from_vscode").lazy_load()
+			require("luasnip/loaders/from_vscode").lazy_load()
 		end,
 	},
 }

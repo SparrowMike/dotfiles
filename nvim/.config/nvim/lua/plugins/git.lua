@@ -119,6 +119,7 @@ return {
 			require("telescope").load_extension("lazygit")
 
 			vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>")
+			vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>:q<CR>]], { noremap = true, silent = true })
 		end,
 	},
 	{
