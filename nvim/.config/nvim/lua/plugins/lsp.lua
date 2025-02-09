@@ -46,7 +46,7 @@ return {
 				Error = "✘",
 				-- Warn = "⚠",
 				-- Hint = "⚡",
-				Info = "ℹ"
+				Info = "ℹ",
 			}
 			for type, icon in pairs(signs) do
 				local hl = "DiagnosticSign" .. type
@@ -65,17 +65,14 @@ return {
 					prefix = "",
 				},
 			})
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-				vim.lsp.handlers.hover,
-				{
-					border = "rounded",
-					max_width = 100,
-					max_height = 40,
-					title = "Hover",
-					focusable = true,
-					-- close_events = { "BufHidden", "InsertEnter" },
-				}
-			)
+			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+				border = "rounded",
+				max_width = 100,
+				max_height = 40,
+				title = "Hover",
+				focusable = true,
+				-- close_events = { "BufHidden", "InsertEnter" },
+			})
 			-- Filter function for handling multiple definitions
 			local function filter_react_dts(items)
 				return vim.tbl_filter(function(item)
@@ -167,32 +164,27 @@ return {
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-					automatic_installation = true,
+					-- automatic_installation = true,
 					ts_ls = function()
+						local inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = true,
+							includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						}
+
 						require("lspconfig").ts_ls.setup({
 							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 							settings = {
 								typescript = {
-									inlayHints = {
-										includeInlayParameterNameHints = "all",
-										includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-										includeInlayFunctionParameterTypeHints = true,
-										includeInlayVariableTypeHints = true,
-										includeInlayPropertyDeclarationTypeHints = true,
-										includeInlayFunctionLikeReturnTypeHints = true,
-										includeInlayEnumMemberValueHints = true,
-									},
+									inlayHints = inlayHints,
 								},
 								javascript = {
-									inlayHints = {
-										includeInlayParameterNameHints = "all",
-										includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-										includeInlayFunctionParameterTypeHints = true,
-										includeInlayVariableTypeHints = true,
-										includeInlayPropertyDeclarationTypeHints = true,
-										includeInlayFunctionLikeReturnTypeHints = true,
-										includeInlayEnumMemberValueHints = true,
-									},
+									inlayHints = inlayHints,
 								},
 							},
 						})
@@ -227,5 +219,10 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"chrisgrieser/nvim-lsp-endhints",
+		event = "LspAttach",
+		opts = {},
 	},
 }
