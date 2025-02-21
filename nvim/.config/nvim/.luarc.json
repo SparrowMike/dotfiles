@@ -3,5 +3,8 @@
         "vim",
         "cmp_select",
         "theme_conf"
+    ],
+    "diagnostics.disable": [
+        "duplicate-set-field"
     ]
 }

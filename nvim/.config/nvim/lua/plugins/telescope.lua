@@ -31,7 +31,15 @@ return {
                     },
                 },
                 defaults = {
-                    mappings = {},
+                    mappings = {
+                        n = {
+                            ["<C-d>"] = require("telescope.actions").delete_buffer,
+                        }, -- n
+                        i = {
+                            ["<C-h>"] = "which_key",
+                            ["<C-d>"] = require("telescope.actions").delete_buffer,
+                        },
+                    },
                     preview = {
                         treesitter = false,
                     },
@@ -49,6 +57,9 @@ return {
             -- Keybindings
             vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
             vim.keymap.set("n", "<leader>pg", builtin.git_files, { desc = "Git files" })
+
+            -- Show buffers
+            vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "Show buffers" })
 
             -- Grep string in normal mode
             vim.keymap.set("n", "<C-f>", builtin.grep_string, { desc = "Grep string" })

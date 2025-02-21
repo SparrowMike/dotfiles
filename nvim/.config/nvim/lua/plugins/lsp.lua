@@ -2,7 +2,7 @@ return {
 	{
 		"VonHeikemen/lsp-zero.nvim",
 		branch = "v3.x",
-		lazy = true,
+		lazy = false,
 		config = false,
 		init = function()
 			vim.g.lsp_zero_extend_cmp = 0

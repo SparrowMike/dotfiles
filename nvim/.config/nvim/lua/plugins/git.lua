@@ -14,21 +14,21 @@ return {
 			vim.keymap.set("n", "<leader>gtw", ":Gwrite<CR>", { desc = "Git write (add) current file" })
 
 			-- Rebase operations
-			vim.keymap.set("n", "<leader>gtri", ":Git rebase -i<CR>", { desc = "Git interactive rebase" })
-			vim.keymap.set("n", "<leader>gtrc", ":Git rebase --continue<CR>", { desc = "Git rebase continue" })
-			vim.keymap.set("n", "<leader>gtra", ":Git rebase --abort<CR>", { desc = "Git rebase abort" })
-
-			-- Stash operations
-			vim.keymap.set("n", "<leader>gtst", ":Git stash<CR>", { desc = "Git stash" })
-			vim.keymap.set("n", "<leader>gtsp", ":Git stash pop<CR>", { desc = "Git stash pop" })
+			-- vim.keymap.set("n", "<leader>gtri", ":Git rebase -i<CR>", { desc = "Git interactive rebase" })
+			-- vim.keymap.set("n", "<leader>gtrc", ":Git rebase --continue<CR>", { desc = "Git rebase continue" })
+			-- vim.keymap.set("n", "<leader>gtra", ":Git rebase --abort<CR>", { desc = "Git rebase abort" })
+			--
+			-- -- Stash operations
+			-- vim.keymap.set("n", "<leader>gtst", ":Git stash<CR>", { desc = "Git stash" })
+			-- vim.keymap.set("n", "<leader>gtsp", ":Git stash pop<CR>", { desc = "Git stash pop" })
 
 			-- Branch operations
-			vim.keymap.set("n", "<leader>gtco", ":Git checkout<Space>", { desc = "Git checkout" })
-			vim.keymap.set("n", "<leader>gtcb", ":Git checkout -b<Space>", { desc = "Git checkout new branch" })
+			-- vim.keymap.set("n", "<leader>gtco", ":Git checkout<Space>", { desc = "Git checkout" })
+			-- vim.keymap.set("n", "<leader>gtcb", ":Git checkout -b<Space>", { desc = "Git checkout new branch" })
 
 			-- Staging operations
 			vim.keymap.set("n", "<leader>gta", ":Git add -p<CR>", { desc = "Git add patch" })
-			vim.keymap.set("n", "<leader>gtrs", ":Git reset -p<CR>", { desc = "Git reset patch" })
+			-- vim.keymap.set("n", "<leader>gtrs", ":Git reset -p<CR>", { desc = "Git reset patch" })
 
 			-- Browser integration (if you have rhubarb.vim installed)
 			-- vim.keymap.set("n", "<leader>gtB", ":GBrowse<CR>", { desc = "Open in browser" })
@@ -99,7 +99,7 @@ return {
 	},
 	{
 		"kdheepak/lazygit.nvim",
-		lazy = false,
+		lazy = true,
 		keys = {
 			{ "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
 		},
@@ -110,7 +110,6 @@ return {
 			"LazyGitFilter",
 			"LazyGitFilterCurrentFile",
 		},
-		-- optional for floating window border decoration
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
 			"nvim-lua/plenary.nvim",
@@ -119,7 +118,7 @@ return {
 			require("telescope").load_extension("lazygit")
 
 			vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>")
-			vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>:q<CR>]], { noremap = true, silent = true })
+			-- vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>:q<CR>]], { noremap = true, silent = true })
 		end,
 	},
 	{
