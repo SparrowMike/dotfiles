@@ -23,10 +23,7 @@ return {
 		"Pocco81/auto-save.nvim",
 		event = "BufReadPost",
 		config = function()
-			require("auto-save").setup({
-				-- your config goes here
-				-- or just leave it empty :)
-			})
+			require("auto-save").setup({})
 		end,
 	},
 	{
@@ -97,38 +94,4 @@ return {
 		opts = {},
 		cmd = { "Typr", "TyprStats" },
 	},
-	{
-		"karb94/neoscroll.nvim",
-		opts = {
-			duration_multiplier = 3.0,
-		},
-		config = function()
-			local neoscroll = require("neoscroll")
-
-			neoscroll.setup({ mappings = { "<C-u>", "<C-d>" } })
-
-			local keymap = {
-				-- Use the "sine" easing function
-				["<C-u>"] = function()
-					neoscroll.ctrl_u({ duration = 100, easing = "sine" })
-				end,
-				["<C-d>"] = function()
-					neoscroll.ctrl_d({ duration = 100, easing = "sine" })
-				end,
-			}
-			local modes = { "n", "v", "x" }
-			for key, func in pairs(keymap) do
-				vim.keymap.set(modes, key, func)
-			end
-		end,
-	},
-	-- amongst your other plugins
-	-- { "akinsho/toggleterm.nvim", version = "*", config = true },
-	-- { "akinsho/toggleterm.nvim", version = "*", config = function() require("toggleterm").setup{} end },
-	-- {
-	-- 	"akinsho/toggleterm.nvim",
-	-- 	version = "*",
-	-- 	opts = {},
-	-- },
-	{ "akinsho/toggleterm.nvim", version = "*", config = true },
 }
