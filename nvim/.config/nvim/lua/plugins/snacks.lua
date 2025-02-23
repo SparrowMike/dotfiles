@@ -44,6 +44,11 @@ return {
                         auto_hide = { "input" },
                         layout = { position = "right" }
                     },
+                },
+                projects = {
+                    dev = { "~/Documents/Keyboard/", "~/projects" },
+                    confirm = "load_session",
+                    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
                 }
             }
         },

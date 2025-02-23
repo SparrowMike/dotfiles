@@ -33,5 +33,5 @@ vim.keymap.set("n", "<M-u>", "<cmd>resize +5<cr>", { desc = "Increase Window Hei
 vim.keymap.set("n", "<M-o>", "<cmd>vertical resize +5<cr>", { desc = "Increase Window Width" })
 vim.keymap.set("n", "<M-y>", "<cmd>vertical resize -5<cr>", { desc = "Decrease Window Width" })
 
-vim.api.nvim_set_keymap("n", "<C-t>", ":tabnew<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-c>", ":tabclose<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-t>", ":tabnew<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-c>", ":tabclose<CR>", { noremap = true, silent = true })

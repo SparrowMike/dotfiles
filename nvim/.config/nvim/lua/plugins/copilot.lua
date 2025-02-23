@@ -32,8 +32,8 @@ return {
 	},
 	{
 		"yetone/avante.nvim",
-		event = "VeryLazy",
-		lazy = false,
+        event = "VeryLazy",
+        -- lazy = true,
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
 			provider = "openai",
