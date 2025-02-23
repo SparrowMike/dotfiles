@@ -5,10 +5,32 @@ return {
     -- -@type snacks.Config
     opts = {
         bigfile = { enabled = true },
-        dashboard = { enabled = true },
+        dashboard = {
+            sections = {
+                { section = "header" },
+                { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
+                { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+                { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+                { section = "startup" },
+            },
+        },
         explorer = { enabled = true },
         git = { enabled = true },
-        indent = { enabled = true },
+        indent = {
+            scope = {
+                hl = {
+                    "SnacksIndent1",
+                    "SnacksIndent2",
+                    "SnacksIndent3",
+                    "SnacksIndent4",
+                    "SnacksIndent5",
+                    "SnacksIndent6",
+                    "SnacksIndent7",
+                    "SnacksIndent8",
+                },
+
+            }
+        },
         input = { enabled = true },
         notifier = {
             enabled = true,
@@ -18,7 +40,10 @@ return {
         picker = {
             sources = {
                 explorer = {
-                     layout = { layout = { position = "right" } },
+                    layout = {
+                        auto_hide = { "input" },
+                        layout = { position = "right" }
+                    },
                 }
             }
         },
@@ -109,7 +134,7 @@ return {
         { "<leader>gg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
         { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
         { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
-        { "<c-.>",           function() Snacks.terminal.open() end,                                       desc = "Toggle Terminal" },
+        { "<c-.>",           function() Snacks.terminal.open() end,                                  desc = "Toggle Terminal" },
         { "<c-_>",           function() Snacks.terminal() end,                                       desc = "which_key_ignore" },
         { "]]",              function() Snacks.words.jump(vim.v.count1) end,                         desc = "Next Reference",           mode = { "n", "t" } },
         { "[[",              function() Snacks.words.jump(-vim.v.count1) end,                        desc = "Prev Reference",           mode = { "n", "t" } },

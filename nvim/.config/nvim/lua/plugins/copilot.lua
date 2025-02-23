@@ -62,10 +62,6 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			{
-				"nvim-tree/nvim-web-devicons",
-				lazy = true,
-			}, -- or echasnovski/mini.icons
-			{
 				"zbirenbaum/copilot.lua",
 				event = "InsertEnter",
 			},

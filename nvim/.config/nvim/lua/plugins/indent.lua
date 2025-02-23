@@ -1,5 +1,5 @@
 return {
-    "lukas-reineke/indent-blankline.nvim",
+    --[[ "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     opts = {},
     config = function()
@@ -29,5 +29,5 @@ return {
         require("ibl").setup { scope = { highlight = highlight } }
 
         hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
-    end
+    end ]]
 }
