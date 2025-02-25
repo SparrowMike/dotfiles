@@ -12,6 +12,7 @@ return {
 			{ "theHamsta/nvim-dap-virtual-text" },
 		},
 		commit = "7ff6936010b7222fea2caea0f67ed77f1b7c60dd",
+		event = "VeryLazy",
 		cmd = {
 			"DapContinue",
 			"DapToggleBreakpoint",

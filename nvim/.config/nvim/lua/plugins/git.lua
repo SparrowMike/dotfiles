@@ -1,5 +1,4 @@
 return {
-	-- ,
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "VeryLazy",
@@ -66,6 +65,16 @@ return {
 		config = function()
 			local set = vim.opt -- set options
 			set.fillchars = set.fillchars + "diff:╱"
+		end,
+	},
+	{
+		"f-person/git-blame.nvim",
+		event = "VeryLazy",
+		config = function()
+			vim.g.skip_ts_context_commentstring_module = true
+			vim.g.gitblame_display_virtual_text = 0
+			vim.keymap.set("n", "<leader>gto", "<cmd>GitBlameOpenCommitURL<cr>")
+			-- vim.keymap.set("n", "<leader>gtb", "<cmd>GitBlameToggle<cr>")
 		end,
 	},
 	-- {

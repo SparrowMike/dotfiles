@@ -37,8 +37,8 @@ cursor_trail_decay 0.1 0.4
 
 font_family      family="JetBrains Mono"
 bold_font        auto
-italic_font      VictorMono Nerd Font Mono Medium Italic
-bold_italic_font VictorMono Nerd Font Mono Bold Italic
+italic_font      auto
+bold_italic_font auto
 
 font_size 16.0 
 
@@ -2388,3 +2388,4 @@ include kitty-themes/themes/IC_Orange_PPL.conf
 # include kitty-themes/themes/Gruvbox_Dark.conf
 
 # END_KITTY_THEME
+

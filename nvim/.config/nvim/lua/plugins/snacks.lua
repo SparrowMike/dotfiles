@@ -40,6 +40,7 @@ return {
         picker = {
             sources = {
                 explorer = {
+                    hidden = true,
                     layout = {
                         auto_hide = { "input" },
                         layout = { position = "right" }

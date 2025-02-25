@@ -1,5 +1,21 @@
 return {
 	{
+		"xero/miasma.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			-- vim.cmd("colorscheme miasma")
+		end,
+	},
+	{
+		"savq/melange-nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			-- vim.cmd("colorscheme melange")
+		end,
+	},
+	{
 		"rose-pine/neovim",
 		name = "rose-pine",
 		config = function()
@@ -15,9 +31,11 @@ return {
 					transparency = true,
 				},
 			})
-			vim.cmd.colorscheme("rose-pine")
+			-- vim.cmd.colorscheme("rose-pine")
 		end,
 	},
+
+	{ "embark-theme/vim", as = "embark" },
 
 	{
 		"catppuccin/nvim",
@@ -59,6 +77,7 @@ return {
 	},
 
 	{
+
 		"sainnhe/gruvbox-material",
 		lazy = false,
 		priority = 1000,
@@ -146,6 +165,7 @@ return {
 		-- 	-- vim.cmd.colorscheme("oldworld")
 		-- end,
 	},
+
 	{
 		"rebelot/kanagawa.nvim",
 		lazy = false,
@@ -228,7 +248,7 @@ return {
 		-- 	end,
 		-- },
 		config = function()
-			-- vim.cmd.colorscheme("kanagawa")
+			vim.cmd.colorscheme("kanagawa")
 		end,
 	},
 }
