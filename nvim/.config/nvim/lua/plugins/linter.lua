@@ -6,8 +6,6 @@ return {
 	},
 	config = function()
 		local null_ls = require("null-ls")
-		local eslint = require("none-ls.diagnostics.eslint_d")
-		local eslint_actions = require("none-ls.code_actions.eslint_d")
 
 		null_ls.setup({
 			sources = {

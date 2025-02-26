@@ -49,6 +49,7 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
 vim.g.indent_blankline_show_current_context = true
