@@ -75,7 +75,7 @@ return {
         end
 
         -- Keymaps
-        vim.keymap.set("n", "<leader>sl", log_message, { desc = "Sync git changes" })
+        -- vim.keymap.set("n", "<leader>sl", log_message, { desc = "Sync git changes" })
         vim.keymap.set("n", "<leader>ss", sync_git_changes, { desc = "Sync git changes" })
         vim.keymap.set("n", "<leader>cs", sync_current_file, { desc = "Sync current file" })
 

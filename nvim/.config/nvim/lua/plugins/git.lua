@@ -61,6 +61,7 @@ return {
 		keys = {
 			{ "<leader>gv", "<cmd>DiffviewOpen<cr>" },
 			{ "<leader>gh", "<cmd>DiffviewFileHistory<cr>" },
+			{ "<leader>gc", "<cmd>DiffviewClose<cr>" },
 		},
 		config = function()
 			local set = vim.opt -- set options

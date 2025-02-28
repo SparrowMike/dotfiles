@@ -16,6 +16,18 @@ return {
         },
         explorer = { enabled = true },
         git = { enabled = true },
+        gitbrowse = {
+            what = "file",
+            open = function(url)
+                vim.print(url)
+
+                if vim.fn.has("nvim-0.10") == 0 then
+                    require("lazy.util").open(url, { system = true })
+                    return
+                end
+                vim.ui.open(url)
+            end,
+        },
         indent = {
             scope = {
                 hl = {
@@ -45,11 +57,52 @@ return {
                         auto_hide = { "input" },
                         layout = { position = "right" }
                     },
+                    win = {
+                        list = {
+                             wo = {
+                               number = true,
+                               relativenumber = true,
+                               -- signcolumn = "yes"
+                             }
+                        }
+                    },
+                    config = function(opts) 
+                        -- vim.print(opts)
+                        return require("snacks.picker.source.explorer").setup(opts)
+                    end,
                 },
                 projects = {
                     dev = { "~/Documents/Keyboard/", "~/projects" },
-                    confirm = "load_session",
-                    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile" },
+
+                    confirm = function(picker, project_data)
+                        local path = project_data._path or project_data.file
+
+                        if not path then
+                            print("Error: No valid path found in project data")
+                            return
+                        end
+
+                        vim.cmd('cd ' .. path)
+
+                        local auto_session = require("auto-session")
+                        local harpoon_ui = require("harpoon.ui")
+
+                        if auto_session.session_exists_for_cwd() then
+                            auto_session.auto_restore_session_at_vim_enter()
+                            do return picker:close() end
+                        end
+
+                        if harpoon_ui and harpoon_ui.nav_file(1) then
+                            harpoon_ui.nav_file(1)
+                            print("Harpoon triggered")
+                        else
+                            vim.cmd('enew')
+                        end
+
+                        picker:close()
+                    end,
+
+                    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "webpack.config.js" },
                 }
             }
         },

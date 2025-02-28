@@ -7,8 +7,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 
 -- greatest remap ever : asbjornHaland
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+-- vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+-- vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
@@ -35,3 +35,8 @@ vim.keymap.set("n", "<M-y>", "<cmd>vertical resize -5<cr>", { desc = "Decrease W
 
 vim.keymap.set("n", "<leader>to", ":tabnew<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { noremap = true, silent = true })
+
+-- Make cursor follow into new splits
+vim.keymap.set('n', '<C-w>v', '<cmd>vsplit<CR><C-w>w', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-w>s', '<cmd>split<CR><C-w>w', { noremap = true, silent = true })
+

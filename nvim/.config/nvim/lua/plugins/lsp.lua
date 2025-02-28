@@ -48,10 +48,12 @@ return {
 				-- Hint = "⚡",
 				Info = "ℹ",
 			}
+
 			for type, icon in pairs(signs) do
 				local hl = "DiagnosticSign" .. type
 				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 			end
+
 			vim.diagnostic.config({
 				virtual_text = true,
 				signs = true,
@@ -65,14 +67,7 @@ return {
 					prefix = "",
 				},
 			})
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = "rounded",
-				max_width = 100,
-				max_height = 40,
-				title = "Hover",
-				focusable = true,
-				-- close_events = { "BufHidden", "InsertEnter" },
-			})
+
 			-- Filter function for handling multiple definitions
 			local function filter_react_dts(items)
 				return vim.tbl_filter(function(item)
@@ -88,6 +83,7 @@ return {
 					vim.api.nvim_command("copen")
 				end
 			end
+
 			-- Enhanced LSP configuration
 			lsp_zero.on_attach(function(client, bufnr)
 				local opts = { buffer = bufnr, remap = false }
@@ -145,6 +141,7 @@ return {
 					print(vim.inspect(result))
 				end)
 			end)
+
 			-- LSP server configurations
 			require("mason-lspconfig").setup({
 				ensure_installed = {

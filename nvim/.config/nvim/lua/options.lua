@@ -63,5 +63,3 @@ vim.g.indent_blankline_context_patterns = {
 }
 
 vim.opt.termguicolors = true
-
--- vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
