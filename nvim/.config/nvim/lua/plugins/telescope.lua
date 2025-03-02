@@ -1,149 +1,83 @@
 return {
-	-- {
-	-- 	"nvim-telescope/telescope-ui-select.nvim",
-	-- 	lazy = true,
-	-- 	event = "VeryLazy",
-	-- },
-	-- {
-	-- 	"nvim-telescope/telescope-project.nvim",
-	-- },
-	-- {
-	-- 	"nvim-telescope/telescope.nvim",
-	-- 	tag = "0.1.5",
-	-- 	keys = {
-	-- 		{ "<C-p>", desc = "Find files" },
-	-- 		{ "<leader>pg", desc = "Git files" },
-	-- 		{ "<C-f>", mode = { "n", "v" }, desc = "Grep string" },
-	-- 		{ "<leader>gf", desc = "Grep input" },
-	-- 	},
-	-- 	cmd = "Telescope",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-	-- 	},
-	-- 	config = function()
-	-- 		local telescope = require("telescope")
-	-- 		local builtin = require("telescope.builtin")
-	-- 		local actions = require("telescope.actions")
-	--
-	-- 		local project_actions = require("telescope._extensions.project.actions")
-	--
-	-- 		-- Telescope setup
-	-- 		telescope.setup({
-	--
-	-- 			extensions = {
-	-- 				["ui-select"] = {
-	-- 					require("telescope.themes").get_dropdown({}),
-	-- 				},
-	-- 				project = {
-	-- 					-- base_dirs = {
-	-- 					-- 	"~/dev/src",
-	-- 					-- 	{ "~/dev/src2" },
-	-- 					-- 	{ "~/dev/src3", max_depth = 4 },
-	-- 					-- 	{ path = "~/dev/src4" },
-	-- 					-- 	{ path = "~/dev/src5", max_depth = 2 },
-	-- 					-- },
-	-- 					ignore_missing_dirs = true, -- default: false
-	-- 					hidden_files = true, -- default: false
-	-- 					theme = "dropdown",
-	-- 					order_by = "recent",
-	-- 					search_by = "title",
-	-- 					sync_with_nvim_tree = true, -- default false
-	-- 					-- default for on_project_selected = find project files
-	-- 					on_project_selected = function(prompt_bufnr)
-	-- 						-- Do anything you want in here. For example:
-	--
-	-- 						project_actions.change_working_directory(prompt_bufnr, false)
-	-- 						require("harpoon.ui").nav_file(1)
-	-- 					end,
-	-- 					mappings = {
-	-- 						n = {
-	-- 							["d"] = project_actions.delete_project,
-	-- 							["r"] = project_actions.rename_project,
-	-- 							["c"] = project_actions.add_project,
-	-- 							["C"] = project_actions.add_project_cwd,
-	-- 							["f"] = project_actions.find_project_files,
-	-- 							["b"] = project_actions.browse_project_files,
-	-- 							["s"] = project_actions.search_in_project_files,
-	-- 							["R"] = project_actions.recent_project_files,
-	-- 							["w"] = project_actions.change_working_directory,
-	-- 							["o"] = project_actions.next_cd_scope,
-	-- 						},
-	-- 						i = {
-	-- 							["<c-d>"] = project_actions.delete_project,
-	-- 							["<c-v>"] = project_actions.rename_project,
-	-- 							["<c-a>"] = project_actions.add_project,
-	-- 							["<c-A>"] = project_actions.add_project_cwd,
-	-- 							["<c-f>"] = project_actions.find_project_files,
-	-- 							["<c-b>"] = project_actions.browse_project_files,
-	-- 							["<c-s>"] = project_actions.search_in_project_files,
-	-- 							["<c-r>"] = project_actions.recent_project_files,
-	-- 							["<c-l>"] = project_actions.change_working_directory,
-	-- 							["<c-o>"] = project_actions.next_cd_scope,
-	-- 							["<c-w>"] = project_actions.change_workspace,
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 			defaults = {
-	-- 				mappings = {
-	-- 					n = {
-	-- 						["<C-d>"] = actions.delete_buffer,
-	-- 					}, -- n
-	-- 					i = {
-	-- 						["<C-h>"] = "which_key",
-	-- 						["<C-d>"] = actions.delete_buffer,
-	-- 					},
-	-- 				},
-	-- 				preview = {
-	-- 					treesitter = false,
-	-- 				},
-	-- 			},
-	-- 			pickers = {
-	-- 				find_files = {
-	-- 					-- theme = "ivy",
-	-- 				},
-	-- 			},
-	-- 		})
-	--
-	-- 		-- Load extensions
-	-- 		telescope.load_extension("ui-select")
-	--
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"n",
-	-- 			"<C-m>",
-	-- 			":lua require'telescope'.extensions.project.project{}<CR>",
-	-- 			{ noremap = true, silent = true }
-	-- 		)
-	-- 		-- Keybindings
-	-- 		vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
-	-- 		vim.keymap.set("n", "<leader>pg", builtin.git_files, { desc = "Git files" })
-	--
-	-- 		-- Show buffers
-	-- 		vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "Show buffers" })
-	--
-	-- 		-- Grep string in normal mode
-	-- 		vim.keymap.set("n", "<C-f>", builtin.grep_string, { desc = "Grep string" })
-	--
-	-- 		-- Grep string in visual mode
-	-- 		vim.keymap.set("v", "<C-f>", function()
-	-- 			local search_term = vim.fn.getreg('"')
-	-- 			if search_term == "" then
-	-- 				print("No text selected for grep.")
-	-- 				return
-	-- 			end
-	-- 			builtin.grep_string({ search = search_term })
-	-- 		end, { desc = "Grep selected text" })
-	--
-	-- 		-- Grep input
-	-- 		vim.keymap.set("n", "<leader>gf", function()
-	-- 			local search_query = vim.fn.input("Grep > ")
-	-- 			if search_query == "" then
-	-- 				print("Empty search string provided.")
-	-- 				return
-	-- 			end
-	-- 			builtin.grep_string({ search = search_query })
-	-- 		end, { desc = "Grep input" })
-	-- 	end,
-	-- },
+	{
+		"nvim-telescope/telescope-ui-select.nvim",
+		lazy = true,
+		event = "VeryLazy",
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.5",
+		cmd = "Telescope",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		},
+		config = function()
+			local telescope = require("telescope")
+			local builtin = require("telescope.builtin")
+			local actions = require("telescope.actions")
+
+			-- Telescope setup
+			telescope.setup({
+
+				extensions = {
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown({}),
+					},
+				},
+				defaults = {
+					mappings = {
+						n = {
+							["<C-d>"] = actions.delete_buffer,
+						}, -- n
+						i = {
+							["<C-h>"] = "which_key",
+							["<C-d>"] = actions.delete_buffer,
+						},
+					},
+					preview = {
+						treesitter = false,
+					},
+				},
+				pickers = {
+					find_files = {
+						-- theme = "ivy",
+					},
+				},
+			})
+
+			-- Load extensions
+			telescope.load_extension("ui-select")
+
+			-- Keybindings
+			vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
+			vim.keymap.set("n", "<leader>pg", builtin.git_files, { desc = "Git files" })
+
+			-- Show buffers
+			vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "Show buffers" })
+
+			-- Grep string in normal mode
+			vim.keymap.set("n", "<C-f>", builtin.grep_string, { desc = "Grep string" })
+
+			-- Grep string in visual mode
+			vim.keymap.set("v", "<C-f>", function()
+				local search_term = vim.fn.getreg('"')
+				if search_term == "" then
+					print("No text selected for grep.")
+					return
+				end
+				builtin.grep_string({ search = search_term })
+			end, { desc = "Grep selected text" })
+
+			-- Grep input
+			vim.keymap.set("n", "<leader>gf", function()
+				local search_query = vim.fn.input("Grep > ")
+				if search_query == "" then
+					print("Empty search string provided.")
+					return
+				end
+				builtin.grep_string({ search = search_query })
+			end, { desc = "Grep input" })
+		end,
+	},
 }

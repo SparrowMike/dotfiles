@@ -8,9 +8,12 @@ return {
     "dcampos/nvim-sftp-sync",
     build = ":UpdateRemotePlugins",
     config = function()
-        -- Basic setup
+        if vim.fn.empty(vim.fn.glob("~/.nvim-venv/bin/python3")) == 1 then
+            vim.notify("Python environment not available.")
+            return
+        end
+
         vim.g.python3_host_prog = vim.fn.expand("~/.nvim-venv/bin/python3")
-        -- vim.g.python3_host_prog = os.getenv("HOME") .. "~/.nvim-venv/bin/python3"
 
         local project_path = vim.fn.getcwd()
         local project_name = vim.fn.fnamemodify(project_path, ":t")

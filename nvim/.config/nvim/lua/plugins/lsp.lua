@@ -87,6 +87,7 @@ return {
 			-- Enhanced LSP configuration
 			lsp_zero.on_attach(function(client, bufnr)
 				local opts = { buffer = bufnr, remap = false }
+
 				-- Add document highlight if supported
 				if client.server_capabilities.documentHighlightProvider then
 					local group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = true })
@@ -156,12 +157,14 @@ return {
 					-- "eslint",
 					"emmet_ls",
 				},
+
+                -- automatic_installation = true,
+
 				handlers = {
 					lsp_zero.default_setup,
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-					-- automatic_installation = false,
 					ts_ls = function()
 						local inlayHints = {
 							includeInlayParameterNameHints = "all",

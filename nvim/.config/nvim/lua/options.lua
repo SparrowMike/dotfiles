@@ -31,6 +31,9 @@ vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
 
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
 vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
 
 vim.opt.scrolloff = 8
@@ -40,7 +43,6 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "100"
--- vim.opt.signcolumn = "yes"
 
 vim.opt.foldmethod = "expr"                     -- default is "normal"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""

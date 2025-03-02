@@ -40,7 +40,6 @@ return {
                     "SnacksIndent7",
                     "SnacksIndent8",
                 },
-
             }
         },
         input = { enabled = true },
@@ -51,6 +50,9 @@ return {
         },
         picker = {
             sources = {
+                files = {
+                    hidden = true,
+                },
                 explorer = {
                     hidden = true,
                     layout = {
@@ -66,13 +68,13 @@ return {
                              }
                         }
                     },
-                    config = function(opts) 
+                    config = function(opts)
                         -- vim.print(opts)
                         return require("snacks.picker.source.explorer").setup(opts)
                     end,
                 },
                 projects = {
-                    dev = { "~/Documents/Keyboard/", "~/projects" },
+                    dev = { "~/projects", "~/Documents", "~/Documents/keyboard/"},
 
                     confirm = function(picker, project_data)
                         local path = project_data._path or project_data.file
