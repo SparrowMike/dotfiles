@@ -55,26 +55,39 @@ return {
                 },
                 explorer = {
                     hidden = true,
-                    layout = {
-                        auto_hide = { "input" },
-                        layout = { position = "right" }
-                    },
+                    auto_close = true,
                     win = {
                         list = {
-                             wo = {
-                               number = true,
-                               relativenumber = true,
-                               -- signcolumn = "yes"
-                             }
-                        }
+                            wo = {
+                                number = true,
+                                relativenumber = true,
+                                -- signcolumn = "yes"
+                            }
+                        },
                     },
-                    config = function(opts)
-                        -- vim.print(opts)
-                        return require("snacks.picker.source.explorer").setup(opts)
-                    end,
+                    layout = {
+                        auto_hide = { "input" },
+                        -- cycle = true,
+                        preview = true,
+                        layout = {
+                            box = 'horizontal',
+                            position = 'float',
+                            height = 0.8,
+                            width = 0.8,
+                            border = 'rounded',
+                            {
+                                box = 'vertical',
+                                width = 40,
+                                min_width = 40,
+                                { win = 'input', height = 1, title = '{title} {live} {flags}', border = 'single' },
+                                { win = 'list' },
+                            },
+                            { win = 'preview', width = 0, border = 'left' },
+                        },
+                    },
                 },
                 projects = {
-                    dev = { "~/projects", "~/Documents", "~/Documents/keyboard/"},
+                    dev = { "~/projects", "~/Documents", "~/Documents/keyboard/" },
 
                     confirm = function(picker, project_data)
                         local path = project_data._path or project_data.file
@@ -113,6 +126,7 @@ return {
         scroll = { enabled = true },
         statuscolumn = { enabled = true },
         words = { enabled = true },
+        win = { enabled = true },
         styles = {
             notification = {
                 -- wo = { wrap = true } -- Wrap notifications
@@ -123,7 +137,7 @@ return {
         -- Top Pickers & Explorer
         { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Smart Find Files" },
         { "<leader>,",       function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
-        { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
+        { "<leader>/",       function() Snacks.picker.grep({ regex = false }) end,                   desc = "Grep" },
         { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
         { "<leader>n",       function() Snacks.picker.notifications() end,                           desc = "Notification History" },
         { "<leader>e",       function() Snacks.explorer() end,                                       desc = "File Explorer" },
@@ -148,7 +162,7 @@ return {
         -- Grep
         { "<leader>sb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
         { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
-        { "<leader>sg",      function() Snacks.picker.grep() end,                                    desc = "Grep" },
+        { "<leader>sg",      function() Snacks.picker.grep({ regex = false }) end,                   desc = "Grep" },
         { "<leader>sw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word", mode = { "n", "x" } },
 
         -- search

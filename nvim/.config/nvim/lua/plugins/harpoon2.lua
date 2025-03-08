@@ -7,30 +7,45 @@ return {
     config = function()
         local harpoon = require("harpoon")
 
-        harpoon:setup()
-
-        local toggle_opts = {
-            title = " Harpoon ",
-            border = "rounded",
-            title_pos = "center",
-            ui_width_ratio = 0.40,
-        }
+        harpoon:setup({
+            settings = {
+                save_on_toggle = true,
+                sync_on_ui_close = true,
+            },
+        })
 
         vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
         vim.keymap.set("n", "<C-e>", function()
-            harpoon.ui:toggle_quick_menu(harpoon:list(), toggle_opts)
+            harpoon.ui:toggle_quick_menu(harpoon:list(), {
+                title = " Harpoon ",
+                border = "rounded",
+                title_pos = "center",
+                ui_width_ratio = 0.40,
+            })
         end)
 
         vim.keymap.set("n", "<leader>ha", function() harpoon:list():select(1) end)
         vim.keymap.set("n", "<leader>hs", function() harpoon:list():select(2) end)
         vim.keymap.set("n", "<leader>hd", function() harpoon:list():select(3) end)
         vim.keymap.set("n", "<leader>hf", function() harpoon:list():select(4) end)
-        vim.keymap.set("n", "<leader>hg", function() harpoon:list():select(4) end)
-        vim.keymap.set("n", "<leader>hz", function() harpoon:list():select(4) end)
-        vim.keymap.set("n", "<leader>hx", function() harpoon:list():select(4) end)
-        vim.keymap.set("n", "<leader>hc", function() harpoon:list():select(4) end)
-        vim.keymap.set("n", "<leader>hv", function() harpoon:list():select(4) end)
-        vim.keymap.set("n", "<leader>hb", function() harpoon:list():select(4) end)
+        vim.keymap.set("n", "<leader>hg", function() harpoon:list():select(5) end)
+        vim.keymap.set("n", "<leader>hz", function() harpoon:list():select(6) end)
+        vim.keymap.set("n", "<leader>hx", function() harpoon:list():select(7) end)
+        vim.keymap.set("n", "<leader>hc", function() harpoon:list():select(8) end)
+        vim.keymap.set("n", "<leader>hv", function() harpoon:list():select(9) end)
+        vim.keymap.set("n", "<leader>hb", function() harpoon:list():select(10) end)
+
+        harpoon:extend({
+            UI_CREATE = function(cx)
+                vim.keymap.set('n', '<C-v>', function()
+                    harpoon.ui:select_menu_item({ vsplit = true })
+                end, { buffer = cx.bufnr })
+
+                vim.keymap.set('n', '<C-x>', function()
+                    harpoon.ui:select_menu_item({ split = true })
+                end, { buffer = cx.bufnr })
+            end,
+        })
 
         local function generate_harpoon_picker()
             local file_paths = {}
