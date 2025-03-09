@@ -17,10 +17,20 @@ vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over selection withou
 
 -- Replace word under cursor (normal mode)
 -- vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = "Replace word under cursor (normal mode)" })
+vim.keymap.set(
+	"n",
+	"<leader>rw",
+	[[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]],
+	{ desc = "Replace word under cursor (normal mode)" }
+)
 
 -- Replace selection (visual mode)
-vim.keymap.set("v", "<leader>rw", [[y:%s/\V<C-r>=escape(@", '/\')<CR>//gI<Left><Left><Left>]], { desc = "Replace selected text" })
+vim.keymap.set(
+	"v",
+	"<leader>rw",
+	[[y:%s/\V<C-r>=escape(@", '/\')<CR>//gI<Left><Left><Left>]],
+	{ desc = "Replace selected text" }
+)
 
 -- Center cursor after moving half a page down
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Center cursor after moving down half-page" })
@@ -42,8 +52,3 @@ vim.keymap.set("n", "<M-i>", "<cmd>resize -5<cr>", { desc = "Decrease Window Hei
 vim.keymap.set("n", "<M-u>", "<cmd>resize +5<cr>", { desc = "Increase Window Height" })
 vim.keymap.set("n", "<M-o>", "<cmd>vertical resize +5<cr>", { desc = "Increase Window Width" })
 vim.keymap.set("n", "<M-y>", "<cmd>vertical resize -5<cr>", { desc = "Decrease Window Width" })
-
--- Tab management
-vim.keymap.set("n", "<leader>to", ":tabnew<CR>", { noremap = true, silent = true, desc = "Open new tab" })
-vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { noremap = true, silent = true, desc = "Close current tab" })
-

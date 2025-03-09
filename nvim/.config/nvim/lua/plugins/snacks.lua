@@ -5,6 +5,7 @@ return {
     -- -@type snacks.Config
     opts = {
         bigfile = { enabled = true },
+        -- profiler = { enabled = true, },
         dashboard = {
             sections = {
                 { section = "header" },
@@ -67,22 +68,23 @@ return {
                     },
                     layout = {
                         auto_hide = { "input" },
-                        -- cycle = true,
-                        preview = true,
+                        -- preview = true,
                         layout = {
-                            box = 'horizontal',
-                            position = 'float',
-                            height = 0.8,
-                            width = 0.8,
-                            border = 'rounded',
-                            {
-                                box = 'vertical',
-                                width = 40,
-                                min_width = 40,
-                                { win = 'input', height = 1, title = '{title} {live} {flags}', border = 'single' },
-                                { win = 'list' },
-                            },
-                            { win = 'preview', width = 0, border = 'left' },
+                            position = "right",
+                            -- box = 'horizontal',
+                            -- position = 'float',
+                            -- height = 0.7,
+                            -- width = 0.7,
+                            -- border = 'rounded',
+                            -- {
+                            --     box = 'vertical',
+                            --     width = 40,
+                            --     min_width = 40,
+                            --     { win = 'input', height = 1, title = '{title} {live} {flags}', border = 'single' },
+                            --     { win = 'list' },
+                            -- },
+                            -- { win = 'preview', width = 0, border = 'left' },
+                            -- { win = 'preview', width = 0, border = 'left', position = 'float' },
                         },
                     },
                 },
@@ -206,6 +208,7 @@ return {
         { "<leader>bd",      function() Snacks.bufdelete() end,                                      desc = "Delete Buffer" },
         { "<leader>cR",      function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
         { "<leader>gB",      function() Snacks.gitbrowse() end,                                      desc = "Git Browse",               mode = { "n", "v" } },
+
         { "<leader>gg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
         { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
         { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
