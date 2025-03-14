@@ -1,7 +1,7 @@
 return {
     {
         "Exafunction/codeium.nvim",
-        event = "InsertEnter",
+        event = "VeryLazy",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "hrsh7th/nvim-cmp",
@@ -13,7 +13,7 @@ return {
 
     {
         "Exafunction/codeium.vim",
-        event = "InsertEnter",
+        event = "VeryLazy",
         config = function()
             -- Add keybindings for Codeium functions here
             vim.keymap.set("i", "<C-g>", function()
