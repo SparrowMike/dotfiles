@@ -1,3 +1,9 @@
+local js_like = {
+	left = 'console.info("',
+	right = '")',
+	mid_var = '", ',
+	right_var = ")",
+}
 return {
 	{
 		"mg979/vim-visual-multi",
@@ -20,7 +26,7 @@ return {
 		config = function()
 			require("auto-save").setup({
 
-                -- INFO: condition required for the harpoon2 to work
+				-- INFO: condition required for the harpoon2 to work
 				condition = function(buf)
 					local fn = vim.fn
 					local utils = require("auto-save.utils.data")
@@ -104,5 +110,16 @@ return {
 		dependencies = "nvzone/volt",
 		opts = {},
 		cmd = { "Typr", "TyprStats" },
+	},
+	{
+		"andrewferrier/debugprint.nvim",
+		opts = {
+			filetypes = {
+				["javascript"] = js_like,
+				["javascriptreact"] = js_like,
+				["typescript"] = js_like,
+				["typescriptreact"] = js_like,
+			},
+		},
 	},
 }

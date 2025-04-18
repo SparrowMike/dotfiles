@@ -64,5 +64,3 @@ vim.g.indent_blankline_context_patterns = {
   "statement",
   "switch_body",
 }
-
-vim.opt.termguicolors = true

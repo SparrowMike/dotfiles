@@ -121,12 +121,21 @@ return {
 
                     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "webpack.config.js" },
                 }
-            }
+            },
+            formatters = {
+                file = {
+                    truncate = 1000,
+                },
+            },
         },
         quickfile = { enabled = true },
         scope = { enabled = true },
         scroll = { enabled = true },
-        statuscolumn = { enabled = true },
+        statuscolumn = {
+            folds = {
+                git_hl = true, -- use Git Signs hl for fold icons
+            },
+        },
         words = { enabled = true },
         win = { enabled = true },
         styles = {
@@ -204,7 +213,7 @@ return {
         { "<leader>Z",       function() Snacks.zen.zoom() end,                                       desc = "Toggle Zoom" },
         { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
         { "<leader>S",       function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
-        { "<leader>n",       function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
+        { "<leader>nh",      function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
         { "<leader>bd",      function() Snacks.bufdelete() end,                                      desc = "Delete Buffer" },
         { "<leader>cR",      function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
         { "<leader>gB",      function() Snacks.gitbrowse() end,                                      desc = "Git Browse",               mode = { "n", "v" } },

@@ -61,8 +61,8 @@ return {
 		keys = {
 			{ "<leader>gv", "<cmd>DiffviewOpen<cr>" },
 			{ "<leader>gh", "<cmd>DiffviewFileHistory<cr>" },
-            { "<leader>gc", "<cmd>DiffviewFileHistory %<cr>" },
-            { "<leader>gc", "<cmd>DiffviewFileHistory %<cr>", mode = "v"},
+			{ "<leader>gc", "<cmd>DiffviewFileHistory %<cr>" },
+			{ "<leader>gc", "<cmd>DiffviewFileHistory %<cr>", mode = "v" },
 			{ "<leader>gx", "<cmd>DiffviewClose<cr>" },
 		},
 		config = function()
@@ -98,7 +98,6 @@ return {
 			-- vim.keymap.set("n", "<leader>gta", ":Git add -p<CR>", { desc = "Git add patch" })
 			-- vim.keymap.set("n", "<leader>gtrs", ":Git reset -p<CR>", { desc = "Git reset patch" })
 
-
 			-- Auto commands for the fugitive buffer
 			-- vim.api.nvim_create_autocmd("FileType", {
 			-- 	pattern = "fugitive",
@@ -132,5 +131,5 @@ return {
 			-- 	end,
 			-- })
 		end,
-	}
+	},
 }

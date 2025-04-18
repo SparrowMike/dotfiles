@@ -1,16 +1,14 @@
 return {
 	{
 		"xero/miasma.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		config = function()
 			-- vim.cmd("colorscheme miasma")
 		end,
 	},
 	{
 		"savq/melange-nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		config = function()
 			-- vim.cmd("colorscheme melange")
 		end,
@@ -39,9 +37,8 @@ return {
 
 	{
 		"catppuccin/nvim",
-		lazy = false,
+		lazy = true,
 		name = "catppuccin",
-		priority = 1000,
 		-- config = function()
 		-- 	local config = require("catppuccin")
 		--
@@ -77,10 +74,8 @@ return {
 	},
 
 	{
-
 		"sainnhe/gruvbox-material",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		config = function()
 			-- Optionally configure and load the colorscheme
 			-- directly inside the plugin declaration.
@@ -124,8 +119,7 @@ return {
 
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		config = function()
 			require("tokyonight").setup({
 				style = "night", -- The theme comes in four styles: "night", "storm", "day", "moon"
@@ -147,6 +141,7 @@ return {
 	{
 		"rebelot/kanagawa.nvim",
 		lazy = false,
+		priority = 1000,
 		-- overrides = function(colors)
 		-- 	local theme = colors.theme
 		-- 	return {
