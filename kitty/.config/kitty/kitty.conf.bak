@@ -37,10 +37,10 @@ cursor_trail_decay 0.1 0.4
 
 font_family      family="JetBrains Mono"
 bold_font        auto
-italic_font      VictorMono Nerd Font Mono Medium Italic
-bold_italic_font VictorMono Nerd Font Mono Bold Italic
+italic_font      auto
+bold_italic_font auto
 
-font_size 15
+font_size 16.0 
 
 #: Font size (in pts)
 
@@ -805,7 +805,7 @@ window_margin_width 0
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
-window_padding_width 0 
+window_padding_width 0 0 0
 # single_window_padding_width -1
 #
 # placement_strategy center
@@ -1062,9 +1062,9 @@ tab_separator " ┇"
 
 #: The foreground and background colors.
 
-# background_opacity .90
+background_opacity .98
 # blur upto 64
-# background_blur 62
+background_blur 56
 
 # background_image none # must be png
 # background_image_layout tiled
@@ -2373,6 +2373,7 @@ macos_option_as_alt yes
 
 #: }}}
 
+
 # BEGIN_KITTY_THEME
 # Tokyo Night Moon
 # include tokyo-theme.conf
@@ -2380,11 +2381,11 @@ macos_option_as_alt yes
 # https://github.com/dexpota/kitty-themes?tab=readme-ov-file
 # include theme.conf
 
-include kitty-themes/themes/kanagawa.conf
 # include kitty-themes/themes/Duotone_Dark.conf
-# include kitty-themes/themes/IC_Orange_PPL.conf
+include kitty-themes/themes/IC_Orange_PPL.conf
 # include kitty-themes/themes/Medallion.conf
 # include kitty-themes/themes/MonaLisa.conf
 # include kitty-themes/themes/Gruvbox_Dark.conf
 
 # END_KITTY_THEME
+

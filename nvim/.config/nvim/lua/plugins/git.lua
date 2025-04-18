@@ -1,124 +1,73 @@
 return {
 	{
-		"tpope/vim-fugitive",
+		"lewis6991/gitsigns.nvim",
 		event = "VeryLazy",
 		config = function()
-			-- Basic operations with 'gt' prefix
-			vim.keymap.set("n", "<leader>gts", ":vert Git<CR>", { desc = "Git status" })
-			vim.keymap.set("n", "<leader>gtd", ":Gdiffsplit<CR>", { desc = "Git diff" }) -- Updated from deprecated Gvdiff
-			vim.keymap.set("n", "<leader>gtc", ":Git commit<CR>", { desc = "Git commit" })
-			vim.keymap.set("n", "<leader>gtb", ":Git_blame<CR>", { desc = "Git blame" }) -- Updated to new syntax
-			vim.keymap.set("n", "<leader>gtp", ":Git push<CR>", { desc = "Git push" })
-			vim.keymap.set("n", "<leader>gtl", ":Git pull<CR>", { desc = "Git pull" })
-			vim.keymap.set("n", "<leader>gtL", ":Git log<CR>", { desc = "Git log" })
-			vim.keymap.set("n", "<leader>gtw", ":Gwrite<CR>", { desc = "Git write (add) current file" })
-
-			-- Rebase operations
-			-- vim.keymap.set("n", "<leader>gtri", ":Git rebase -i<CR>", { desc = "Git interactive rebase" })
-			-- vim.keymap.set("n", "<leader>gtrc", ":Git rebase --continue<CR>", { desc = "Git rebase continue" })
-			-- vim.keymap.set("n", "<leader>gtra", ":Git rebase --abort<CR>", { desc = "Git rebase abort" })
-			--
-			-- -- Stash operations
-			-- vim.keymap.set("n", "<leader>gtst", ":Git stash<CR>", { desc = "Git stash" })
-			-- vim.keymap.set("n", "<leader>gtsp", ":Git stash pop<CR>", { desc = "Git stash pop" })
-
-			-- Branch operations
-			-- vim.keymap.set("n", "<leader>gtco", ":Git checkout<Space>", { desc = "Git checkout" })
-			-- vim.keymap.set("n", "<leader>gtcb", ":Git checkout -b<Space>", { desc = "Git checkout new branch" })
-
-			-- Staging operations
-			vim.keymap.set("n", "<leader>gta", ":Git add -p<CR>", { desc = "Git add patch" })
-			-- vim.keymap.set("n", "<leader>gtrs", ":Git reset -p<CR>", { desc = "Git reset patch" })
-
-			-- Browser integration (if you have rhubarb.vim installed)
-			-- vim.keymap.set("n", "<leader>gtB", ":GBrowse<CR>", { desc = "Open in browser" })
-			-- vim.keymap.set("v", "<leader>gtB", ":GBrowse<CR>", { desc = "Open selection in browser" })
-
-			-- Auto commands for the fugitive buffer
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "fugitive",
-				callback = function()
-					local opts = { buffer = true, noremap = true }
-					-- Stage/unstage
-					vim.keymap.set("n", "s", ":Git add %<CR>", vim.tbl_extend("force", opts, { desc = "Stage file" }))
-					vim.keymap.set(
-						"n",
-						"u",
-						":Git reset -q %<CR>",
-						vim.tbl_extend("force", opts, { desc = "Unstage file" })
-					)
-					vim.keymap.set(
-						"n",
-						"-",
-						"<CMD>silent Git toggle<CR>",
-						vim.tbl_extend("force", opts, { desc = "Stage/unstage file" })
-					)
-
-					-- File navigation
-					vim.keymap.set("n", "<CR>", "gO", vim.tbl_extend("force", opts, { desc = "Open file" }))
-					vim.keymap.set("n", "o", "<CR>", vim.tbl_extend("force", opts, { desc = "Open file in split" }))
-					vim.keymap.set(
-						"n",
-						"gO",
-						"<CMD>Git difftool<CR>",
-						vim.tbl_extend("force", opts, { desc = "Open diff tool" })
-					)
-
-					-- Diff and commit
-					vim.keymap.set("n", "dd", ":Gdiffsplit<CR>", vim.tbl_extend("force", opts, { desc = "Diff split" }))
-					vim.keymap.set("n", "cc", ":Git commit<CR>", vim.tbl_extend("force", opts, { desc = "Commit" }))
-					vim.keymap.set(
-						"n",
-						"ca",
-						":Git commit --amend<CR>",
-						vim.tbl_extend("force", opts, { desc = "Amend commit" })
-					)
-
-					-- Inline diff
-					vim.keymap.set(
-						"n",
-						"=",
-						"<CMD>silent Git toggle<CR>",
-						vim.tbl_extend("force", opts, { desc = "Toggle inline diff" })
-					)
-
-					-- Reset and help
-					vim.keymap.set(
-						"n",
-						"X",
-						"<CMD>Git clean -fd<CR>",
-						vim.tbl_extend("force", opts, { desc = "Clean untracked files" })
-					)
-					vim.keymap.set("n", "?", "gh?", vim.tbl_extend("force", opts, { desc = "Show keymaps" }))
-				end,
+			require("gitsigns").setup({
+				-- signs = {
+				-- 	add = { text = "┃" },
+				-- 	change = { text = "┃" },
+				-- 	delete = { text = "_" },
+				-- 	topdelete = { text = "‾" },
+				-- 	changedelete = { text = "~" },
+				-- 	untracked = { text = "┆" },
+				-- },
+				-- signs_staged = {
+				-- 	add = { text = "┃" },
+				-- 	change = { text = "┃" },
+				-- 	delete = { text = "_" },
+				-- 	topdelete = { text = "‾" },
+				-- 	changedelete = { text = "~" },
+				-- 	untracked = { text = "┆" },
+				-- },
+				signs_staged_enable = true,
+				signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+				numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+				linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+				word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+				watch_gitdir = {
+					follow_files = true,
+				},
+				auto_attach = true,
+				attach_to_untracked = false,
+				current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+				current_line_blame_opts = {
+					virt_text = true,
+					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+					delay = 1000,
+					ignore_whitespace = false,
+					virt_text_priority = 100,
+					use_focus = true,
+				},
+				current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
+				sign_priority = 6,
+				update_debounce = 100,
+				status_formatter = nil, -- Use default
+				max_file_length = 40000, -- Disable if file is longer than this (in lines)
+				preview_config = {
+					-- Options passed to nvim_open_win
+					border = "single",
+					style = "minimal",
+					relative = "cursor",
+					row = 0,
+					col = 1,
+				},
 			})
-
-			-- Optional: Add statusline integration
-			-- vim.opt.statusline = vim.opt.statusline + '%{FugitiveStatusline()}'
 		end,
 	},
 	{
-		"kdheepak/lazygit.nvim",
-		lazy = true,
+		"sindrets/diffview.nvim",
+		event = "VeryLazy",
 		keys = {
-			{ "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-		},
-		cmd = {
-			"LazyGit",
-			"LazyGitConfig",
-			"LazyGitCurrentFile",
-			"LazyGitFilter",
-			"LazyGitFilterCurrentFile",
-		},
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
+			{ "<leader>gv", "<cmd>DiffviewOpen<cr>" },
+			{ "<leader>gh", "<cmd>DiffviewFileHistory<cr>" },
+			{ "<leader>gc", "<cmd>DiffviewFileHistory %<cr>" },
+			{ "<leader>gc", "<cmd>DiffviewFileHistory %<cr>", mode = "v" },
+			{ "<leader>gx", "<cmd>DiffviewClose<cr>" },
 		},
 		config = function()
-			require("telescope").load_extension("lazygit")
-
-			vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>")
-			-- vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>:q<CR>]], { noremap = true, silent = true })
+			local set = vim.opt -- set options
+			set.fillchars = set.fillchars + "diff:╱"
 		end,
 	},
 	{
@@ -132,18 +81,55 @@ return {
 		end,
 	},
 	{
-		"lewis6991/gitsigns.nvim",
+		"tpope/vim-fugitive",
 		event = "VeryLazy",
 		config = function()
-			require("gitsigns").setup({
-				current_line_blame = true,
-			})
+			-- Basic operations with 'gt' prefix
+			-- vim.keymap.set("n", "<leader>gts", ":vert Git<CR>", { desc = "Git status" })
+			vim.keymap.set("n", "<leader>gtd", ":Gdiffsplit<CR>", { desc = "Git diff" }) -- Updated from deprecated Gvdiff
+			-- vim.keymap.set("n", "<leader>gtc", ":Git commit<CR>", { desc = "Git commit" })
+			-- vim.keymap.set("n", "<leader>gtb", ":Git_blame<CR>", { desc = "Git blame" }) -- Updated to new syntax
+			-- vim.keymap.set("n", "<leader>gtp", ":Git push<CR>", { desc = "Git push" })
+			-- vim.keymap.set("n", "<leader>gtl", ":Git pull<CR>", { desc = "Git pull" })
+			-- vim.keymap.set("n", "<leader>gtL", ":Git log<CR>", { desc = "Git log" })
+			-- vim.keymap.set("n", "<leader>gtw", ":Gwrite<CR>", { desc = "Git write (add) current file" })
 
-			-- vim.keymap.set("n", "<leader>gtp", ":Gitsigns preview_hunk<CR>")
-			-- vim.keymap.set("n", "<leader>gta", ":Gitsigns stage_hunk<CR>")
-			-- vim.keymap.set("n", "<leader>gtu", ":Gitsigns undo_stage_hunk<CR>")
-			-- vim.keymap.set("n", "<leader>gtr", ":Gitsigns reset_hunk<CR>")
-			-- vim.keymap.set("n", "<leader>gtb", ":Gitsigns blame_line<CR>")
+			-- Staging operations
+			-- vim.keymap.set("n", "<leader>gta", ":Git add -p<CR>", { desc = "Git add patch" })
+			-- vim.keymap.set("n", "<leader>gtrs", ":Git reset -p<CR>", { desc = "Git reset patch" })
+
+			-- Auto commands for the fugitive buffer
+			-- vim.api.nvim_create_autocmd("FileType", {
+			-- 	pattern = "fugitive",
+			-- 	callback = function()
+			-- 		local opts = { buffer = true, noremap = true }
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"-",
+			-- 			"<CMD>silent Git toggle<CR>",
+			-- 			vim.tbl_extend("force", opts, { desc = "Stage/unstage file" })
+			-- 		)
+			--
+			-- 		-- File navigation
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"gO",
+			-- 			"<CMD>Git difftool<CR>",
+			-- 			vim.tbl_extend("force", opts, { desc = "Open diff tool" })
+			-- 		)
+			--
+			-- 		-- Diff and commit
+			-- 		vim.keymap.set("n", "dd", ":Gdiffsplit<CR>", vim.tbl_extend("force", opts, { desc = "Diff split" }))
+			--
+			-- 		-- Inline diff
+			-- 		vim.keymap.set(
+			-- 			"n",
+			-- 			"=",
+			-- 			"<CMD>silent Git toggle<CR>",
+			-- 			vim.tbl_extend("force", opts, { desc = "Toggle inline diff" })
+			-- 		)
+			-- 	end,
+			-- })
 		end,
 	},
 }

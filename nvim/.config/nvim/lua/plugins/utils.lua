@@ -1,15 +1,16 @@
+local js_like = {
+	left = 'console.info("',
+	right = '")',
+	mid_var = '", ',
+	right_var = ")",
+}
 return {
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {},
-	},
 	{
 		"mg979/vim-visual-multi",
 		event = "VeryLazy",
 		init = function()
 			-- vim.g.VM_theme = "purplegray"
-			-- vim.g.VM_mouse_mappings = 1
+			vim.g.VM_mouse_mappings = 1
 			vim.schedule(function()
 				vim.g.VM_maps = {
 					["I BS"] = "",
@@ -24,8 +25,21 @@ return {
 		event = "BufReadPost",
 		config = function()
 			require("auto-save").setup({
-				-- your config goes here
-				-- or just leave it empty :)
+
+				-- INFO: condition required for the harpoon2 to work
+				condition = function(buf)
+					local fn = vim.fn
+					local utils = require("auto-save.utils.data")
+
+					if
+						fn.getbufvar(buf, "&modifiable") == 1
+						-- change here is adding harpoon file type to exclusion list
+						and utils.not_in(fn.getbufvar(buf, "&filetype"), { "harpoon" })
+					then
+						return true
+					end
+					return false
+				end,
 			})
 		end,
 	},
@@ -98,37 +112,14 @@ return {
 		cmd = { "Typr", "TyprStats" },
 	},
 	{
-		"karb94/neoscroll.nvim",
+		"andrewferrier/debugprint.nvim",
 		opts = {
-			duration_multiplier = 3.0,
+			filetypes = {
+				["javascript"] = js_like,
+				["javascriptreact"] = js_like,
+				["typescript"] = js_like,
+				["typescriptreact"] = js_like,
+			},
 		},
-		config = function()
-			local neoscroll = require("neoscroll")
-
-			neoscroll.setup({ mappings = { "<C-u>", "<C-d>" } })
-
-			local keymap = {
-				-- Use the "sine" easing function
-				["<C-u>"] = function()
-					neoscroll.ctrl_u({ duration = 100, easing = "sine" })
-				end,
-				["<C-d>"] = function()
-					neoscroll.ctrl_d({ duration = 100, easing = "sine" })
-				end,
-			}
-			local modes = { "n", "v", "x" }
-			for key, func in pairs(keymap) do
-				vim.keymap.set(modes, key, func)
-			end
-		end,
 	},
-	-- amongst your other plugins
-	-- { "akinsho/toggleterm.nvim", version = "*", config = true },
-	-- { "akinsho/toggleterm.nvim", version = "*", config = function() require("toggleterm").setup{} end },
-	-- {
-	-- 	"akinsho/toggleterm.nvim",
-	-- 	version = "*",
-	-- 	opts = {},
-	-- },
-	{ "akinsho/toggleterm.nvim", version = "*", config = true },
 }

@@ -22,6 +22,9 @@ return {
 					"tsx",
 					"html",
 					"css",
+					"norg",
+					"markdown",
+					"markdown_inline",
 				},
 				auto_install = false,
 				sync_install = false,
@@ -49,7 +52,7 @@ return {
 	-- Treesitter playground plugin
 	{
 		"nvim-treesitter/playground",
-		cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" }, -- Lazy-load on commands
+		-- cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" }, -- Lazy-load on commands
 		dependencies = {
 			"windwp/nvim-ts-autotag",
 		},

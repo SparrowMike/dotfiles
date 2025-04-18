@@ -48,10 +48,12 @@ return {
 				-- Hint = "⚡",
 				Info = "ℹ",
 			}
+
 			for type, icon in pairs(signs) do
 				local hl = "DiagnosticSign" .. type
 				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 			end
+
 			vim.diagnostic.config({
 				virtual_text = true,
 				signs = true,
@@ -65,14 +67,7 @@ return {
 					prefix = "",
 				},
 			})
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = "rounded",
-				max_width = 100,
-				max_height = 40,
-				title = "Hover",
-				focusable = true,
-				-- close_events = { "BufHidden", "InsertEnter" },
-			})
+
 			-- Filter function for handling multiple definitions
 			local function filter_react_dts(items)
 				return vim.tbl_filter(function(item)
@@ -88,9 +83,11 @@ return {
 					vim.api.nvim_command("copen")
 				end
 			end
+
 			-- Enhanced LSP configuration
 			lsp_zero.on_attach(function(client, bufnr)
 				local opts = { buffer = bufnr, remap = false }
+
 				-- Add document highlight if supported
 				if client.server_capabilities.documentHighlightProvider then
 					local group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = true })
@@ -109,8 +106,8 @@ return {
 				vim.keymap.set("n", "gd", function()
 					vim.lsp.buf.definition({ on_list = custom_on_list })
 				end, opts)
-				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 				vim.keymap.set("n", "td", vim.lsp.buf.type_definition, opts)
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
@@ -145,6 +142,7 @@ return {
 					print(vim.inspect(result))
 				end)
 			end)
+
 			-- LSP server configurations
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -159,12 +157,14 @@ return {
 					-- "eslint",
 					"emmet_ls",
 				},
+
+                -- automatic_installation = true,
+
 				handlers = {
 					lsp_zero.default_setup,
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
 					end,
-					-- automatic_installation = true,
 					ts_ls = function()
 						local inlayHints = {
 							includeInlayParameterNameHints = "all",

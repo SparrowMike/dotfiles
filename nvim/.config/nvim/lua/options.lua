@@ -1,5 +1,6 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -31,6 +32,9 @@ vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
 
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
 vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
 
 vim.opt.scrolloff = 8
@@ -40,7 +44,6 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "100"
--- vim.opt.signcolumn = "yes"
 
 vim.opt.foldmethod = "expr"                     -- default is "normal"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
@@ -49,6 +52,7 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
 vim.g.indent_blankline_show_current_context = true
@@ -60,7 +64,3 @@ vim.g.indent_blankline_context_patterns = {
   "statement",
   "switch_body",
 }
-
-vim.opt.termguicolors = true
-
--- vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
