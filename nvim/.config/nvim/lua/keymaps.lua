@@ -42,9 +42,23 @@ vim.keymap.set("n", "<leader>cp", function()
 	vim.notify("Copied: " .. path)
 end, { desc = "Copy relative file path to clipboard" })
 
+vim.keymap.set("n", "yyc", function()
+  local line = vim.api.nvim_get_current_line()
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+
+  -- Duplicate line below
+  vim.api.nvim_buf_set_lines(0, row, row, false, { line })
+
+  -- Comment out original line
+  vim.api.nvim_buf_set_lines(0, row - 1, row, false, { "// " .. line })
+
+  -- Move cursor to the new (uncommented) line below
+  vim.api.nvim_win_set_cursor(0, { row + 1, 0 })
+end, { desc = "Copy line down and comment out original" })
+
 -- Quit commands
-vim.keymap.set("n", "Q", ":qa<CR>", { desc = "Quit all windows" })
-vim.keymap.set("n", "qq", ":qa<CR>", { desc = "Quit all windows" })
+vim.keymap.set("n", "Q", ":qa!<CR>", { desc = "Quit all windows" })
+vim.keymap.set("n", "qq", ":qa!<CR>", { desc = "Quit all windows" })
 vim.keymap.set("n", "qw", ":q<CR>", { desc = "Quit current window" })
 
 -- Window resizing

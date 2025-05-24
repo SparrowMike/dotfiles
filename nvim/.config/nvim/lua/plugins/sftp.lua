@@ -1,5 +1,7 @@
 # Create and setup Python environment for Neovim
 -- python3 -m venv ~/.nvim-venv
+-- ~/.nvim-venv/bin/pip install pysftp paramiko pynvim
+--
 -- source ~/.nvim-venv/bin/activate
 -- pip install pynvim
 -- deactivate

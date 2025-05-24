@@ -158,7 +158,7 @@ return {
 					"emmet_ls",
 				},
 
-                -- automatic_installation = true,
+				-- automatic_installation = true,
 
 				handlers = {
 					lsp_zero.default_setup,

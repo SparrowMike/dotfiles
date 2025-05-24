@@ -6,15 +6,27 @@ return {
     opts = {
         bigfile = { enabled = true },
         -- profiler = { enabled = true, },
+
         dashboard = {
             sections = {
                 { section = "header" },
-                { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
-                { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-                { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+                { icon = " ",        title = "Keymaps", section = "keys", indent = 2, padding = 1 },
+
+                {
+                    icon = " ",
+                    title = "Project Files",
+                    section = "recent_files",
+                    indent = 2,
+                    padding = 1,
+                    cwd = true,
+                    limit = 5,
+                },
+
+                { icon = " ",         title = "Projects", section = "projects", indent = 2, padding = 1 },
                 { section = "startup" },
             },
         },
+
         explorer = { enabled = true },
         git = { enabled = true },
         gitbrowse = {
@@ -52,11 +64,16 @@ return {
         picker = {
             sources = {
                 files = {
-                    hidden = true,
+                    hidden = true,           -- dotfiles like .env, .gitignore, .config/
+                    ignored = false,         -- git-ignored files like node_modules, dist/, build/
+                    exclude = {
+                        "src/styles/svgs/**",
+                        -- "*.svg",
+                    }
                 },
                 explorer = {
                     hidden = true,
-                    auto_close = true,
+                    auto_close = false,
                     win = {
                         list = {
                             wo = {
@@ -92,30 +109,42 @@ return {
                     dev = { "~/projects", "~/Documents", "~/Documents/keyboard/" },
 
                     confirm = function(picker, project_data)
-                        local path = project_data._path or project_data.file
+                        -- local path = project_data._path or project_data.file
+                        --
+                        -- if not path then
+                        --     print("Error: No valid path found in project data")
+                        --     return
+                        -- end
+                        --
+                        -- vim.cmd('cd ' .. path)
+                        --
+                        -- local session = require("auto-session")
+                        -- if session.session_exists_for_cwd() then
+                        --     session.auto_restore_session_at_vim_enter()
+                        --     do return picker:close() end
+                        -- end
+                        --
+                        -- local harpoon_ui = require("harpoon.ui")
+                        -- if harpoon_ui and harpoon_ui.nav_file(1) then
+                        --     harpoon_ui.nav_file(1)
+                        --     print("Harpoon triggered")
+                        -- else
+                        --     vim.cmd('enew')
+                        -- end
 
+                        local path = project_data._path or project_data.file
                         if not path then
                             print("Error: No valid path found in project data")
                             return
                         end
-
                         vim.cmd('cd ' .. path)
-
-                        local auto_session = require("auto-session")
-                        local harpoon_ui = require("harpoon.ui")
-
-                        if auto_session.session_exists_for_cwd() then
-                            auto_session.auto_restore_session_at_vim_enter()
-                            do return picker:close() end
-                        end
-
-                        if harpoon_ui and harpoon_ui.nav_file(1) then
-                            harpoon_ui.nav_file(1)
+                        local ok, harpoon_ui = pcall(require, "harpoon.ui")
+                        if ok and harpoon_ui and harpoon_ui.nav_file then
+                            pcall(harpoon_ui.nav_file, 1)
                             print("Harpoon triggered")
                         else
-                            vim.cmd('enew')
+                            Snacks.dashboard.open()
                         end
-
                         picker:close()
                     end,
 
@@ -223,8 +252,8 @@ return {
         { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
         { "<c-.>",           function() Snacks.terminal.open() end,                                  desc = "Toggle Terminal" },
         { "<c-_>",           function() Snacks.terminal() end,                                       desc = "which_key_ignore" },
-        { "]]",              function() Snacks.words.jump(vim.v.count1) end,                         desc = "Next Reference",           mode = { "n", "t" } },
-        { "[[",              function() Snacks.words.jump(-vim.v.count1) end,                        desc = "Prev Reference",           mode = { "n", "t" } },
+        -- { "]]",              function() Snacks.words.jump(vim.v.count1) end,                         desc = "Next Reference",           mode = { "n", "t" } },
+        -- { "[[",              function() Snacks.words.jump(-vim.v.count1) end,                        desc = "Prev Reference",           mode = { "n", "t" } },
         {
             "<leader>N",
             desc = "Neovim News",
