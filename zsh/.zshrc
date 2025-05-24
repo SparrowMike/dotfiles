@@ -165,6 +165,24 @@ alias kv='clear && nvim'
 # =============================================================================
 # FUNCTIONS
 # =============================================================================
+git_cleanup() {
+    echo "🧹 Running Git maintenance tasks..."
+    
+    echo "⏰ Running hourly maintenance..."
+    git maintenance run --schedule=hourly
+    
+    echo "📅 Running daily maintenance..."
+    git maintenance run --schedule=daily
+    
+    echo "🗓️  Running weekly maintenance..."
+    git maintenance run --schedule=weekly
+    
+    echo "🗑️  Running garbage collection..."
+    git maintenance run --task=gc
+    
+    echo "✅ Git maintenance complete!"
+}
+
 # Java version switching
 javahome() {
     unset JAVA_HOME 

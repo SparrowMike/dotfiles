@@ -4,16 +4,6 @@
 <dict>
 	<key>AllowClipboardAccess</key>
 	<true/>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
 	<key>Command</key>
 	<string>Ctrl+Option+L</string>
 	<key>Custom Color Presets</key>
@@ -88996,7 +88986,7 @@
 	<key>HideMenuBarInFullscreen</key>
 	<true/>
 	<key>HideScrollbar</key>
-	<false/>
+	<true/>
 	<key>HideTab</key>
 	<true/>
 	<key>HideTabNumber</key>
@@ -89009,7 +88999,7 @@
 			<key>ASCII Anti Aliased</key>
 			<true/>
 			<key>ASCII Ligatures</key>
-			<false/>
+			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -89519,7 +89509,7 @@
 			<key>Blur</key>
 			<true/>
 			<key>Blur Radius</key>
-			<real>23.577443484042558</real>
+			<real>25.149982546542553</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -89667,7 +89657,7 @@
 			<key>Description</key>
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
-			<true/>
+			<false/>
 			<key>Draw Powerline Glyphs</key>
 			<true/>
 			<key>Faint Text Alpha (Dark)</key>
@@ -90241,7 +90231,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>MesloLGS-NF-Regular 15</string>
+			<string>FiraCodeNF-Reg 15</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<true/>
 			<key>Option Key Sends</key>
@@ -90329,7 +90319,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.16466090425531915</real>
+			<real>0.091139698898176288</real>
 			<key>Unicode Version</key>
 			<integer>9</integer>
 			<key>Unlimited Scrollback</key>
@@ -90426,7 +90416,9 @@
 	<key>SoundForEsc</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.19957050212378638</real>
+	<real>0.18769702743902439</real>
+	<key>StatusBarPosition</key>
+	<integer>0</integer>
 	<key>StretchTabsToFillBar</key>
 	<true/>
 	<key>TabStyleWithAutomaticOption</key>
@@ -90440,7 +90432,7 @@
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>WindowNumber</key>
-	<false/>
+	<true/>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewPreferredModeKey</key>
