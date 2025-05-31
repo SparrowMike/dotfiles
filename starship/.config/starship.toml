@@ -1,0 +1,83 @@
+# Minimal Starship Configuration
+# Place this file at ~/.config/starship.toml (Linux/macOS) or %USERPROFILE%\.config\starship.toml (Windows)
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+# Increase command timeout to prevent Git timeouts
+command_timeout = 2000
+
+# Clean, minimal format - only show what's essential
+format = """
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$python\
+$aws\
+$gcloud\
+$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[directory]
+style = "bold blue"
+truncation_length = 2
+truncate_to_repo = true
+repo_root_style = "bold cyan"
+
+[git_branch]
+symbol = ""
+style = "purple"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "red"
+format = "[$all_status$ahead_behind]($style)"
+
+[nodejs]
+symbol = ""
+style = "green"
+format = "[$symbol$version]($style) "
+
+[python]
+symbol = ""
+style = "yellow" 
+format = "[$symbol$version]($style) "
+
+[aws]
+symbol = "☁️"
+style = "bold orange"
+format = "[$symbol]($style) "
+
+[gcloud]
+symbol = "☁️"
+style = "bold blue"
+format = "[$symbol]($style) "
+
+# Disable modules we don't need for a cleaner look
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[time]
+disabled = true
+
+[battery]
+disabled = true
+
+[rust]
+disabled = true
+
+[golang]
+disabled = true
+
+[java]
+disabled = true
+
+[docker_context]
+disabled = true

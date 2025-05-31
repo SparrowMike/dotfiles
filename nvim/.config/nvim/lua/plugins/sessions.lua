@@ -7,7 +7,7 @@ return {
 
 		-- Simple configuration
 		local config = {
-			auto_load_session = true,
+			auto_load_session = false,
 		}
 
 		persistence.setup({
