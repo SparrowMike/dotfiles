@@ -8,6 +8,18 @@ return {
         -- profiler = { enabled = true, },
 
         dashboard = {
+            preset = {
+                header = [[
+                                                                   
+      ████ ██████           █████      ██                    
+     ███████████             █████                            
+     █████████ ███████████████████ ███   ███████████  
+    █████████  ███    █████████████ █████ ██████████████  
+   █████████ ██████████ █████████ █████ █████ ████ █████  
+ ███████████ ███    ███ █████████ █████ █████ ████ █████ 
+██████  █████████████████████ ████ █████ █████ ████ ██████
+]],
+            },
             sections = {
                 { section = "header" },
                 { icon = " ",        title = "Keymaps", section = "keys", indent = 2, padding = 1 },
@@ -64,8 +76,8 @@ return {
         picker = {
             sources = {
                 files = {
-                    hidden = true,           -- dotfiles like .env, .gitignore, .config/
-                    ignored = false,         -- git-ignored files like node_modules, dist/, build/
+                    hidden = true,   -- dotfiles like .env, .gitignore, .config/
+                    ignored = false, -- git-ignored files like node_modules, dist/, build/
                     exclude = {
                         "src/styles/svgs/**",
                         -- "*.svg",
@@ -109,35 +121,20 @@ return {
                     dev = { "~/projects", "~/Documents", "~/Documents/keyboard/" },
 
                     confirm = function(picker, project_data)
-                        -- local path = project_data._path or project_data.file
-                        --
-                        -- if not path then
-                        --     print("Error: No valid path found in project data")
-                        --     return
-                        -- end
-                        --
-                        -- vim.cmd('cd ' .. path)
-                        --
-                        -- local session = require("auto-session")
-                        -- if session.session_exists_for_cwd() then
-                        --     session.auto_restore_session_at_vim_enter()
-                        --     do return picker:close() end
-                        -- end
-                        --
-                        -- local harpoon_ui = require("harpoon.ui")
-                        -- if harpoon_ui and harpoon_ui.nav_file(1) then
-                        --     harpoon_ui.nav_file(1)
-                        --     print("Harpoon triggered")
-                        -- else
-                        --     vim.cmd('enew')
-                        -- end
-
                         local path = project_data._path or project_data.file
                         if not path then
                             print("Error: No valid path found in project data")
                             return
                         end
+
                         vim.cmd('cd ' .. path)
+
+                        -- local session = require("auto-session")
+                        -- if session.session_exists_for_cwd() then
+                        --     session.auto_restore_session_at_vim_enter()
+                        --     do return picker:close() end
+                        -- end
+
                         local ok, harpoon_ui = pcall(require, "harpoon.ui")
                         if ok and harpoon_ui and harpoon_ui.nav_file then
                             pcall(harpoon_ui.nav_file, 1)
