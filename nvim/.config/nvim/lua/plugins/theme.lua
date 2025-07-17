@@ -75,7 +75,7 @@ return {
 
 	{
 		"sainnhe/gruvbox-material",
-		lazy = true,
+		lazy = false,
 		config = function()
 			-- Optionally configure and load the colorscheme
 			-- directly inside the plugin declaration.
@@ -119,7 +119,7 @@ return {
 
 	{
 		"folke/tokyonight.nvim",
-		lazy = true,
+		lazy = false,
 		config = function()
 			require("tokyonight").setup({
 				style = "night", -- The theme comes in four styles: "night", "storm", "day", "moon"

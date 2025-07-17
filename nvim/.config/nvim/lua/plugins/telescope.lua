@@ -52,24 +52,25 @@ return {
 			telescope.load_extension("ui-select")
 
 			-- Keybindings
-			vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
+			-- vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
+            -- Grep string in normal mode
+            -- vim.keymap.set("n", "<C-f>", builtin.grep_string, { desc = "Grep string" })
+
+            -- Grep string in visual mode
+            -- vim.keymap.set("v", "<C-f>", function()
+            -- 	local search_term = vim.fn.getreg('"')
+            -- 	if search_term == "" then
+            -- 		print("No text selected for grep.")
+            -- 		return
+            -- 	end
+            -- 	builtin.grep_string({ search = search_term })
+            -- end, { desc = "Grep selected text" })
+
 			vim.keymap.set("n", "<leader>pg", builtin.git_files, { desc = "Git files" })
 
 			-- Show buffers
 			vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "Show buffers" })
 
-			-- Grep string in normal mode
-			vim.keymap.set("n", "<C-f>", builtin.grep_string, { desc = "Grep string" })
-
-			-- Grep string in visual mode
-			vim.keymap.set("v", "<C-f>", function()
-				local search_term = vim.fn.getreg('"')
-				if search_term == "" then
-					print("No text selected for grep.")
-					return
-				end
-				builtin.grep_string({ search = search_term })
-			end, { desc = "Grep selected text" })
 
 			-- Grep input
 			vim.keymap.set("n", "<leader>gf", function()

@@ -4,12 +4,10 @@ return {
 	priority = 100,
 	config = function()
 		local persistence = require("persistence")
-
 		-- Simple configuration
 		local config = {
-			auto_load_session = false,
+			auto_load_session = true,
 		}
-
 		persistence.setup({
 			dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"),
 			options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals" },
@@ -20,12 +18,10 @@ return {
 		local function should_auto_load()
 			local cwd = vim.fn.getcwd()
 			local home = vim.fn.expand("~")
-
 			-- Don't auto-load in home or root directories
 			if cwd == home or cwd == "/" then
 				return false
 			end
-
 			return vim.fn.argc() == 0 and config.auto_load_session
 		end
 
@@ -47,13 +43,11 @@ return {
 				end
 			end
 		end
-
 		-- Basic keymaps
 		vim.keymap.set("n", "<C-s>", function()
 			persistence.save()
 			vim.notify("Session saved")
 		end, { desc = "Save session", silent = true })
-
 		vim.keymap.set("n", "<leader>pr", persistence.load, { desc = "Restore session" })
 		vim.keymap.set("n", "<leader>pl", function()
 			persistence.load({ last = true })
@@ -62,7 +56,6 @@ return {
 			persistence.stop()
 			vim.notify("Session deleted")
 		end, { desc = "Delete current session" })
-
 		-- Toggle auto-load
 		vim.keymap.set("n", "<leader>pt", function()
 			config.auto_load_session = not config.auto_load_session

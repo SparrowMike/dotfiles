@@ -13,6 +13,7 @@ return {
 		"williamboman/mason.nvim",
 		lazy = false,
 		config = true,
+		dependencies = { "jay-babu/mason-null-ls.nvim" },
 	},
 	{
 		"luckasRanarison/tailwind-tools.nvim",
@@ -105,15 +106,55 @@ return {
 				-- Keymappings
 				vim.keymap.set("n", "gd", function()
 					vim.lsp.buf.definition({ on_list = custom_on_list })
-				end, opts)
-				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-				vim.keymap.set("n", "td", vim.lsp.buf.type_definition, opts)
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-				vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
-				vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
-				vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-				vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+				end, { buffer = bufnr, remap = false, desc = "Go to definition" })
+				vim.keymap.set(
+					"n",
+					"gD",
+					vim.lsp.buf.declaration,
+					{ buffer = bufnr, remap = false, desc = "Go to declaration" }
+				)
+				vim.keymap.set(
+					"n",
+					"gi",
+					vim.lsp.buf.implementation,
+					{ buffer = bufnr, remap = false, desc = "Go to implementation" }
+				)
+				vim.keymap.set(
+					"n",
+					"td",
+					vim.lsp.buf.type_definition,
+					{ buffer = bufnr, remap = false, desc = "Go to type definition" }
+				)
+				vim.keymap.set(
+					"n",
+					"K",
+					vim.lsp.buf.hover,
+					{ buffer = bufnr, remap = false, desc = "Show hover information" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>vws",
+					vim.lsp.buf.workspace_symbol,
+					{ buffer = bufnr, remap = false, desc = "Workspace symbols" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>vd",
+					vim.diagnostic.open_float,
+					{ buffer = bufnr, remap = false, desc = "Open diagnostic float" }
+				)
+				vim.keymap.set(
+					"n",
+					"[d",
+					vim.diagnostic.goto_prev,
+					{ buffer = bufnr, remap = false, desc = "Go to previous diagnostic" }
+				)
+				vim.keymap.set(
+					"n",
+					"]d",
+					vim.diagnostic.goto_next,
+					{ buffer = bufnr, remap = false, desc = "Go to next diagnostic" }
+				)
 				-- Toggle inline diagnostics
 				vim.keymap.set("n", "<leader>td", function()
 					local current = vim.diagnostic.config().virtual_text
@@ -123,10 +164,30 @@ return {
 						signs = true,
 					})
 				end, { desc = "Toggle inline diagnostics", buffer = bufnr })
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-				vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
-				vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
-				vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+				vim.keymap.set(
+					"n",
+					"<leader>ca",
+					vim.lsp.buf.code_action,
+					{ buffer = bufnr, remap = false, desc = "Code actions" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>vrr",
+					vim.lsp.buf.references,
+					{ buffer = bufnr, remap = false, desc = "Show references" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>vrn",
+					vim.lsp.buf.rename,
+					{ buffer = bufnr, remap = false, desc = "Rename symbol" }
+				)
+				vim.keymap.set(
+					"i",
+					"<C-h>",
+					vim.lsp.buf.signature_help,
+					{ buffer = bufnr, remap = false, desc = "Signature help" }
+				)
 				vim.keymap.set("n", "<leader>wr", function()
 					local folders = vim.lsp.buf.list_workspace_folders()
 					-- Convert to set to remove duplicates
@@ -140,7 +201,7 @@ return {
 						table.insert(result, folder)
 					end
 					print(vim.inspect(result))
-				end)
+				end, { buffer = bufnr, remap = false, desc = "List workspace folders" })
 			end)
 
 			-- LSP server configurations
@@ -151,7 +212,8 @@ return {
 					"rust_analyzer",
 					"cssls",
 					"html",
-					"tailwindcss",
+					-- "rustywind",
+					-- "tailwindcss",
 					"bashls",
 					"jsonls",
 					-- "eslint",
