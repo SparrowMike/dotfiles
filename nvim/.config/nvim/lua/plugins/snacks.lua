@@ -71,7 +71,9 @@ return {
         notifier = {
             enabled = true,
             timeout = 3000,
+            style = "fancy", -- or "fancy"
             top_down = false,
+            margin = { top = 0, right = 0, bottom = 0 },
         },
         picker = {
             sources = {
@@ -97,23 +99,8 @@ return {
                     },
                     layout = {
                         auto_hide = { "input" },
-                        -- preview = true,
                         layout = {
                             position = "right",
-                            -- box = 'horizontal',
-                            -- position = 'float',
-                            -- height = 0.7,
-                            -- width = 0.7,
-                            -- border = 'rounded',
-                            -- {
-                            --     box = 'vertical',
-                            --     width = 40,
-                            --     min_width = 40,
-                            --     { win = 'input', height = 1, title = '{title} {live} {flags}', border = 'single' },
-                            --     { win = 'list' },
-                            -- },
-                            -- { win = 'preview', width = 0, border = 'left' },
-                            -- { win = 'preview', width = 0, border = 'left', position = 'float' },
                         },
                     },
                 },
@@ -129,12 +116,6 @@ return {
 
                         vim.cmd('cd ' .. path)
 
-                        -- local session = require("auto-session")
-                        -- if session.session_exists_for_cwd() then
-                        --     session.auto_restore_session_at_vim_enter()
-                        --     do return picker:close() end
-                        -- end
-
                         local ok, harpoon_ui = pcall(require, "harpoon.ui")
                         if ok and harpoon_ui and harpoon_ui.nav_file then
                             pcall(harpoon_ui.nav_file, 1)
@@ -146,7 +127,7 @@ return {
                     end,
 
                     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", "Makefile", "webpack.config.js" },
-                }
+                },
             },
             formatters = {
                 file = {
@@ -168,7 +149,7 @@ return {
             notification = {
                 -- wo = { wrap = true } -- Wrap notifications
             }
-        }
+        },
     },
     keys = {
         -- Top Pickers & Explorer

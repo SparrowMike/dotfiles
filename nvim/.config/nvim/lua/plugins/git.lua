@@ -1,73 +1,164 @@
 return {
 	{
 		"lewis6991/gitsigns.nvim",
-		-- event = "VeryLazy",
-		config = function()
-			require("gitsigns").setup({
-				-- signs = {
-				-- 	add = { text = "┃" },
-				-- 	change = { text = "┃" },
-				-- 	delete = { text = "_" },
-				-- 	topdelete = { text = "‾" },
-				-- 	changedelete = { text = "~" },
-				-- 	untracked = { text = "┆" },
-				-- },
-				-- signs_staged = {
-				-- 	add = { text = "┃" },
-				-- 	change = { text = "┃" },
-				-- 	delete = { text = "_" },
-				-- 	topdelete = { text = "‾" },
-				-- 	changedelete = { text = "~" },
-				-- 	untracked = { text = "┆" },
-				-- },
-				signs_staged_enable = true,
-				signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-				numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
-				linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
-				word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-				watch_gitdir = {
-					follow_files = true,
-				},
-				auto_attach = true,
-				attach_to_untracked = false,
-				current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
-				current_line_blame_opts = {
-					virt_text = true,
-					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-					delay = 1000,
-					ignore_whitespace = false,
-					virt_text_priority = 100,
-					use_focus = true,
-				},
-				current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
-				sign_priority = 6,
-				update_debounce = 100,
-				status_formatter = nil, -- Use default
-				max_file_length = 40000, -- Disable if file is longer than this (in lines)
-				preview_config = {
-					-- Options passed to nvim_open_win
-					border = "single",
-					style = "minimal",
-					relative = "cursor",
-					row = 0,
-					col = 1,
-				},
-			})
-		end,
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			signs = {
+				add = { text = "▎" },
+				change = { text = "▎" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "▎" },
+				untracked = { text = "▎" },
+			},
+			signs_staged = {
+				add = { text = "▎" },
+				change = { text = "▎" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "▎" },
+				untracked = { text = "▎" },
+			},
+			signs_staged_enable = true,
+			signcolumn = true,
+			word_diff = false,
+
+			-- Git directory watching
+			watch_gitdir = {
+				follow_files = true,
+			},
+			auto_attach = true,
+			attach_to_untracked = false,
+
+			-- Current line blame
+			current_line_blame = true,
+			current_line_blame_opts = {
+				virt_text = true,
+				virt_text_pos = "eol",
+				delay = 500,
+				ignore_whitespace = false,
+				virt_text_priority = 100,
+				use_focus = true,
+			},
+			current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+
+			-- Performance
+			update_debounce = 100,
+			max_file_length = 40000,
+
+			-- Preview window
+			preview_config = {
+				border = "rounded",
+				style = "minimal",
+				relative = "cursor",
+				row = 0,
+				col = 1,
+			},
+		},
 	},
 	{
 		"sindrets/diffview.nvim",
 		event = "VeryLazy",
 		keys = {
-			{ "<leader>gv", "<cmd>DiffviewOpen<cr>" },
-			{ "<leader>gh", "<cmd>DiffviewFileHistory<cr>" },
-			{ "<leader>gc", "<cmd>DiffviewFileHistory %<cr>" },
-			{ "<leader>gc", "<cmd>DiffviewFileHistory %<cr>", mode = "v" },
-			{ "<leader>gx", "<cmd>DiffviewClose<cr>" },
+			{
+				"<leader>gv",
+				function()
+					local lib = require("diffview.lib")
+					if lib.get_current_view() then
+						vim.cmd("DiffviewClose")
+					else
+						vim.cmd("DiffviewOpen")
+					end
+				end,
+				desc = "Toggle Diffview",
+			},
+			{ "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History (current)" },
+			{ "<leader>gh", "<cmd>'<,'>DiffviewFileHistory<cr>", mode = "v", desc = "File History (selection)" },
+			{ "<leader>gx", "<cmd>DiffviewClose<cr>", desc = "Close Diffview" },
+			{ "<leader>gm", "<cmd>DiffviewOpen origin/main...HEAD<cr>", desc = "Compare with main" },
 		},
 		config = function()
-			local set = vim.opt -- set options
-			set.fillchars = set.fillchars + "diff:╱"
+			local actions = require("diffview.actions")
+
+			require("diffview").setup({
+				enhanced_diff_hl = true,
+
+				view = {
+					default = {
+						winbar_info = true,
+					},
+					merge_tool = {
+						winbar_info = true,
+					},
+				},
+
+				file_panel = {
+					win_config = {
+						width = 40, -- Same width as neo-tree for consistency
+					},
+				},
+
+				hooks = {
+					diff_buf_read = function(bufnr)
+						vim.opt_local.wrap = false
+						vim.opt_local.list = false
+						vim.opt_local.colorcolumn = ""
+					end,
+
+					-- Auto-close neo-tree when diffview opens
+					view_opened = function()
+						-- Close neo-tree to avoid conflict
+						pcall(function()
+							vim.cmd("Neotree close")
+						end)
+					end,
+
+					-- Optionally restore neo-tree when diffview closes
+					view_closed = function()
+						-- Uncomment if you want neo-tree to auto-open when diffview closes
+						-- vim.defer_fn(function()
+						-- 	vim.cmd("Neotree filesystem show")
+						-- end, 100)
+					end,
+				},
+
+				keymaps = {
+					view = {
+						{ "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" } },
+						-- Use C-B to focus the file panel (not toggle)
+						{ "n", "<C-b>", actions.focus_files, { desc = "Focus file panel" } },
+						{ "n", "co", actions.conflict_choose("ours"), { desc = "Take ours" } },
+						{ "n", "ct", actions.conflict_choose("theirs"), { desc = "Take theirs" } },
+						{ "n", "cb", actions.conflict_choose("base"), { desc = "Take base" } },
+					},
+					file_panel = {
+						{ "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" } },
+						-- C-B to return focus to diff view
+						{
+							"n",
+							"<C-b>",
+							function()
+								vim.cmd("wincmd l")
+							end,
+							{ desc = "Focus diff view" },
+						},
+					},
+					file_history_panel = {
+						{ "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" } },
+						-- C-B to focus back to diff view
+						{
+							"n",
+							"<C-b>",
+							function()
+								vim.cmd("wincmd l")
+							end,
+							{ desc = "Focus diff view" },
+						},
+					},
+				},
+			})
+
+			vim.opt.fillchars:append({ diff = "╱" })
 		end,
 	},
 	{
@@ -84,7 +175,6 @@ return {
 		"tpope/vim-fugitive",
 		event = "VeryLazy",
 		config = function()
-			-- Basic operations with 'gt' prefix
 			-- vim.keymap.set("n", "<leader>gts", ":vert Git<CR>", { desc = "Git status" })
 			vim.keymap.set("n", "<leader>gtd", ":Gdiffsplit<CR>", { desc = "Git diff" }) -- Updated from deprecated Gvdiff
 			-- vim.keymap.set("n", "<leader>gtc", ":Git commit<CR>", { desc = "Git commit" })
@@ -93,43 +183,6 @@ return {
 			-- vim.keymap.set("n", "<leader>gtl", ":Git pull<CR>", { desc = "Git pull" })
 			-- vim.keymap.set("n", "<leader>gtL", ":Git log<CR>", { desc = "Git log" })
 			-- vim.keymap.set("n", "<leader>gtw", ":Gwrite<CR>", { desc = "Git write (add) current file" })
-
-			-- Staging operations
-			-- vim.keymap.set("n", "<leader>gta", ":Git add -p<CR>", { desc = "Git add patch" })
-			-- vim.keymap.set("n", "<leader>gtrs", ":Git reset -p<CR>", { desc = "Git reset patch" })
-
-			-- Auto commands for the fugitive buffer
-			-- vim.api.nvim_create_autocmd("FileType", {
-			-- 	pattern = "fugitive",
-			-- 	callback = function()
-			-- 		local opts = { buffer = true, noremap = true }
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"-",
-			-- 			"<CMD>silent Git toggle<CR>",
-			-- 			vim.tbl_extend("force", opts, { desc = "Stage/unstage file" })
-			-- 		)
-			--
-			-- 		-- File navigation
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"gO",
-			-- 			"<CMD>Git difftool<CR>",
-			-- 			vim.tbl_extend("force", opts, { desc = "Open diff tool" })
-			-- 		)
-			--
-			-- 		-- Diff and commit
-			-- 		vim.keymap.set("n", "dd", ":Gdiffsplit<CR>", vim.tbl_extend("force", opts, { desc = "Diff split" }))
-			--
-			-- 		-- Inline diff
-			-- 		vim.keymap.set(
-			-- 			"n",
-			-- 			"=",
-			-- 			"<CMD>silent Git toggle<CR>",
-			-- 			vim.tbl_extend("force", opts, { desc = "Toggle inline diff" })
-			-- 		)
-			-- 	end,
-			-- })
 		end,
 	},
 	{
@@ -248,7 +301,6 @@ return {
 						return
 					end
 
-					-- Confirm deletion
 					local confirm_msg =
 						string.format("Delete worktree '%s'? This action cannot be undone.", selected_wt.path)
 					vim.ui.input({ prompt = confirm_msg .. " (y/n): " }, function(input)

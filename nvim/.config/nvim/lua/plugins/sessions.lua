@@ -89,5 +89,9 @@ return {
 			config.auto_load_session = not config.auto_load_session
 			vim.notify("Auto-load: " .. (config.auto_load_session and "on" or "off"))
 		end, { desc = "Toggle auto-load session" })
+
+		vim.keymap.set("n", "<leader>db", function()
+			require("snacks").dashboard.open()
+		end, { desc = "Open Dashboard" })
 	end,
 }

@@ -3,7 +3,21 @@ return {
 	branch = "v3.x",
 	keys = {
 		{ "<C-G>", "<cmd>Neotree git_status toggle float<cr>", desc = "Neo-tree git status" },
-		{ "<C-B>", "<cmd>Neotree filesystem focus<cr>", mode = { "n", "t" }, desc = "Neo-tree focus" },
+		{
+			"<C-B>",
+			function()
+				-- Smart C-B: diffview focus if in diffview, otherwise neo-tree
+				local diffview_lib = require("diffview.lib")
+				if diffview_lib.get_current_view() then
+					-- In diffview: toggle focus between file panel and diff view
+					require("diffview.actions").focus_files()
+				else
+					vim.cmd("Neotree filesystem focus")
+				end
+			end,
+			mode = { "n", "t" },
+			desc = "Smart focus (Neo-tree or Diffview)",
+		},
 	},
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -51,8 +65,6 @@ return {
 				width = 40,
 				mappings = {
 					["<C-f>"] = false, -- Disable C-f so Claude works
-
-					-- Add the toggle inside neo-tree too
 					["<C-B>"] = function()
 						vim.cmd("wincmd p")
 					end,
