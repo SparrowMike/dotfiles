@@ -2,8 +2,8 @@ return {
 	"nvim-neo-tree/neo-tree.nvim",
 	branch = "v3.x",
 	keys = {
-		{ "<C-B>", "<cmd>Neotree filesystem toggle right<cr>", desc = "Neo-tree filesystem" },
 		{ "<C-G>", "<cmd>Neotree git_status toggle float<cr>", desc = "Neo-tree git status" },
+		{ "<C-B>", "<cmd>Neotree filesystem focus<cr>", mode = { "n", "t" }, desc = "Neo-tree focus" },
 	},
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -42,17 +42,22 @@ return {
 				end,
 			},
 		})
-
 		return vim.tbl_deep_extend("force", opts, {
 			enable_git_status = true,
 			enable_diagnostics = true,
 			auto_clean_after_session_restore = true,
-
 			window = {
-				position = "right",
-				width = 35,
-			},
+				position = "left",
+				width = 40,
+				mappings = {
+					["<C-f>"] = false, -- Disable C-f so Claude works
 
+					-- Add the toggle inside neo-tree too
+					["<C-B>"] = function()
+						vim.cmd("wincmd p")
+					end,
+				},
+			},
 			filesystem = {
 				follow_current_file = {
 					enabled = true,
@@ -60,7 +65,7 @@ return {
 				filtered_items = {
 					hide_dotfiles = false,
 				},
-				use_libuv_file_watcher = true, -- Performance improvement
+				use_libuv_file_watcher = true,
 			},
 		})
 	end,

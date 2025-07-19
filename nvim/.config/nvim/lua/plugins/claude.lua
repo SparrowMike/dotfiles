@@ -2,20 +2,49 @@ return {
 	"coder/claudecode.nvim",
 	dependencies = { "folke/snacks.nvim" },
 	opts = {
-		port_range = { min = 10000, max = 65535 },
 		auto_start = true,
 		terminal = {
-			provider = "snacks",
-			-- split_side = "right",
+			split_side = "right",
 			split_width_percentage = 0.30,
+			provider = "snacks",
 		},
 		diff_opts = {
-			-- vertical_split = true,
 			auto_close_on_accept = true,
+			vertical_split = true,
+			open_in_current_tab = true,
 		},
 	},
 	keys = {
-		{ "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-		{ "<leader>cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+		-- Core commands
+		{ "<leader>cc", "<cmd>ClaudeCode<cr>", mode = { "n", "v" }, desc = "Toggle Claude Terminal" },
+		{ "<leader>cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude Code" },
+		{ "<leader>cr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude session" },
+
+		-- Diff management (when in diff mode)
+		{ "<leader>da", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept all changes" },
+		{ "<leader>dq", "<cmd>ClaudeCodeDiffQuit<cr>", desc = "Quit diff mode" },
+
+		-- Terminal focus toggle
+		{
+			"<C-f>",
+			function()
+				-- Smart focus toggle
+				local current_buf = vim.api.nvim_get_current_buf()
+				local current_buftype = vim.bo[current_buf].buftype
+
+				if current_buftype == "terminal" then
+					vim.cmd("wincmd p")
+				else
+					vim.cmd("ClaudeCodeOpen")
+				end
+			end,
+			mode = { "n", "i", "t" },
+			desc = "Toggle Claude focus",
+		},
+
+		{ "<leader>cf", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
 	},
+	config = function(_, opts)
+		require("claudecode").setup(opts)
+	end,
 }
