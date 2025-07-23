@@ -5,10 +5,10 @@ return {
 		auto_start = true,
 		log_level = "info",
 		port_range = { min = 10000, max = 65535 },
-		terminal_cmd = nil,
 		track_selection = true,
 		visual_demotion_delay_ms = 50,
 		diff_provider = "auto",
+        terminal_cmd = "~/.claude/local/claude",
 		diff_opts = {
 			auto_close_on_accept = true,
 			show_diff_stats = true,
