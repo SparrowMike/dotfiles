@@ -61,12 +61,25 @@ return {
 			enable_diagnostics = true,
 			auto_clean_after_session_restore = true,
 			window = {
-				position = "left",
+				position = "right",
 				width = 40,
 				mappings = {
 					["<C-f>"] = false, -- Disable C-f so Claude works
 					["<C-B>"] = function()
-						vim.cmd("wincmd p")
+						-- Close neo-tree when toggling out instead of just switching focus
+						vim.cmd("Neotree filesystem close")
+					end,
+					-- Override default file opening to close neo-tree after selection
+					["<CR>"] = function(state)
+						local node = state.tree:get_node()
+						if node.type == "file" then
+							-- Open the file and close neo-tree
+							require("neo-tree.sources.filesystem.commands").open(state)
+							vim.cmd("Neotree close")
+						else
+							-- For directories, use default behavior (expand/collapse)
+							require("neo-tree.sources.filesystem.commands").toggle_node(state)
+						end
 					end,
 				},
 			},

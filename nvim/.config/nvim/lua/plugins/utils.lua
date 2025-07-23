@@ -100,9 +100,38 @@ return {
 		},
 	},
 	{
-		"nvzone/typr",
-		dependencies = "nvzone/volt",
-		opts = {},
-		cmd = { "Typr", "TyprStats" },
-	}	
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"echasnovski/mini.nvim",
+		},
+		ft = { "markdown" },
+		config = function()
+			require("render-markdown").setup({
+				headings = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+				code = {
+					width = "block",
+					right_pad = 1,
+				},
+				dash = "—",
+				checkbox = {
+					unchecked = { icon = "󰄱 " },
+					checked = { icon = "󰱒 " },
+				},
+			})
+
+			vim.keymap.set(
+				"n",
+				"<leader>mr",
+				":RenderMarkdown toggle<CR>",
+				{ desc = "Toggle markdown rendering", silent = true }
+			)
+		end,
+	},
+	-- {
+	-- 	"nvzone/typr",
+	-- 	dependencies = "nvzone/volt",
+	-- 	opts = {},
+	-- 	cmd = { "Typr", "TyprStats" },
+	-- }
 }

@@ -1,61 +1,98 @@
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",
-	dependencies = "nvim-tree/nvim-web-devicons",
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		vim.opt.termguicolors = true
+
 		require("bufferline").setup({
 			options = {
 				mode = "tabs",
 				numbers = "ordinal",
 				indicator = {
-					icon = "▎",
+					icon = "▎", -- could also use: "⎸", "⮞", "▶", "➜"
 					style = "icon",
 				},
-				separator_style = "slant",
+				buffer_close_icon = "",
+				modified_icon = "●",
+				close_icon = "",
+				left_trunc_marker = "",
+				right_trunc_marker = "",
+				max_name_length = 18,
+				max_prefix_length = 12,
+				tab_size = 18,
+				separator_style = "slant", -- "slant" | "padded_slant" | "thick" | "thin" | { 'left', 'right' }
+				enforce_regular_tabs = true,
+				always_show_bufferline = false,
+				show_buffer_close_icons = true,
+				show_close_icon = true,
+				color_icons = true,
 				diagnostics = "nvim_lsp",
-				diagnostics_indicator = function(count, level, diagnostics_dict, context)
-					local s = " "
-					for e, n in pairs(diagnostics_dict) do
-						local sym = e == "error" and " " or (e == "warning" and " " or " ")
-						s = s .. n .. sym
+				diagnostics_update_in_insert = false,
+				diagnostics_indicator = function(_, _, diagnostics, _)
+					local icons = {
+						error = " ",
+						warning = " ",
+						info = " ",
+						hint = "󰌵 ",
+					}
+					local result = {}
+					for name, count in pairs(diagnostics) do
+						if icons[name] and count > 0 then
+							table.insert(result, string.format("%s%d", icons[name], count))
+						end
 					end
-					return s
+					return table.concat(result, " ")
 				end,
 				hover = {
 					enabled = true,
 					delay = 200,
 					reveal = { "close" },
 				},
-				always_show_bufferline = false,
 				offsets = {
 					{
 						filetype = "NvimTree",
-						text = "File Explorer",
+						text = " File Explorer",
 						highlight = "Directory",
 						separator = true,
+						text_align = "left",
 					},
+				},
+			},
+			highlights = {
+				buffer_selected = {
+					italic = false,
+					bold = true,
+				},
+				tab_selected = {
+					fg = "#ffffff",
+					bg = "#5e81ac",
+					bold = true,
+				},
+				separator_selected = {
+					-- fg = "#5e81ac",
 				},
 			},
 		})
 
-		-- Tab management
-		vim.keymap.set("n", "<leader>to", ":tabnew<CR>", { noremap = true, silent = true, desc = "Open new tab" })
-		vim.keymap.set(
-			"n",
-			"<leader>tc",
-			":tabclose<CR>",
-			{ noremap = true, silent = true, desc = "Close current tab" }
-		)
-		vim.keymap.set("n", "<leader>tp", ":tabprevious<CR>", { noremap = true, silent = true, desc = "Previous tab" })
-		vim.keymap.set("n", "<leader>tn", ":tabnext<CR>", { noremap = true, silent = true, desc = "Next tab" })
+		-- Tab navigation
+		local keymap = vim.keymap.set
+		local opts = { noremap = true, silent = true }
+
+		keymap("n", "<leader>to", "<cmd>tabnew<CR>", vim.tbl_extend("force", opts, { desc = "Open new tab" }))
+		keymap("n", "<leader>tc", "<cmd>tabclose<CR>", vim.tbl_extend("force", opts, { desc = "Close current tab" }))
+		keymap("n", "<leader>tp", "<cmd>tabprevious<CR>", vim.tbl_extend("force", opts, { desc = "Previous tab" }))
+		keymap("n", "<leader>tn", "<cmd>tabnext<CR>", vim.tbl_extend("force", opts, { desc = "Next tab" }))
 
 		for i = 1, 9 do
-			vim.keymap.set("n", "<leader>" .. i, i .. "gt", {
-				noremap = true,
-				silent = true,
-				desc = "Go to tab " .. i,
-			})
+			keymap(
+				"n",
+				"<leader>" .. i,
+				i .. "gt",
+				vim.tbl_extend("force", opts, {
+					desc = "Go to tab " .. i,
+				})
+			)
 		end
 	end,
 }

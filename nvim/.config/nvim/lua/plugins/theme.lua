@@ -26,7 +26,7 @@ return {
 				styles = {
 					bold = true,
 					italic = true,
-					transparency = true,
+					-- transparency = true,
 				},
 			})
 			-- vim.cmd.colorscheme("rose-pine")
@@ -123,11 +123,11 @@ return {
 		config = function()
 			require("tokyonight").setup({
 				style = "night", -- The theme comes in four styles: "night", "storm", "day", "moon"
-				transparent = true,
+				-- transparent = true,
 				terminal_colors = true, -- Configure the colors used when opening a `:terminal`
 				styles = {
-					sidebars = "transparent",
-					floats = "transparent",
+					-- sidebars = "transparent",
+					-- floats = "transparent",
 					comments = { italic = true },
 					keywords = { italic = true },
 					functions = {},
@@ -226,7 +226,7 @@ return {
 				keywordStyle = { italic = true },
 				statementStyle = { bold = true },
 				typeStyle = {},
-				transparent = true, -- do not set background color
+				-- transparent = true, -- do not set background color
 				dimInactive = false, -- dim inactive window `:h hl-NormalNC`
 				terminalColors = true, -- define vim.g.terminal_color_{0,17}
 				colors = { -- add/modify theme and palette colors
