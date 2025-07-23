@@ -1,7 +1,6 @@
 return {
 	"folke/persistence.nvim",
-	event = "VimEnter",
-	priority = 50, -- Reduced priority to allow LSP to initialize first
+	lazy = false,
 	config = function()
 		local persistence = require("persistence")
 		-- Simple configuration
