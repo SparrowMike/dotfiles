@@ -30,9 +30,9 @@ return {
 		{ "<leader>cf", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
 		{
 			"<C-f>",
-			"<cmd>ClaudeCode<cr>",
+			"<cmd>ClaudeCodeFocus<cr>",
 			mode = { "n", "i", "t" },
-			desc = "Toggle Claude",
+			desc = "Smart Claude focus/toggle",
 		},
 	},
 

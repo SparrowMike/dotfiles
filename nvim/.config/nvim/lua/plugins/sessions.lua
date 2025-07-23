@@ -1,7 +1,7 @@
 return {
 	"folke/persistence.nvim",
-	lazy = false,
-	priority = 100,
+	event = "VimEnter",
+	priority = 50, -- Reduced priority to allow LSP to initialize first
 	config = function()
 		local persistence = require("persistence")
 		-- Simple configuration
@@ -39,10 +39,7 @@ return {
 			if session_file and vim.fn.filereadable(session_file) == 1 then
 				local ok = pcall(persistence.load)
 				if not ok then
-					-- Show dashboard on failure
-					if pcall(require, "snacks") then
-						require("snacks").dashboard.open()
-					end
+					-- Session load failed, let snacks handle dashboard
 				else
 					-- Reopen neo-tree after session restore
 					vim.schedule(function()
@@ -50,10 +47,7 @@ return {
 					end)
 				end
 			else
-				-- No session, show dashboard
-				if pcall(require, "snacks") then
-					require("snacks").dashboard.open()
-				end
+				-- No session found, let snacks handle dashboard
 			end
 		end
 
