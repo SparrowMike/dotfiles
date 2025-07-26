@@ -36,46 +36,46 @@ return {
 	{ "embark-theme/vim", as = "embark" },
 
 	{
+		lazy = false,
+		priority = 1000,
 		"catppuccin/nvim",
-		lazy = true,
 		name = "catppuccin",
-		-- config = function()
-		-- 	local config = require("catppuccin")
-		--
-		-- 	config.setup({
-		-- 		flavour = "frappe", -- latte, frappe, macchiato, mocha
-		-- 		background = { -- :h background
-		-- 			dark = "frappe",
-		-- 			light = "frappe",
-		-- 		},
-		-- 		transparent_background = true, -- disables setting the background color.
-		-- 		show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-		-- 		term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-		-- 		dim_inactive = {
-		-- 			enabled = false, -- dims the background color of inactive window
-		-- 			shade = "dark",
-		-- 			percentage = 0.15, -- percentage of the shade to apply to the inactive window
-		-- 		},
-		-- 		pintegrations = {
-		-- 			cmp = true,
-		-- 			gitsigns = true,
-		-- 			nvimtree = true,
-		-- 			treesitter = true,
-		-- 			notify = false,
-		-- 			mini = {
-		-- 				enabled = true,
-		-- 				indentscope_color = "",
-		-- 			},
-		-- 		},
-		-- 	})
-		--
-		-- 	-- vim.cmd.colorscheme("catppuccin")
-		-- end,
+		config = function()
+			local config = require("catppuccin")
+
+			config.setup({
+				flavour = "frappe", -- latte, frappe, macchiato, mocha
+				background = { -- :h background
+					dark = "frappe",
+					light = "frappe",
+				},
+				transparent_background = true, -- disables setting the background color.
+				show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+				term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+				dim_inactive = {
+					enabled = false, -- dims the background color of inactive window
+					shade = "dark",
+					percentage = 0.15, -- percentage of the shade to apply to the inactive window
+				},
+				pintegrations = {
+					cmp = true,
+					gitsigns = true,
+					nvimtree = true,
+					treesitter = true,
+					notify = false,
+					mini = {
+						enabled = true,
+						indentscope_color = "",
+					},
+				},
+			})
+
+			-- vim.cmd.colorscheme("catppuccin")
+		end,
 	},
 
 	{
 		"sainnhe/gruvbox-material",
-		lazy = false,
 		config = function()
 			-- Optionally configure and load the colorscheme
 			-- directly inside the plugin declaration.
@@ -120,6 +120,7 @@ return {
 	{
 		"folke/tokyonight.nvim",
 		lazy = false,
+		priority = 1000,
 		config = function()
 			require("tokyonight").setup({
 				style = "night", -- The theme comes in four styles: "night", "storm", "day", "moon"

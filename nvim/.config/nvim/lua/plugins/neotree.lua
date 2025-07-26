@@ -65,12 +65,17 @@ return {
 				width = 40,
 				mappings = {
 					["<C-f>"] = false, -- Disable C-f so Claude works
+
 					["<C-B>"] = function()
 						-- Close neo-tree when toggling out instead of just switching focus
 						vim.cmd("Neotree filesystem close")
 					end,
-					-- Override default file opening to close neo-tree after selection
-					["<CR>"] = function(state)
+
+					-- ["<C-B>"] = function()
+					-- 	vim.cmd("wincmd p")
+					-- end,
+
+					["o"] = function(state)
 						local node = state.tree:get_node()
 						if node.type == "file" then
 							-- Open the file and close neo-tree

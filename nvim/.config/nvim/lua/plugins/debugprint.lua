@@ -16,10 +16,10 @@ return {
 		},
         keymaps = {
             normal = {
-                plain_below = "g?p",
-                plain_above = "g?P",
-                variable_below = "g?v",
-                variable_above = "g?V",
+                plain_below = ";db",
+                plain_above = ";da",
+                variable_below = ";dv",
+                -- variable_above = "g?V",
                 variable_below_alwaysprompt = "",
                 variable_above_alwaysprompt = "",
                 surround_plain = "g?sp",
@@ -47,3 +47,4 @@ return {
         },
 	},
 }
+
