@@ -1,13 +1,26 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+
+-- UI Settings
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
+vim.opt.termguicolors = true
+vim.opt.signcolumn = "yes"
+vim.opt.colorcolumn = "100"
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+vim.opt.mouse = "a"
 
+-- Indentation
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
-vim.opt.clipboard = "unnamed"
+vim.opt.smartindent = true
+vim.opt.breakindent = true
 
+-- File-specific indentation
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "lua",
   callback = function()
@@ -18,49 +31,60 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.opt.smartindent = true
-
+-- Text display
 vim.opt.wrap = false
+vim.opt.linebreak = true
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = "→ ",
+  eol = "↲",
+  nbsp = "␣",
+  trail = "•",
+  extends = "⟩",
+  precedes = "⟨",
+  space = "·"
+}
+vim.opt.spelllang = "en_us"
 
+-- File handling
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
 
--- vim.opt.hlsearch = false
+-- Search
+vim.opt.hlsearch = false
 vim.opt.incsearch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
-vim.opt.termguicolors = true
-
+-- Splits
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
-vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
+-- Completion
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.pumheight = 10
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
+-- Clipboard
+vim.opt.clipboard = "unnamedplus"
+
+-- Folding (modern treesitter)
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+
+-- Session options
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+-- Additional settings
 vim.opt.isfname:append("@-@")
+vim.opt.virtualedit = "block"
+vim.opt.inccommand = "split"
 
-vim.opt.updatetime = 50
-
-vim.opt.colorcolumn = "100"
-
-vim.opt.foldmethod = "expr"                     -- default is "normal"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
--- vim.opt.foldenable = false
-
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
-
+-- Netrw settings
 vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
-vim.g.indent_blankline_show_current_context = true
-vim.g.indent_blankline_context_patterns = {
-  "declaration",
-  "expression",
-  "pattern",
-  "primary_expression",
-  "statement",
-  "switch_body",
-}

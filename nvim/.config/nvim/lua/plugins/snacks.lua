@@ -225,9 +225,9 @@ return {
 
         { "<leader>gg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
         { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
-        { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
+        { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal", mode = { "n", "v", "i", "t" } },
         { "<c-.>",           function() Snacks.terminal.open() end,                                  desc = "Toggle Terminal" },
-        { "<c-_>",           function() Snacks.terminal() end,                                       desc = "which_key_ignore" },
+        { "<c-_>",           function() Snacks.terminal() end,                                       desc = "Terminal Toggle (tmux fallback)", mode = { "n", "v", "i", "t" } },
         -- { "]]",              function() Snacks.words.jump(vim.v.count1) end,                         desc = "Next Reference",           mode = { "n", "t" } },
         -- { "[[",              function() Snacks.words.jump(-vim.v.count1) end,                        desc = "Prev Reference",           mode = { "n", "t" } },
         {
