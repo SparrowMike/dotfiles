@@ -6,7 +6,15 @@ return {
 		{
 			"<C-B>",
 			function()
-				-- Smart C-B: diffview focus if in diffview, otherwise neo-tree
+				-- Check if we're currently in a neo-tree buffer
+				local buf_name = vim.api.nvim_buf_get_name(0)
+				if buf_name:match("neo%-tree") then
+					-- We're in neo-tree, close it
+					vim.cmd("Neotree filesystem close")
+					return
+				end
+
+				-- Smart focus: diffview focus if in diffview, otherwise neo-tree
 				local diffview_lib = require("diffview.lib")
 				if diffview_lib.get_current_view() then
 					-- In diffview: toggle focus between file panel and diff view
@@ -56,6 +64,7 @@ return {
 				end,
 			},
 		})
+
 		return vim.tbl_deep_extend("force", opts, {
 			enable_git_status = true,
 			enable_diagnostics = true,
@@ -66,14 +75,7 @@ return {
 				mappings = {
 					["<C-f>"] = false, -- Disable C-f so Claude works
 
-					["<C-B>"] = function()
-						-- Close neo-tree when toggling out instead of just switching focus
-						vim.cmd("Neotree filesystem close")
-					end,
-
-					-- ["<C-B>"] = function()
-					-- 	vim.cmd("wincmd p")
-					-- end,
+					["<C-b>"] = "none",
 
 					["o"] = function(state)
 						local node = state.tree:get_node()
