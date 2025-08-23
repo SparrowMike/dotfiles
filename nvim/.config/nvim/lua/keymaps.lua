@@ -62,7 +62,7 @@ vim.keymap.set("n", "qq", ":qa!<CR>", { desc = "Quit all windows" })
 vim.keymap.set("n", "qw", ":q<CR>", { desc = "Quit current window" })
 
 -- Window resizing
-vim.keymap.set("n", "<M-i>", "<cmd>resize -10<cr>", { desc = "Decrease Window Height" })
-vim.keymap.set("n", "<M-u>", "<cmd>resize +10<cr>", { desc = "Increase Window Height" })
-vim.keymap.set("n", "<M-o>", "<cmd>vertical resize +10<cr>", { desc = "Increase Window Width" })
-vim.keymap.set("n", "<M-y>", "<cmd>vertical resize -10<cr>", { desc = "Decrease Window Width" })
+vim.keymap.set({"n", "v", "i", "t"}, "<M-i>", "<cmd>resize -10<cr>", { desc = "Decrease Window Height" })
+vim.keymap.set({"n", "v", "i", "t"}, "<M-u>", "<cmd>resize +10<cr>", { desc = "Increase Window Height" })
+vim.keymap.set({"n", "v", "i", "t"}, "<M-o>", "<cmd>vertical resize +10<cr>", { desc = "Increase Window Width" })
+vim.keymap.set({"n", "v", "i", "t"}, "<M-y>", "<cmd>vertical resize -10<cr>", { desc = "Decrease Window Width" })

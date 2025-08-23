@@ -38,8 +38,8 @@ return {
 			visual = {
 				plain_below = ";db",
 				plain_above = ";da",
-				variable_below = "g?v",
-				variable_above = "g?V",
+				variable_below = ";dv",
+				variable_above = ";dV",
 				variable_below_alwaysprompt = ";dv",
 				variable_above_alwaysprompt = ";dV",
 				surround_plain = "g?sp",

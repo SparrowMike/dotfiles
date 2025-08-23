@@ -24,10 +24,18 @@ return {
 	},
 	keys = {
 		{ "<leader>cc", "<cmd>ClaudeCode<cr>", mode = { "n", "v" }, desc = "Toggle Claude Terminal" },
-		{ "<leader>cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude Code" },
+		{ "<leader>cs", function()
+			if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "\22" then
+				vim.cmd("ClaudeCodeSend")
+			else
+				vim.cmd("ClaudeCodeAdd %")
+			end
+			vim.defer_fn(function()
+				vim.cmd("ClaudeCodeOpen")
+			end, 50)
+		end, mode = { "n", "v" }, desc = "Smart Claude Code action" },
 		{ "<leader>co", "<cmd>ClaudeCodeOpen<cr>", mode = { "n", "v" }, desc = "Open/Focus Claude Terminal" },
 		{ "<leader>cx", "<cmd>ClaudeCodeClose<cr>", mode = { "n", "v" }, desc = "Close Claude Terminal" },
-		{ "<leader>cf", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
 		{
 			"<C-f>",
 			"<cmd>ClaudeCodeFocus<cr>",
