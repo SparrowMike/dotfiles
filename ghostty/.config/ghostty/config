@@ -1,0 +1,118 @@
+# Ghostty Configuration
+# Migrated from Kitty configuration
+
+# =============================================================================
+# Fonts
+# =============================================================================
+font-family = "JetBrains Mono"
+font-style-italic = VictorMono Nerd Font Mono:style=Medium Italic
+font-style-bold-italic = VictorMono Nerd Font Mono:style=Bold Italic
+font-size = 15
+
+# =============================================================================
+# Window Appearance
+# =============================================================================
+window-decoration = true
+window-padding-x = 0
+window-padding-y = 0
+window-save-state = always
+window-theme = ghostty
+
+# Inactive window text opacity (approximation)
+unfocused-split-opacity = 0.4
+
+# =============================================================================
+# Tab Bar
+# =============================================================================
+# Tab bar not yet available in Ghostty (as of current version)
+# This will be added when supported
+
+# =============================================================================
+# Theme & Colors
+# =============================================================================
+# Import Tokyo Night Moon theme
+theme = tokyo-night-moon
+
+# =============================================================================
+# Style & Effects
+# =============================================================================
+cursor-style = bar
+cursor-style-blink = true
+
+# custom-shader = shaders/bloom.glsl
+# custom-shader = shaders/glitchy.glsl
+# custom-shader = shaders/bettercrtl.glsl
+# custom-shader = shaders/matrix.glsl
+# custom-shader = shaders/matrix-hallway.glsl
+# custom-shader = shaders/retro.glsl
+# custom-shader = shaders/underwater.glsl
+# custom-shader = shaders/just-snow.glsl
+# custom-shader = shaders/water.glsl
+
+# Cursor Shaders
+custom-shader = shaders/cursor_smear.glsl
+custom-shader = shaders/cursor_tail.glsl
+custom-shader = shaders/ripple_cursor.glsl
+custom-shader = shaders/cursor_sweep.glsl
+custom-shader = shaders/cursor_warp.glsl
+custom-shader = shaders/sonic_boom_cursor.glsl
+custom-shader = shaders/rectangle_boom_cursor.glsl
+custom-shader = shaders/ripple_rectangle_cursor.glsl
+
+custom-shader-animation = always
+
+# =============================================================================
+# macOS Specific
+# =============================================================================
+macos-option-as-alt = true
+macos-titlebar-style = hidden
+
+# =============================================================================
+# Clipboard
+# =============================================================================
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = false
+
+# =============================================================================
+# Keyboard Bindings
+# =============================================================================
+
+# Quick Actions (inspired by linkarzu's config)
+# Quick config reload
+keybind = super+comma=reload_config
+
+# =============================================================================
+# Performance & Behavior
+# =============================================================================
+# Background opacity (set to 1.0 for solid, or try 0.95 for subtle transparency)
+background-opacity = 0.7
+background-blur-radius = 30
+
+# Optional: Enable translucency (uncomment to enable)
+# background-opacity = 0.95
+# window-theme = ghostty  # Keep or try 'auto' for system theme
+
+# Shell integration
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+# =============================================================================
+# Additional Settings
+# =============================================================================
+# Enable ligatures
+font-feature = +calt
+font-feature = +liga
+font-feature = +dlig
+
+# Mouse settings
+mouse-hide-while-typing = true
+
+# Copy on select (similar to Kitty's behavior)
+copy-on-select = false
+
+# Confirm close
+confirm-close-surface = false
+
+# Auto-update (if available)
+auto-update = check

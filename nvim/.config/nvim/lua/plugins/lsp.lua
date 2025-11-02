@@ -216,7 +216,7 @@ return {
 					-- "tailwindcss",
 					"bashls",
 					"jsonls",
-					-- "eslint",
+					"eslint",
 					"emmet_ls",
 				},
 
@@ -226,6 +226,66 @@ return {
 					lsp_zero.default_setup,
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
+					end,
+					eslint = function()
+						require("lspconfig").eslint.setup({
+							-- Only start ESLint LSP when config exists and binary is available
+							on_attach = function(client, bufnr)
+								-- Check for ESLint config files
+								local root_pattern = require("lspconfig.util").root_pattern
+								local root_dir = root_pattern(
+									".eslintrc",
+									".eslintrc.js",
+									".eslintrc.json",
+									".eslintrc.yml",
+									".eslintrc.yaml",
+									"eslint.config.js"
+								)(vim.api.nvim_buf_get_name(bufnr))
+
+								-- Also check for package.json with eslintConfig or eslint-config packages
+								local has_package_config = false
+								local package_json_root = root_pattern("package.json")(vim.api.nvim_buf_get_name(bufnr))
+								if package_json_root then
+									local package_json_path = package_json_root .. "/package.json"
+									local ok, package_content = pcall(vim.fn.readfile, package_json_path)
+									if ok and package_content then
+										local package_str = table.concat(package_content, "\n")
+										has_package_config = string.match(package_str, '"eslintConfig"')
+											or string.match(package_str, '"eslint%-config%-')
+											or string.match(package_str, '"@.*/eslint%-config')
+									end
+								end
+
+								-- Only attach if config exists
+								if not root_dir and not has_package_config then
+									client.stop()
+									return
+								end
+
+								-- Check for eslint binary in node_modules or globally
+								local search_root = root_dir or package_json_root
+								local local_binary = nil
+								if search_root then
+									local_binary = vim.fs.find("node_modules/.bin/eslint", { path = search_root, upward = true })[1]
+								end
+
+								if not local_binary and vim.fn.executable("eslint") ~= 1 then
+									client.stop()
+									return
+								end
+
+								-- Standard on_attach from lsp_zero
+								require("lsp-zero").on_attach(client, bufnr)
+							end,
+							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+							settings = {
+								codeActionOnSave = {
+									enable = false,
+									mode = "all"
+								},
+								format = false,
+							},
+						})
 					end,
 					ts_ls = function()
 						local inlayHints = {

@@ -32,3 +32,5 @@
     new = green bold
 [help]
     autocorrect = 10
+[core]
+	editor = nvim

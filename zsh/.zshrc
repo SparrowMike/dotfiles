@@ -229,3 +229,5 @@ fi
 
 # Uncomment to enable vi mode
 # set -o vi
+
+alias claude="/Users/mike/.claude/local/claude"

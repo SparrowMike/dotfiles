@@ -129,7 +129,8 @@ return {
             },
             formatters = {
                 file = {
-                    truncate = 1000,
+                    truncate = 100,
+                    -- filename_first = true,
                 },
             },
         },

@@ -130,4 +130,87 @@ return {
 			)
 		end,
 	},
+	{
+		"declancm/cinnamon.nvim",
+		version = "*",
+		event = "VeryLazy",
+		opts = {
+			-- default_keymaps = true,
+			-- extra_keymaps = true,
+			-- extended_keymaps = true,
+			-- centered = true,
+		},
+	},
+	{
+		"gen740/SmoothCursor.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("smoothcursor").setup({
+				type = "matrix",
+				cursor = "",
+				texthl = "SmoothCursor",
+				linehl = nil,
+				fancy = {
+					enable = true,
+					head = { cursor = "", texthl = "SmoothCursor", linehl = nil },
+					body = {
+						{ cursor = "", texthl = "SmoothCursorGreen" },
+						{ cursor = "", texthl = "SmoothCursorGreen" },
+						{ cursor = "●", texthl = "SmoothCursorGreen" },
+						{ cursor = "●", texthl = "SmoothCursorGreen" },
+						{ cursor = "•", texthl = "SmoothCursorGreen" },
+						{ cursor = ".", texthl = "SmoothCursorGreen" },
+						{ cursor = ".", texthl = "SmoothCursorGreen" },
+					},
+					tail = { cursor = nil, texthl = "SmoothCursor" },
+				},
+				matrix = {
+					head = {
+						cursor = require("smoothcursor.matrix_chars"),
+						texthl = {
+							"SmoothCursor",
+						},
+						linehl = nil,
+					},
+					body = {
+						length = 6,
+						cursor = require("smoothcursor.matrix_chars"),
+						texthl = {
+							"SmoothCursorGreen",
+						},
+					},
+					tail = {
+						cursor = nil,
+						texthl = {
+							"SmoothCursor",
+						},
+					},
+					unstop = false,
+				},
+				autostart = true,
+				speed = 25,
+				intervals = 35,
+				priority = 10,
+				timeout = 3000,
+				threshold = 3,
+				disable_float_win = false,
+				enabled_filetypes = nil,
+				disabled_filetypes = { "neo-tree", "harpoon" },
+			})
+		end,
+	}
+	-- {
+	-- 	"sunjon/Shade.nvim",
+	-- 	config = function()
+	-- 		require("shade").setup({
+	-- 			overlay_opacity = 50,
+	-- 			opacity_step = 1,
+	-- 			keys = {
+	-- 				brightness_up = "<C-Up>",
+	-- 				brightness_down = "<C-Down>",
+	-- 				toggle = "<Leader>s",
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 }

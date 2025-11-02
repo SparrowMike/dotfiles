@@ -17,7 +17,7 @@ return {
 		keymaps = {
 			normal = {
 				plain_below = ";db",
-				plain_above = ";da",
+				plain_above = ";dB",
 				variable_below = ";dv",
 				variable_above = ";dV",
 				variable_below_alwaysprompt = "",
@@ -37,11 +37,11 @@ return {
 			},
 			visual = {
 				plain_below = ";db",
-				plain_above = ";da",
+				plain_above = ";dB",
 				variable_below = ";dv",
 				variable_above = ";dV",
-				variable_below_alwaysprompt = ";dv",
-				variable_above_alwaysprompt = ";dV",
+				variable_below_alwaysprompt = "",
+				variable_above_alwaysprompt = "",
 				surround_plain = "g?sp",
 				surround_variable = "g?sv",
 			},

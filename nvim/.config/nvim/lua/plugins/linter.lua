@@ -6,13 +6,13 @@ return {
 		config = function()
 			require("conform").setup({
 				formatters_by_ft = {
-					-- JS/TS: ESLint fix → Prettier
-					javascript = { "eslint_d", "prettierd" },
-					javascriptreact = { "eslint_d", "prettierd" },
-					typescript = { "eslint_d", "prettierd" },
-					typescriptreact = { "eslint_d", "prettierd" },
-					vue = { "eslint_d", "prettierd" },
-					-- Style files: Just Prettier
+					-- JS/TS: ESLint with stylistic rules
+					javascript = { "eslint_d" },
+					javascriptreact = { "eslint_d" },
+					typescript = { "eslint_d" },
+					typescriptreact = { "eslint_d" },
+					vue = { "eslint_d" },
+					-- Style files: Keep Prettier for non-JS files
 					css = { "prettierd" },
 					scss = { "prettierd" },
 					less = { "prettierd" },
@@ -49,6 +49,7 @@ return {
 								".eslintrc.yml",
 								".eslintrc.yaml",
 								"eslint.config.js",
+								"eslint.config.mjs",
 							}, { path = ctx.filename, upward = true })[1]
 						end,
 						-- Ensure we're using --fix
@@ -77,7 +78,7 @@ return {
 				end
 			end
 
-			-- Main format: ESLint → Prettier → Tailwind (original workflow)
+			-- Main format: ESLint (with stylistic) → Tailwind
 			vim.keymap.set("n", "<leader>ll", function()
 				require("conform").format({
 					async = true,

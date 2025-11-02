@@ -43,7 +43,7 @@ return {
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-y>"] = cmp.mapping.confirm({ select = true }),
-					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-o>"] = cmp.mapping.complete(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
@@ -68,7 +68,7 @@ return {
 				},
 
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp", priority = 1000 },
+					{ name = "nvim_lsp", priority = 1000, keyword_length = 0 },
 					{ name = "nvim_lsp_signature_help", priority = 900 },
 					{ name = "luasnip", priority = 750 },
 					{ name = "codeium", priority = 500 },
