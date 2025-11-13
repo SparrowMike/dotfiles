@@ -1,5 +1,6 @@
 // --- CONFIGURATION ---
-vec4 TRAIL_COLOR = iCurrentCursorColor; // can change to eg: vec4(0.2, 0.6, 1.0, 0.5);
+// vec4 TRAIL_COLOR = iCurrentCursorColor; // original - use current cursor color
+const vec4 TRAIL_COLOR = vec4(0.55, 0.83, 1.0, 1.0); // frozen fire - cool ice blue (glowing)
 const float DURATION = 0.2; // total animation time
 const float TRAIL_SIZE = 0.8; // 0.0 = all corners move together. 1.0 = max smear (leading corners jump instantly)
 const float THRESHOLD_MIN_DISTANCE = 1.5; // min distance to show trail (units of cursor height)

@@ -15,13 +15,6 @@ return {
 		config = true,
 		dependencies = { "jay-babu/mason-null-ls.nvim" },
 	},
-	{
-		"luckasRanarison/tailwind-tools.nvim",
-		event = "BufRead",
-		ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css" },
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		opts = {},
-	},
 
 	-- LSP
 	{
@@ -91,7 +84,10 @@ return {
 
 				-- Add document highlight if supported
 				if client.server_capabilities.documentHighlightProvider then
-					local group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = true })
+					-- Use buffer-specific group name to prevent conflicts and memory leaks
+					local group_name = "LSPDocumentHighlight_" .. bufnr
+					local group = vim.api.nvim_create_augroup(group_name, { clear = false })
+
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						group = group,
 						buffer = bufnr,
@@ -101,6 +97,15 @@ return {
 						group = group,
 						buffer = bufnr,
 						callback = vim.lsp.buf.clear_references,
+					})
+
+					-- Cleanup autogroup when buffer is deleted
+					vim.api.nvim_create_autocmd("BufDelete", {
+						buffer = bufnr,
+						once = true,
+						callback = function()
+							pcall(vim.api.nvim_del_augroup_by_name, group_name)
+						end,
 					})
 				end
 				-- Keymappings
@@ -182,11 +187,13 @@ return {
 					vim.lsp.buf.rename,
 					{ buffer = bufnr, remap = false, desc = "Rename symbol" }
 				)
+				-- Changed from <C-h> in insert mode to avoid conflict with tmux navigation
+				-- K = hover info, H = signature help (simple pairing)
 				vim.keymap.set(
-					"i",
-					"<C-h>",
+					"n",
+					"H",
 					vim.lsp.buf.signature_help,
-					{ buffer = bufnr, remap = false, desc = "Signature help" }
+					{ buffer = bufnr, remap = false, desc = "LSP Signature help" }
 				)
 				vim.keymap.set("n", "<leader>wr", function()
 					local folders = vim.lsp.buf.list_workspace_folders()
@@ -242,31 +249,17 @@ return {
 									"eslint.config.js"
 								)(vim.api.nvim_buf_get_name(bufnr))
 
-								-- Also check for package.json with eslintConfig or eslint-config packages
-								local has_package_config = false
-								local package_json_root = root_pattern("package.json")(vim.api.nvim_buf_get_name(bufnr))
-								if package_json_root then
-									local package_json_path = package_json_root .. "/package.json"
-									local ok, package_content = pcall(vim.fn.readfile, package_json_path)
-									if ok and package_content then
-										local package_str = table.concat(package_content, "\n")
-										has_package_config = string.match(package_str, '"eslintConfig"')
-											or string.match(package_str, '"eslint%-config%-')
-											or string.match(package_str, '"@.*/eslint%-config')
-									end
-								end
-
 								-- Only attach if config exists
-								if not root_dir and not has_package_config then
+								-- Removed blocking file I/O - ESLint LSP handles config detection internally
+								if not root_dir then
 									client.stop()
 									return
 								end
 
 								-- Check for eslint binary in node_modules or globally
-								local search_root = root_dir or package_json_root
 								local local_binary = nil
-								if search_root then
-									local_binary = vim.fs.find("node_modules/.bin/eslint", { path = search_root, upward = true })[1]
+								if root_dir then
+									local_binary = vim.fs.find("node_modules/.bin/eslint", { path = root_dir, upward = true })[1]
 								end
 
 								if not local_binary and vim.fn.executable("eslint") ~= 1 then

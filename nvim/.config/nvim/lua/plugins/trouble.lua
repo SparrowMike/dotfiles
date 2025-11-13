@@ -5,13 +5,18 @@ return {
 		opts = {
 			warn_no_results = true,
 			open_no_results = true,
-			focus = true, -- Auto-focus when opened
+			focus = true,
 			modes = {
 				-- Custom references mode
 				references = {
 					mode = "lsp_references",
-					focus = false,
-					win = { position = "left" },
+					focus = true,
+					win = {
+                        position = "left",
+                        size = 0.15, -- %
+                        min_size = 40, -- columns
+                        max_size = 0.17 -- %
+                    },
 					filter = {
 						["not"] = { kind = "definition" },
 					},

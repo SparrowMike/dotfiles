@@ -1,5 +1,6 @@
 // -- CONFIGURATION ---
-vec4 TRAIL_COLOR = iCurrentCursorColor; // can change to eg: vec4(0.2, 0.6, 1.0, 0.5);
+// vec4 TRAIL_COLOR = iCurrentCursorColor; // original - use current cursor color
+const vec4 TRAIL_COLOR = vec4(0.65, 0.87, 1.0, 1.0); // frozen fire - electric ice (glowing)
 const float DURATION = 0.2; // in seconds
 const float TRAIL_LENGTH = 0.5;
 const float BLUR = 2.0; // blur size in pixels (for antialiasing)

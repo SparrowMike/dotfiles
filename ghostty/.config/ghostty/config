@@ -42,6 +42,7 @@ cursor-style-blink = true
 # custom-shader = shaders/bloom.glsl
 # custom-shader = shaders/glitchy.glsl
 # custom-shader = shaders/bettercrtl.glsl
+
 # custom-shader = shaders/matrix.glsl
 # custom-shader = shaders/matrix-hallway.glsl
 # custom-shader = shaders/retro.glsl
@@ -86,8 +87,8 @@ keybind = super+comma=reload_config
 # Performance & Behavior
 # =============================================================================
 # Background opacity (set to 1.0 for solid, or try 0.95 for subtle transparency)
-background-opacity = 0.7
-background-blur-radius = 30
+background-opacity = 0.95
+background-blur-radius = 45
 
 # Optional: Enable translucency (uncomment to enable)
 # background-opacity = 0.95
@@ -107,6 +108,10 @@ font-feature = +dlig
 
 # Mouse settings
 mouse-hide-while-typing = true
+
+# Link detection and handling
+link-url = true
+link-previews = true
 
 # Copy on select (similar to Kitty's behavior)
 copy-on-select = false

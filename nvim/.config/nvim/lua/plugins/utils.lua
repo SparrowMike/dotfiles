@@ -5,13 +5,11 @@ return {
 		init = function()
 			-- vim.g.VM_theme = "purplegray"
 			vim.g.VM_mouse_mappings = 1
-			vim.schedule(function()
-				vim.g.VM_maps = {
-					["I BS"] = "",
-					["Goto Next"] = "",
-					["Goto Prev"] = "",
-				}
-			end)
+			vim.g.VM_maps = {
+				["I BS"] = "",
+				["Goto Next"] = "",
+				["Goto Prev"] = "",
+			}
 		end,
 	},
 	{
@@ -141,64 +139,79 @@ return {
 			-- centered = true,
 		},
 	},
-	{
-		"gen740/SmoothCursor.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("smoothcursor").setup({
-				type = "matrix",
-				cursor = "",
-				texthl = "SmoothCursor",
-				linehl = nil,
-				fancy = {
-					enable = true,
-					head = { cursor = "", texthl = "SmoothCursor", linehl = nil },
-					body = {
-						{ cursor = "", texthl = "SmoothCursorGreen" },
-						{ cursor = "", texthl = "SmoothCursorGreen" },
-						{ cursor = "●", texthl = "SmoothCursorGreen" },
-						{ cursor = "●", texthl = "SmoothCursorGreen" },
-						{ cursor = "•", texthl = "SmoothCursorGreen" },
-						{ cursor = ".", texthl = "SmoothCursorGreen" },
-						{ cursor = ".", texthl = "SmoothCursorGreen" },
-					},
-					tail = { cursor = nil, texthl = "SmoothCursor" },
-				},
-				matrix = {
-					head = {
-						cursor = require("smoothcursor.matrix_chars"),
-						texthl = {
-							"SmoothCursor",
-						},
-						linehl = nil,
-					},
-					body = {
-						length = 6,
-						cursor = require("smoothcursor.matrix_chars"),
-						texthl = {
-							"SmoothCursorGreen",
-						},
-					},
-					tail = {
-						cursor = nil,
-						texthl = {
-							"SmoothCursor",
-						},
-					},
-					unstop = false,
-				},
-				autostart = true,
-				speed = 25,
-				intervals = 35,
-				priority = 10,
-				timeout = 3000,
-				threshold = 3,
-				disable_float_win = false,
-				enabled_filetypes = nil,
-				disabled_filetypes = { "neo-tree", "harpoon" },
-			})
-		end,
-	}
+	-- {
+	-- 	"gen740/SmoothCursor.nvim",
+	-- 	event = "VeryLazy",
+	-- 	config = function()
+	--
+	-- 		-- Set up highlight groups that follow the theme
+	-- 		-- vim.api.nvim_create_autocmd("ColorScheme", {
+	-- 		-- 	pattern = "*",
+	-- 		-- 	callback = function()
+	-- 		-- 		-- Link SmoothCursor highlight groups to theme colors
+	-- 		-- 		vim.api.nvim_set_hl(0, "SmoothCursor", { link = "Cursor" })
+	-- 		-- 		vim.api.nvim_set_hl(0, "SmoothCursorGreen", { link = "Function" })
+	-- 		-- 	end,
+	-- 		-- })
+	-- 		--
+	-- 		-- -- Set initial highlight groups
+	-- 		-- vim.api.nvim_set_hl(0, "SmoothCursor", { link = "Cursor" })
+	-- 		-- vim.api.nvim_set_hl(0, "SmoothCursorGreen", { link = "Function" })
+	--
+	-- 		require("smoothcursor").setup({
+	-- 			type = "matrix",
+	-- 			cursor = "",
+	-- 			texthl = "SmoothCursor",
+	-- 			linehl = nil,
+	-- 			fancy = {
+	-- 				enable = true,
+	-- 				head = { cursor = "", texthl = "SmoothCursor", linehl = nil },
+	-- 				body = {
+	-- 					{ cursor = "", texthl = "SmoothCursorGreen" },
+	-- 					{ cursor = "", texthl = "SmoothCursorGreen" },
+	-- 					{ cursor = "●", texthl = "SmoothCursorGreen" },
+	-- 					{ cursor = "●", texthl = "SmoothCursorGreen" },
+	-- 					{ cursor = "•", texthl = "SmoothCursorGreen" },
+	-- 					{ cursor = ".", texthl = "SmoothCursorGreen" },
+	-- 					{ cursor = ".", texthl = "SmoothCursorGreen" },
+	-- 				},
+	-- 				tail = { cursor = nil, texthl = "SmoothCursor" },
+	-- 			},
+	-- 			matrix = {
+	-- 				head = {
+	-- 					cursor = require("smoothcursor.matrix_chars"),
+	-- 					texthl = {
+	-- 						"SmoothCursor",
+	-- 					},
+	-- 					linehl = nil,
+	-- 				},
+	-- 				body = {
+	-- 					length = 25,
+	-- 					cursor = require("smoothcursor.matrix_chars"),
+	-- 					texthl = {
+	-- 						"SmoothCursorGreen",
+	-- 					},
+	-- 				},
+	-- 				tail = {
+	-- 					cursor = nil,
+	-- 					texthl = {
+	-- 						"SmoothCursor",
+	-- 					},
+	-- 				},
+	-- 				unstop = false,
+	-- 			},
+	-- 			autostart = true,
+	-- 			speed = 20,
+	-- 			intervals = 80,
+	-- 			priority = 10,
+	-- 			timeout = 5000,
+	-- 			threshold = 3,
+	-- 			disable_float_win = false,
+	-- 			enabled_filetypes = nil,
+	-- 			disabled_filetypes = { "neo-tree", "harpoon" },
+	-- 		})
+	-- 	end,
+	-- }
 	-- {
 	-- 	"sunjon/Shade.nvim",
 	-- 	config = function()

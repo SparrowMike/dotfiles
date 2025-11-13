@@ -86,8 +86,6 @@ vim.opt.inccommand = "split"
 
 vim.opt.formatoptions:remove({ "c", "r", "o" })
 
-vim.opt.smoothscroll = true
-
 -- Better diff mode
 vim.opt.diffopt:append({ "linematch:60", "algorithm:histogram" })
 

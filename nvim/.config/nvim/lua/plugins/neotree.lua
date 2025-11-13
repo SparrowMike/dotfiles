@@ -71,7 +71,15 @@ return {
 			auto_clean_after_session_restore = true,
 			window = {
 				position = "right",
-				width = 40,
+				width = function()
+				-- Calculate width with min/max constraints
+				local screen_width = vim.o.columns
+				local target_width = math.floor(screen_width * 0.15) -- 15% of screen
+				local min_width = 40   -- Minimum 20 columns
+				local max_width = math.floor(screen_width * 0.2) -- Maximum 2% of screen
+
+				return math.max(min_width, math.min(target_width, max_width))
+			end,
 				mappings = {
 					["<C-f>"] = false, -- Disable C-f so Claude works
 

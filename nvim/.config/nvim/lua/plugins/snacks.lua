@@ -136,7 +136,7 @@ return {
         },
         quickfile = { enabled = true },
         scope = { enabled = true },
-        scroll = { enabled = true },
+        scroll = { enabled = false },
         statuscolumn = {
             folds = {
                 git_hl = true, -- use Git Signs hl for fold icons

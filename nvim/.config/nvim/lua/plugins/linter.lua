@@ -121,18 +121,29 @@ return {
 				end
 			end, { desc = "Sort Tailwind classes in selection" })
 
-			-- Auto-kill tailwind LSP processes on exit to prevent zombies
+			-- Auto-stop tailwind LSP clients on exit to prevent zombies
 			vim.api.nvim_create_autocmd("VimLeavePre", {
 				callback = function()
-					vim.fn.system("pkill -f tailwindcss-language-server")
+					-- Only stop LSP clients attached to this instance (non-blocking)
+					for _, client in ipairs(vim.lsp.get_clients()) do
+						if client.name == "tailwindcss" then
+							client.stop()
+						end
+					end
 				end,
 			})
 
-			-- Emergency command to kill runaway LSP processes
+			-- Emergency command to stop runaway LSP clients
 			vim.api.nvim_create_user_command("KillTailwindLSP", function()
-				vim.fn.system("pkill -f tailwindcss-language-server")
-				vim.notify("Killed all Tailwind LSP processes", vim.log.levels.INFO)
-			end, {})
+				local count = 0
+				for _, client in ipairs(vim.lsp.get_clients()) do
+					if client.name == "tailwindcss" then
+						client.stop()
+						count = count + 1
+					end
+				end
+				vim.notify("Stopped " .. count .. " Tailwind LSP client(s)", vim.log.levels.INFO)
+			end, { desc = "Stop all Tailwind LSP clients" })
 		end,
 	},
 
@@ -185,6 +196,8 @@ return {
 	{
 		"luckasRanarison/tailwind-tools.nvim",
 		name = "tailwind-tools",
+		event = "BufReadPre",
+		ft = { "html", "css", "scss", "less", "javascript", "javascriptreact", "typescript", "typescriptreact" },
 		build = ":UpdateRemotePlugins",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		config = function()

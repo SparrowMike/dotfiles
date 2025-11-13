@@ -9,6 +9,55 @@ return {
 			-- For more detailed information:
 			print(vim.inspect(cmp.core))
 		end, {})
+
+		-- Cached worktree component to avoid running git commands on every statusline update
+		local worktree_cache = {
+			cwd = nil,
+			result = "",
+			last_check = 0,
+		}
+
+		local function get_worktree_cached()
+			local current_cwd = vim.fn.getcwd()
+			local now = vim.loop.hrtime()
+			local cache_ttl = 5e9 -- 5 seconds in nanoseconds
+
+			-- Return cached result if still valid
+			if worktree_cache.cwd == current_cwd and (now - worktree_cache.last_check) < cache_ttl then
+				return worktree_cache.result
+			end
+
+			-- Update cache
+			worktree_cache.cwd = current_cwd
+			worktree_cache.last_check = now
+
+			local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
+			if handle then
+				local git_root = handle:read("*a"):gsub("\n", "")
+				handle:close()
+
+				if git_root ~= "" then
+					local worktree_name = git_root:match("([^/]+)$")
+					local worktree_handle = io.popen("git worktree list --porcelain 2>/dev/null")
+					if worktree_handle then
+						local worktree_output = worktree_handle:read("*a")
+						worktree_handle:close()
+
+						if
+							worktree_output:find(git_root)
+							and not worktree_output:find("worktree " .. git_root .. "\nbare")
+						then
+							worktree_cache.result = "󰜗 " .. worktree_name
+							return worktree_cache.result
+						end
+					end
+				end
+			end
+
+			worktree_cache.result = ""
+			return ""
+		end
+
 		require("lualine").setup({
 			options = {
 				theme = "auto",
@@ -23,32 +72,9 @@ return {
 				lualine_a = { "mode" },
 				lualine_b = {
 					"branch",
-					-- Worktree component
+					-- Worktree component (cached)
 					{
-						function()
-							local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
-							if handle then
-								local git_root = handle:read("*a"):gsub("\n", "")
-								handle:close()
-
-								if git_root ~= "" then
-									local worktree_name = git_root:match("([^/]+)$")
-									local worktree_handle = io.popen("git worktree list --porcelain 2>/dev/null")
-									if worktree_handle then
-										local worktree_output = worktree_handle:read("*a")
-										worktree_handle:close()
-
-										if
-											worktree_output:find(git_root)
-											and not worktree_output:find("worktree " .. git_root .. "\nbare")
-										then
-											return "󰜗 " .. worktree_name
-										end
-									end
-								end
-							end
-							return ""
-						end,
+						get_worktree_cached,
 						cond = function()
 							return vim.fn.isdirectory(".git") == 1 or vim.fn.filereadable(".git") == 1
 						end,
