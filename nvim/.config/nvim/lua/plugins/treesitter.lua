@@ -1,19 +1,16 @@
 return {
-	-- Main Treesitter plugin
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		config = function()
-			-- Function to disable highlighting for large files
-			local function disable_for_large_files(lang, buf)
-				local max_filesize = 100 * 1024 -- 100 KB
-				local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-				if ok and stats and stats.size > max_filesize then
-					return true
-				end
-			end
+			-- local function disable_for_large_files(lang, buf)
+			-- 	local max_filesize = 100 * 1024 -- 100 KB
+			-- 	local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+			-- 	if ok and stats and stats.size > max_filesize then
+			-- 		return true
+			-- 	end
+			-- end
 
-			-- Treesitter configuration
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
 					"lua",
@@ -40,10 +37,9 @@ return {
 		end,
 	},
 
-	-- Treesitter context plugin
 	{
 		"nvim-treesitter/nvim-treesitter-context",
-		event = "BufReadPre", -- Lazy-load on buffer read
+		event = "BufReadPre",
 		config = function()
 			require("treesitter-context").setup({
 				enable = true,
@@ -57,19 +53,17 @@ return {
 		end,
 	},
 
-	-- Treesitter playground plugin
 	{
 		"nvim-treesitter/playground",
-		-- cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" }, -- Lazy-load on commands
-		dependencies = {
-			"windwp/nvim-ts-autotag",
+		cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+	},
+
+	{
+		"windwp/nvim-ts-autotag",
+		event = "InsertEnter",
+		opts = {
+			enable = true,
+			filetypes = { "html", "xml", "tsx", "javascriptreact", "typescriptreact" },
 		},
-		config = function()
-			-- Autotag configuration
-			require("nvim-ts-autotag").setup({
-				enable = true,
-				filetypes = { "html", "xml", "tsx" },
-			})
-		end,
 	},
 }

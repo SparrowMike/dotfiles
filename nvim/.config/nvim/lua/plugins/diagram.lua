@@ -2,8 +2,7 @@ return {
 	{
 		"3rd/image.nvim",
 		build = false,
-		priority = 1000,
-		lazy = false,
+		lazy = true,
 		opts = {
 			backend = "kitty",
 			processor = "magick_cli",

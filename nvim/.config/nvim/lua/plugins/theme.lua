@@ -16,6 +16,7 @@ return {
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
+		lazy = true,
 		config = function()
 			local config = require("rose-pine")
 			config.setup({
@@ -33,11 +34,10 @@ return {
 		end,
 	},
 
-	{ "embark-theme/vim", as = "embark" },
+	{ "embark-theme/vim", as = "embark", lazy = true },
 
 	{
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		"catppuccin/nvim",
 		name = "catppuccin",
 		config = function()
@@ -76,6 +76,7 @@ return {
 
 	{
 		"sainnhe/gruvbox-material",
+		lazy = true,
 		config = function()
 			-- Optionally configure and load the colorscheme
 			-- directly inside the plugin declaration.
@@ -141,8 +142,7 @@ return {
 
 	{
 		"rebelot/kanagawa.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		-- overrides = function(colors)
 		-- 	local theme = colors.theme
 		-- 	return {

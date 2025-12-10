@@ -85,11 +85,15 @@ return {
 
 					["<C-b>"] = "none",
 
+					-- Use open_drop to reuse existing buffers instead of creating new ones
+					["<cr>"] = "open_drop",
+					["<2-LeftMouse>"] = "open_drop",
+
 					["o"] = function(state)
 						local node = state.tree:get_node()
 						if node.type == "file" then
-							-- Open the file and close neo-tree
-							require("neo-tree.sources.filesystem.commands").open(state)
+							-- Use open_drop to reuse existing buffer, then close neo-tree
+							require("neo-tree.sources.filesystem.commands").open_drop(state)
 							vim.cmd("Neotree close")
 						else
 							-- For directories, use default behavior (expand/collapse)

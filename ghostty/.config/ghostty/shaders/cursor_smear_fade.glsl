@@ -56,7 +56,7 @@ float ease(float x) {
 }
 
 // Ice-Fire Theme
-const vec4 TRAIL_COLOR = vec4(0.6,0.9,1.0,1.0); // Bright ice blue
+const vec4 TRAIL_COLOR = vec4(0.2,0.9,1.0,1.0); // Bright ice blue
 const float DURATION = 0.5;
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)

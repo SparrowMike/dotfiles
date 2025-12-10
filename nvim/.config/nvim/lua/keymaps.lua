@@ -59,7 +59,8 @@ end, { desc = "Copy line down and comment out original" })
 -- Quit commands
 vim.keymap.set("n", "Q", ":qa!<CR>", { desc = "Quit all windows" })
 vim.keymap.set("n", "qq", ":qa!<CR>", { desc = "Quit all windows" })
-vim.keymap.set("n", "qw", ":bd<CR>", { desc = "Quit current buffer" })
+vim.keymap.set("n", "qw", ":q!<CR>", { desc = "Quit current window" })
+vim.keymap.set("n", "qb", ":bd<CR>", { desc = "Quit current buffer" })
 
 -- Window resizing
 vim.keymap.set({ "n", "v", "i", "t" }, "<M-i>", "<cmd>resize -10<cr>", { desc = "Decrease Window Height" })

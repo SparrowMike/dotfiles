@@ -75,10 +75,18 @@ return {
 				end)
 				if not ok then
 					vim.notify("Tailwind sort failed: " .. tostring(result), vim.log.levels.WARN)
-				end
-			end
+				end			end
 
-			-- Main format: ESLint (with stylistic) → Tailwind
+			vim.keymap.set("n", "<leader>lx", function()
+				vim.lsp.buf.code_action({
+					filter = function(action)
+						-- Fix all available from any LSP
+						return action.kind and action.kind:match("^source%.fixAll")
+					end,
+					apply = true,
+				})
+			end, { desc = "Fix all (code actions)" })
+
 			vim.keymap.set("n", "<leader>ll", function()
 				require("conform").format({
 					async = true,
@@ -90,7 +98,7 @@ return {
 						vim.notify("Format failed: " .. err, vim.log.levels.ERROR)
 					end
 				end)
-			end, { desc = "Format + sort Tailwind" })
+			end, { desc = "Format (with fixes) + sort Tailwind" })
 
 			vim.keymap.set({ "n", "v" }, "<leader>lf", function()
 				require("conform").format({

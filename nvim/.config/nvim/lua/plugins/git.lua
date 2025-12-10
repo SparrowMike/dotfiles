@@ -75,7 +75,18 @@ return {
 			{ "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History (current)" },
 			{ "<leader>gh", "<cmd>'<,'>DiffviewFileHistory<cr>", mode = "v", desc = "File History (selection)" },
 			{ "<leader>gx", "<cmd>DiffviewClose<cr>", desc = "Close Diffview" },
-			{ "<leader>gm", "<cmd>DiffviewOpen origin/main...HEAD<cr>", desc = "Compare with main" },
+			{
+				"<leader>gm",
+				function()
+					Snacks.picker.git_branches({
+						confirm = function(picker, item)
+							picker:close()
+							vim.cmd("DiffviewOpen " .. vim.trim(item.text) .. "...HEAD")
+						end,
+					})
+				end,
+				desc = "Compare with branch",
+			},
 		},
 		config = function()
 			local actions = require("diffview.actions")
@@ -171,20 +182,20 @@ return {
 			-- vim.keymap.set("n", "<leader>gtb", "<cmd>GitBlameToggle<cr>")
 		end,
 	},
-	{
-		"tpope/vim-fugitive",
-		event = "VeryLazy",
-		config = function()
-			-- vim.keymap.set("n", "<leader>gts", ":vert Git<CR>", { desc = "Git status" })
-			vim.keymap.set("n", "<leader>gtd", ":Gdiffsplit<CR>", { desc = "Git diff" }) -- Updated from deprecated Gvdiff
-			-- vim.keymap.set("n", "<leader>gtc", ":Git commit<CR>", { desc = "Git commit" })
-			-- vim.keymap.set("n", "<leader>gtb", ":Git_blame<CR>", { desc = "Git blame" }) -- Updated to new syntax
-			-- vim.keymap.set("n", "<leader>gtp", ":Git push<CR>", { desc = "Git push" })
-			-- vim.keymap.set("n", "<leader>gtl", ":Git pull<CR>", { desc = "Git pull" })
-			-- vim.keymap.set("n", "<leader>gtL", ":Git log<CR>", { desc = "Git log" })
-			-- vim.keymap.set("n", "<leader>gtw", ":Gwrite<CR>", { desc = "Git write (add) current file" })
-		end,
-	},
+	-- {
+	-- 	"tpope/vim-fugitive",
+	-- 	event = "VeryLazy",
+	-- 	config = function()
+	-- 		-- vim.keymap.set("n", "<leader>gts", ":vert Git<CR>", { desc = "Git status" })
+	-- 		vim.keymap.set("n", "<leader>gtd", ":Gdiffsplit<CR>", { desc = "Git diff" }) -- Updated from deprecated Gvdiff
+	-- 		-- vim.keymap.set("n", "<leader>gtc", ":Git commit<CR>", { desc = "Git commit" })
+	-- 		-- vim.keymap.set("n", "<leader>gtb", ":Git_blame<CR>", { desc = "Git blame" }) -- Updated to new syntax
+	-- 		-- vim.keymap.set("n", "<leader>gtp", ":Git push<CR>", { desc = "Git push" })
+	-- 		-- vim.keymap.set("n", "<leader>gtl", ":Git pull<CR>", { desc = "Git pull" })
+	-- 		-- vim.keymap.set("n", "<leader>gtL", ":Git log<CR>", { desc = "Git log" })
+	-- 		-- vim.keymap.set("n", "<leader>gtw", ":Gwrite<CR>", { desc = "Git write (add) current file" })
+	-- 	end,
+	-- },
 	{
 		"Juksuu/worktrees.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },

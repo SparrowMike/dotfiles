@@ -7,13 +7,13 @@ return {
 		port_range = { min = 10000, max = 65535 },
 		track_selection = true,
 		visual_demotion_delay_ms = 50,
-		diff_provider = "auto",
-        terminal_cmd = "~/.claude/local/claude",
+		focus_after_send = false, -- Focus terminal after sending content
+		-- terminal_cmd = "~/.claude/local/claude",
 		diff_opts = {
 			auto_close_on_accept = true,
-			show_diff_stats = true,
 			vertical_split = true,
 			open_in_current_tab = true,
+			keep_terminal_focus = false, -- Maintain terminal focus after diff opens
 		},
 		terminal = {
 			split_side = "right",
@@ -23,7 +23,9 @@ return {
 		},
 	},
 	keys = {
-		{ "<leader>cc", "<cmd>ClaudeCode<cr>", mode = { "n", "v" }, desc = "Toggle Claude Terminal" },
+		-- { "<leader>cc", "<cmd>ClaudeCode<cr>", mode = { "n", "v" }, desc = "Toggle Claude Terminal" },
+		{ "<leader>cr", "<cmd>ClaudeCode --resume<cr>", mode = { "n", "v" }, desc = "Resume Claude" },
+		{ "<leader>cc", "<cmd>ClaudeCode --continue<cr>", mode = { "n", "v" }, desc = "Continue Claude" },
 		{ "<leader>cs", function()
 			if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "\22" then
 				vim.cmd("ClaudeCodeSend")

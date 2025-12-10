@@ -128,3 +128,4 @@ confirm-close-surface = false
 
 # Auto-update (if available)
 auto-update = check
+keybind = shift+enter=text:\x1b\r

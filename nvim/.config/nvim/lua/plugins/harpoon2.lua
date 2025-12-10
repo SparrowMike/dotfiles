@@ -4,6 +4,21 @@ return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+        { "<leader>aa", desc = "Add file to harpoon" },
+        { "<C-e>", desc = "Toggle harpoon menu" },
+        { "<leader>ha", desc = "Harpoon slot 1" },
+        { "<leader>hs", desc = "Harpoon slot 2" },
+        { "<leader>hd", desc = "Harpoon slot 3" },
+        { "<leader>hf", desc = "Harpoon slot 4" },
+        { "<leader>hg", desc = "Harpoon slot 5" },
+        { "<leader>hz", desc = "Harpoon slot 6" },
+        { "<leader>hx", desc = "Harpoon slot 7" },
+        { "<leader>hc", desc = "Harpoon slot 8" },
+        { "<leader>hv", desc = "Harpoon slot 9" },
+        { "<leader>hb", desc = "Harpoon slot 10" },
+        { "<leader>fh", desc = "Picker Harpoon Files" },
+    },
     config = function()
         local harpoon = require("harpoon")
 
