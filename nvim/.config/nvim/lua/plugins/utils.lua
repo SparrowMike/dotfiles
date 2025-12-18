@@ -128,17 +128,6 @@ return {
 			)
 		end,
 	},
-	{
-		"declancm/cinnamon.nvim",
-		version = "*",
-		event = "VeryLazy",
-		opts = {
-			-- default_keymaps = true,
-			-- extra_keymaps = true,
-			-- extended_keymaps = true,
-			-- centered = true,
-		},
-	},
 	-- {
 	-- 	"gen740/SmoothCursor.nvim",
 	-- 	event = "VeryLazy",

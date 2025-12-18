@@ -22,35 +22,24 @@ return {
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
+			{ "VonHeikemen/lsp-zero.nvim" },
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
 			local lsp_zero = require("lsp-zero")
 			lsp_zero.extend_lspconfig()
-			local signs = {
-				-- Error = "●",
-				-- Warn = "●",
-				-- Hint = "●",
-				-- Info = "●",
-				-- Error = "",
-				Warn = "",
-				Hint = "",
-				-- Info = "",
-				Error = "✘",
-				-- Warn = "⚠",
-				-- Hint = "⚡",
-				Info = "ℹ",
-			}
-
-			for type, icon in pairs(signs) do
-				local hl = "DiagnosticSign" .. type
-				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-			end
 
 			vim.diagnostic.config({
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "✘",
+						[vim.diagnostic.severity.WARN] = "",
+						[vim.diagnostic.severity.HINT] = "",
+						[vim.diagnostic.severity.INFO] = "ℹ",
+					},
+				},
 				virtual_text = true,
-				signs = true,
 				underline = true,
 				update_in_insert = true,
 				severity_sort = true,
@@ -72,9 +61,9 @@ return {
 				local items = filter_react_dts(options.items)
 				vim.fn.setqflist({}, " ", { title = options.title, items = items, context = options.context })
 				if #items == 1 then
-					vim.api.nvim_command("cfirst")
+					vim.cmd.cfirst()
 				else
-					vim.api.nvim_command("copen")
+					vim.cmd.copen()
 				end
 			end
 
@@ -86,7 +75,7 @@ return {
 				if client.server_capabilities.documentHighlightProvider then
 					-- Use buffer-specific group name to prevent conflicts and memory leaks
 					local group_name = "LSPDocumentHighlight_" .. bufnr
-					local group = vim.api.nvim_create_augroup(group_name, { clear = false })
+					local group = vim.api.nvim_create_augroup(group_name, { clear = true })
 
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						group = group,
@@ -160,21 +149,9 @@ return {
 					vim.diagnostic.goto_next,
 					{ buffer = bufnr, remap = false, desc = "Go to next diagnostic" }
 				)
-				-- Toggle inline diagnostics
-				vim.keymap.set("n", "<leader>td", function()
-					local current = vim.diagnostic.config().virtual_text
-					vim.diagnostic.config({
-						virtual_text = not current,
-						underline = true,
-						signs = true,
-					})
-				end, { desc = "Toggle inline diagnostics", buffer = bufnr })
-				vim.keymap.set(
-					"n",
-					"<leader>ca",
-					vim.lsp.buf.code_action,
-					{ buffer = bufnr, remap = false, desc = "Code actions" }
-				)
+				vim.keymap.set("n", "<leader>ca", function()
+					vim.lsp.buf.code_action()
+				end, { buffer = bufnr, remap = false, desc = "Code actions" })
 				vim.keymap.set(
 					"n",
 					"<leader>vrr",
@@ -225,6 +202,8 @@ return {
 					"jsonls",
 					"eslint",
 					"emmet_ls",
+					"pyright",
+					"ruff", -- Fast Python linter/formatter as LSP
 				},
 
 				-- automatic_installation = true,
@@ -250,25 +229,21 @@ return {
 								)(vim.api.nvim_buf_get_name(bufnr))
 
 								-- Only attach if config exists
-								-- Removed blocking file I/O - ESLint LSP handles config detection internally
 								if not root_dir then
 									client.stop()
 									return
 								end
 
 								-- Check for eslint binary in node_modules or globally
-								local local_binary = nil
-								if root_dir then
-									local_binary = vim.fs.find("node_modules/.bin/eslint", { path = root_dir, upward = true })[1]
-								end
+								local local_binary = vim.fs.find("node_modules/.bin/eslint", { path = root_dir, upward = true })[1]
 
 								if not local_binary and vim.fn.executable("eslint") ~= 1 then
 									client.stop()
 									return
 								end
 
-								-- Standard on_attach from lsp_zero
-								require("lsp-zero").on_attach(client, bufnr)
+								-- Note: lsp_zero.on_attach() is already called globally for all LSP servers
+								-- No need to call it again here
 							end,
 							filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
 							settings = {
@@ -283,10 +258,10 @@ return {
 					ts_ls = function()
 						local inlayHints = {
 							includeInlayParameterNameHints = "all",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+							includeInlayParameterNameHintsWhenArgumentMatchesName = true,
 							includeInlayFunctionParameterTypeHints = true,
 							includeInlayVariableTypeHints = true,
-							includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+							includeInlayVariableTypeHintsWhenTypeMatchesName = true,
 							includeInlayPropertyDeclarationTypeHints = true,
 							includeInlayFunctionLikeReturnTypeHints = true,
 							includeInlayEnumMemberValueHints = true,
@@ -299,6 +274,12 @@ return {
 									inlayHints = inlayHints,
 								},
 								javascript = {
+									inlayHints = inlayHints,
+								},
+								javascriptreact = {
+									inlayHints = inlayHints,
+								},
+								typescriptreact = {
 									inlayHints = inlayHints,
 								},
 							},
@@ -323,13 +304,23 @@ return {
 								},
 							},
 							on_attach = function(client, bufnr)
-								client.server_capabilities.completionProvider.triggerCharacters = {
-									">", -- Only trigger after a tag character
-									"/", -- For self-closing tags
-									"}", -- For JSX expressions
-								}
+								if client.server_capabilities.completionProvider then
+									client.server_capabilities.completionProvider.triggerCharacters = {
+										">", -- Only trigger after a tag character
+										"/", -- For self-closing tags
+										"}", -- For JSX expressions
+									}
+								end
 							end,
 						})
+					end,
+					pyright = function()
+						-- Auto-detects pyproject.toml configuration
+						require("lspconfig").pyright.setup({})
+					end,
+					ruff = function()
+						-- Auto-detects pyproject.toml configuration
+						require("lspconfig").ruff.setup({})
 					end,
 				},
 			})

@@ -21,6 +21,8 @@ return {
 					jsonc = { "prettierd" },
 					yaml = { "prettierd" },
 					markdown = { "prettierd" },
+					-- Python: ruff for formatting and import sorting
+					python = { "ruff_format", "ruff_organize_imports" },
 					-- Other
 					lua = { "stylua" },
 				},
@@ -55,6 +57,9 @@ return {
 						-- Ensure we're using --fix
 						args = { "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },
 					},
+					-- Ruff: minimal config (auto-detects project settings)
+					ruff_format = {},
+					ruff_organize_imports = {},
 				},
 
 				-- Show errors when formatting fails
@@ -195,6 +200,7 @@ return {
 							})
 						end,
 					}),
+					-- Note: Python linting is now handled by ruff LSP (see lsp.lua)
 				},
 			})
 		end,

@@ -69,9 +69,16 @@ return {
         notifier = {
             enabled = true,
             timeout = 3000,
-            style = "fancy", -- or "fancy"
+            style = "fancy",
             top_down = false,
             margin = { top = 0, right = 0, bottom = 0 },
+            filter = function(notif)
+                -- Filter out "No information available" LSP messages
+                if notif and notif.msg and notif.msg:find("No information available") then
+                    return false
+                end
+                return true
+            end,
         },
         picker = {
             sources = {
@@ -215,6 +222,7 @@ return {
         -- { "<leader>sS",      function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
 
         -- Other
+        { "<leader>db",      function() Snacks.dashboard.open() end,                                 desc = "Open Dashboard" },
         { "<leader>z",       function() Snacks.zen() end,                                            desc = "Toggle Zen Mode" },
         { "<leader>Z",       function() Snacks.zen.zoom() end,                                       desc = "Toggle Zoom" },
         { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
