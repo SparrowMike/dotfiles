@@ -209,14 +209,21 @@ return {
 
 			-- Get list of worktrees (used internally by delete)
 			local function get_worktrees()
-				local handle = io.popen("git worktree list --porcelain")
-				if not handle then
+				-- Use vim.system with timeout instead of blocking io.popen
+				local result = vim.system({
+					"git", "worktree", "list", "--porcelain"
+				}, {
+					text = true,
+					timeout = 5000  -- 5 second timeout
+				}):wait()
+
+				if result.code ~= 0 then
+					-- Command failed or timed out
+					vim.notify("Failed to get worktrees: " .. (result.stderr or "command failed"), vim.log.levels.WARN)
 					return {}
 				end
 
-				local output = handle:read("*a")
-				handle:close()
-
+				local output = result.stdout
 				local worktrees = {}
 				local current = {}
 
@@ -250,10 +257,16 @@ return {
 					return
 				end
 
-				local current_handle = io.popen("git rev-parse --show-toplevel 2>/dev/null")
-				local current_path = current_handle and current_handle:read("*a"):gsub("\n", "") or ""
-				if current_handle then
-					current_handle:close()
+				-- Use vim.system with timeout instead of blocking io.popen
+				local result = vim.system({
+					"git", "rev-parse", "--show-toplevel"
+				}, {
+					text = true,
+					timeout = 3000  -- 3 second timeout
+				}):wait()
+				local current_path = ""
+				if result.code == 0 and result.stdout then
+					current_path = result.stdout:gsub("\n", "")
 				end
 
 				local choices = {}
@@ -290,10 +303,15 @@ return {
 						string.format("Delete worktree '%s'? (y/n): ", selected_wt.path:match("([^/]+)$"))
 					vim.ui.input({ prompt = confirm_msg }, function(input)
 						if input and input:lower() == "y" then
-							local cmd = force and "git worktree remove --force " or "git worktree remove "
-							local result = vim.fn.system(cmd .. vim.fn.shellescape(selected_wt.path))
+							-- Use vim.system with timeout instead of blocking vim.fn.system
+							local args = force and { "git", "worktree", "remove", "--force", selected_wt.path }
+								or { "git", "worktree", "remove", selected_wt.path }
+							local result = vim.system(args, {
+								text = true,
+								timeout = 10000  -- 10 second timeout for deletion
+							}):wait()
 
-							if vim.v.shell_error == 0 then
+							if result.code == 0 then
 								vim.notify(
 									"Worktree deleted: " .. selected_wt.path:match("([^/]+)$"),
 									vim.log.levels.INFO
@@ -305,13 +323,24 @@ return {
 										prompt = string.format("Also delete branch '%s'? (y/n): ", selected_wt.branch),
 									}, function(branch_input)
 										if branch_input and branch_input:lower() == "y" then
-											vim.fn.system("git branch -D " .. vim.fn.shellescape(selected_wt.branch))
-											vim.notify("Branch deleted: " .. selected_wt.branch, vim.log.levels.INFO)
+											-- Use vim.system with timeout instead of blocking vim.fn.system
+											local branch_result = vim.system({
+												"git", "branch", "-D", selected_wt.branch
+											}, {
+												text = true,
+												timeout = 5000  -- 5 second timeout
+											}):wait()
+
+											if branch_result.code == 0 then
+												vim.notify("Branch deleted: " .. selected_wt.branch, vim.log.levels.INFO)
+											else
+												vim.notify("Failed to delete branch: " .. (branch_result.stderr or "command failed"), vim.log.levels.WARN)
+											end
 										end
 									end)
 								end
 							else
-								vim.notify("Failed to delete worktree: " .. result, vim.log.levels.ERROR)
+								vim.notify("Failed to delete worktree: " .. (result.stderr or "command failed"), vim.log.levels.ERROR)
 							end
 						end
 					end)

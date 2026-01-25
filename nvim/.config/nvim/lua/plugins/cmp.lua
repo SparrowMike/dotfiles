@@ -11,6 +11,7 @@ return {
 			"rafamadriz/friendly-snippets",
 			"onsails/lspkind.nvim",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"kristijanhusak/vim-dadbod-completion",
 		},
 		config = function()
 			local lsp_zero = require("lsp-zero")

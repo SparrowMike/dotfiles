@@ -28,7 +28,7 @@ return {
 				},
 			},
 		},
-		cmd = "Trouble",
+		-- cmd = "Trouble",
 		config = function(_, opts)
 			require("trouble").setup(opts)
 

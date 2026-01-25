@@ -31,7 +31,8 @@ unfocused-split-opacity = 0.4
 # Theme & Colors
 # =============================================================================
 # Import Tokyo Night Moon theme
-theme = tokyo-night-moon
+# theme = tokyo-night-moon
+theme = kanagawa
 
 # =============================================================================
 # Style & Effects

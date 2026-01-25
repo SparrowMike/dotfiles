@@ -3,7 +3,7 @@ const float DURATION = 0.15;               // How long the ripple animates (seco
 const float MAX_RADIUS = 0.06;             // Max radius in normalized coords (0.5 = 1/4 screen height)
 const float ANIMATION_START_OFFSET = 0.0;        // Start the ripple slightly progressed (0.0 - 1.0)
 // Ice-Fire Theme
-const vec4 COLOR = vec4(0.75,0.93,1.0,1.0); // Bright frost blue (glowing)
+const vec4 COLOR = vec4(1.0,0.365,0.384,1.0); // Bright frost blue (glowing)
 const float CURSOR_WIDTH_CHANGE_THRESHOLD = 0.5; // Triggers ripple if cursor width changes by this fraction
 const float BLUR = 3.0;                    // Blur level in pixels
 

@@ -46,6 +46,16 @@ vim.opt.spelllang = "en_us"
 -- File handling
 vim.opt.swapfile = false
 vim.opt.backup = false
+vim.opt.autoread = true
+
+-- Auto-reload files changed externally (e.g., by Claude)
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+    callback = function()
+        if vim.fn.getcmdwintype() == "" then
+            vim.cmd("checktime")
+        end
+    end,
+})
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 vim.opt.updatetime = 250

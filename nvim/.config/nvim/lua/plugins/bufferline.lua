@@ -65,8 +65,6 @@ return {
 					bold = true,
 				},
 				tab_selected = {
-					fg = "#ffffff",
-					bg = "#5e81ac",
 					bold = true,
 				},
 				separator_selected = {

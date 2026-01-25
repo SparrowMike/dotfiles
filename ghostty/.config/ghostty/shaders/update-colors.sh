@@ -58,6 +58,9 @@ for preset in "${PRESETS[@]}"; do
         matrix-green)
             desc="Classic Matrix - Green terminal aesthetic"
             ;;
+        kanagawa-fire)
+            desc="Japanese wave - Burning fire cursor on dark ink"
+            ;;
         *)
             desc="Custom theme"
             ;;

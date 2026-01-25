@@ -1,3 +1,5 @@
+local ok, constants = pcall(require, "constants")
+
 -- greatest remap ever : asbjornHaland
 -- vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 -- vim.keymap.set("n", "<leader>Y", [["+Y]])
@@ -153,3 +155,72 @@ vim.keymap.set("n", "<leader>ms", function()
 	)
 	vim.notify(report, level, { title = "Memory & Resource Stats" })
 end, { desc = "Show memory and resource stats" })
+
+-- Send all changed files to dev box (mike)
+vim.keymap.set("n", "<leader>sf", function()
+	if not ok then
+		vim.notify("constants module not available", vim.log.levels.WARN)
+		return
+	end
+
+	local projects = constants.projects
+	local host_list = constants.get_host_list()
+
+	if not projects or #projects == 0 then
+		vim.notify("No projects configured", vim.log.levels.ERROR)
+		return
+	end
+	if not host_list or #host_list == 0 then
+		vim.notify("No hosts found in data.json", vim.log.levels.ERROR)
+		return
+	end
+
+	local function sync_files(project, host)
+		local cmd = string.format(
+			[[cd %s && files=$(git diff --name-only); if [ -z "$files" ]; then echo "NO_CHANGES"; else echo "$files" | while read f; do sendfile "%s/$f" %s "%s/$f"; done; echo "DONE"; fi]],
+			project.local_path,
+			project.local_path,
+			host.name,
+			project.remote_path
+		)
+		vim.fn.jobstart({ "zsh", "-i", "-c", cmd .. " 2>/dev/null" }, {
+			stdout_buffered = true,
+			on_stdout = function(_, data)
+				if data then
+					local output = table.concat(data, "\n")
+					vim.schedule(function()
+						if output:match("NO_CHANGES") then
+							vim.notify("No changed files to send", vim.log.levels.WARN)
+						elseif output:match("DONE") then
+							vim.notify("All files sent to " .. host.name .. "!", vim.log.levels.INFO)
+						elseif output:match("Sending") then
+							vim.notify(output, vim.log.levels.INFO)
+						end
+					end)
+				end
+			end,
+		})
+		vim.notify("Syncing " .. project.name .. " to " .. host.name .. "...", vim.log.levels.INFO)
+	end
+
+	-- Step 1: Select project
+	vim.ui.select(projects, {
+		prompt = "Select project:",
+		format_item = function(item)
+			return item.name
+		end,
+	}, function(project)
+		if not project then return end
+		-- Step 2: Select host
+		vim.ui.select(host_list, {
+			prompt = "Select host:",
+			format_item = function(item)
+				return item.name .. " (" .. item.ip .. ")"
+			end,
+		}, function(host)
+			if host then
+				sync_files(project, host)
+			end
+		end)
+	end)
+end, { desc = "Send changed files to remote host" })

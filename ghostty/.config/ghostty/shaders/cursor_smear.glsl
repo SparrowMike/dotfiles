@@ -61,7 +61,7 @@ float ease(float x) {
 }
 
 // Ice-Fire Theme
-const vec4 TRAIL_COLOR = vec4(0.6,0.85,1.0,1.0); // Electric ice blue (glowing)
+const vec4 TRAIL_COLOR = vec4(1.0,0.627,0.4,1.0); // Electric ice blue (glowing)
 const float OPACITY = 0.6;
 const float DURATION = 0.10; //IN SECONDS
 

@@ -4,7 +4,7 @@ const float MAX_RADIUS = 0.05;             // Max radius in normalized coords (0
 const float RING_THICKNESS = 0.02;             // Ring width in normalized coords
 const float CURSOR_WIDTH_CHANGE_THRESHOLD = 0.5; // Triggers ripple if cursor width changes by this fraction
 // Ice-Fire Theme
-const vec4 COLOR = vec4(0.1,0.5,0.9,1.0); // Deep ice blue (glowing)
+const vec4 COLOR = vec4(0.91,0.141,0.141,1.0); // Deep ice blue (glowing)
 const float BLUR = 3.0;                    // Blur level in pixels
 const float ANIMATION_START_OFFSET = 0.0;        // Start the ripple slightly progressed (0.0 - 1.0)
 

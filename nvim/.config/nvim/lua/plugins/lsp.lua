@@ -27,6 +27,26 @@ return {
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
+			-- Pyright: completions/navigation only, type checking off (ruff handles flake8-style linting)
+			-- vim.lsp.config("pyright", {
+			-- 	settings = {
+			-- 		python = {
+			-- 			analysis = {
+			-- 				autoSearchPaths = true,
+			-- 				useLibraryCodeForTypes = true,
+			-- 				typeCheckingMode = "off",
+			-- 				reportMissingImports = false,
+			-- 				reportMissingModuleSource = false,
+			-- 				extraPaths = {
+			-- 					"lib/python",
+			-- 					"var/dbapi",
+			-- 					"api",
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
+
 			local lsp_zero = require("lsp-zero")
 			lsp_zero.extend_lspconfig()
 
@@ -315,8 +335,7 @@ return {
 						})
 					end,
 					pyright = function()
-						-- Auto-detects pyproject.toml configuration
-						require("lspconfig").pyright.setup({})
+						vim.lsp.enable("pyright")
 					end,
 					ruff = function()
 						-- Auto-detects pyproject.toml configuration
@@ -324,6 +343,7 @@ return {
 					end,
 				},
 			})
+
 		end,
 	},
 	{
