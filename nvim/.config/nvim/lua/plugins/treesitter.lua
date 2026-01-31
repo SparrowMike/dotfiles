@@ -2,14 +2,8 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+        branch = "master",
 		config = function()
-			-- local function disable_for_large_files(lang, buf)
-			-- 	local max_filesize = 100 * 1024 -- 100 KB
-			-- 	local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-			-- 	if ok and stats and stats.size > max_filesize then
-			-- 		return true
-			-- 	end
-			-- end
 
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
@@ -28,7 +22,6 @@ return {
 				highlight = {
 					enable = true,
 					additional_vim_regex_highlighting = false,
-					disable = disable_for_large_files,
 				},
 				indent = {
 					enable = true,
@@ -51,11 +44,6 @@ return {
 				mode = "cursor",
 			})
 		end,
-	},
-
-	{
-		"nvim-treesitter/playground",
-		cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
 	},
 
 	{

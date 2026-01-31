@@ -143,7 +143,22 @@ return {
         },
         quickfile = { enabled = true },
         scope = { enabled = true },
-        scroll = { enabled = false },
+        scroll = {
+            enabled = true,
+            filter = function(buf)
+                return vim.g.snacks_scroll ~= false
+                    and vim.b[buf].snacks_scroll ~= false
+                    and vim.bo[buf].buftype ~= "terminal"
+            end,
+            animate = {
+                duration = { step = 15, total = 100 },
+                easing = "linear",
+            },
+            animate_repeat = {
+                delay = 50,
+                duration = { step = 5, total = 25 },
+            },
+        },
         statuscolumn = {
             folds = {
                 git_hl = true, -- use Git Signs hl for fold icons

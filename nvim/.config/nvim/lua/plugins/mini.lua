@@ -5,6 +5,4 @@ return {
     { "echasnovski/mini.surround",   version = false, config = true },
 
     { "echasnovski/mini.cursorword", version = false, config = true },
-
-    { "echasnovski/mini.nvim",       version = false },
 }

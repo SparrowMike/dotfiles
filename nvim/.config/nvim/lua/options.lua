@@ -49,7 +49,7 @@ vim.opt.backup = false
 vim.opt.autoread = true
 
 -- Auto-reload files changed externally (e.g., by Claude)
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
     callback = function()
         if vim.fn.getcmdwintype() == "" then
             vim.cmd("checktime")
@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
 })
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
-vim.opt.updatetime = 250
+vim.opt.updatetime = 600
 vim.opt.timeoutlen = 300
 
 -- Search
@@ -79,9 +79,6 @@ vim.opt.pumheight = 10
 -- Clipboard
 vim.opt.clipboard = "unnamedplus"
 
--- Folding (modern treesitter)
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true

@@ -171,7 +171,7 @@ return {
 			local eslint_code_actions = require("none-ls.code_actions.eslint_d")
 
 			null_ls.setup({
-				debounce = 250, -- Slightly faster feedback
+				debounce = 400,
 				sources = {
 					-- ESLint diagnostics (shows the problems)
 					eslint_diagnostics.with({
