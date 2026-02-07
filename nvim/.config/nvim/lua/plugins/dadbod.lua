@@ -1,25 +1,3 @@
-local tunnel_jobs = {}
-
--- Expose for lualine/statusline integration
-_G.dadbod_tunnel_status = function()
-	local count = vim.tbl_count(tunnel_jobs)
-	return count > 0 and ("DB:" .. count) or ""
-end
-
-local function check_port(port)
-	local result = vim.fn.system("lsof -i :" .. port .. " 2>/dev/null")
-	return result ~= ""
-end
-
-local function stop_all_tunnels()
-	for key, job_id in pairs(tunnel_jobs) do
-		if job_id then
-			vim.fn.jobstop(job_id)
-			tunnel_jobs[key] = nil
-		end
-	end
-end
-
 return {
 	"kristijanhusak/vim-dadbod-ui",
 	dependencies = {
@@ -30,10 +8,16 @@ return {
 	init = function()
 		vim.g.db_ui_use_nerd_fonts = 1
 		vim.g.db_ui_show_database_icon = 1
-		vim.g.db_ui_force_echo_notifications = 1
 		vim.g.db_ui_save_location = vim.fn.stdpath("data") .. "/db_ui"
-		vim.g.db_ui_auto_execute_table_helpers = 1
 		vim.g.db_ui_winwidth = 40
+		vim.g.db_ui_auto_execute_table_helpers = 1
+		vim.g.db_ui_use_nvim_notify = 1
+
+		local function url_encode(str)
+			return str:gsub("([^%w%-_.~])", function(c)
+				return string.format("%%%02X", string.byte(c))
+			end)
+		end
 
 		local ok, constants = pcall(require, "constants")
 		if ok and constants.connections then
@@ -43,14 +27,14 @@ return {
 				if url then
 					local user, pass, host, port, db_part = url:match("([^:]+):([^@]+)@tcp%(([^:]+):(%d+)%)/?(.*)")
 					if user and host then
-						-- Strip query params from db name
 						local db = db_part and db_part:match("([^?]+)") or ""
-						-- Use skip-ssl for homebrew mysql client
 						local dadbod_url = string.format(
 							"%s://%s:%s@%s:%s/%s?skip-ssl",
-							conn.type or "mysql", user, pass, host, port, db
+							conn.type or "mysql", url_encode(user), url_encode(pass), host, port, db
 						)
 						table.insert(dbs, { name = conn.name or conn.key, url = dadbod_url })
+					elseif url:match("^%w+://") then
+						table.insert(dbs, { name = conn.name or conn.key, url = url })
 					end
 				end
 			end
@@ -59,8 +43,7 @@ return {
 		end
 	end,
 	config = function()
-		local ok, constants = pcall(require, "constants")
-		if not ok then return end
+		local tunnel = require("utils.ssh-tunnel")
 
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = { "sql", "mysql", "plsql" },
@@ -68,95 +51,106 @@ return {
 				require("cmp").setup.buffer({
 					sources = {
 						{ name = "vim-dadbod-completion" },
+						{ name = "luasnip" },
 						{ name = "buffer" },
 					},
 				})
 			end,
 		})
 
-		local function ensure_tunnel(conn, callback)
-			if not conn.box_ip or not conn.local_port then
-				if callback then callback(true) end
-				return
+		-- Find connection by matching database name from DBUI line
+		local function find_conn_for_db(db_name)
+			local connections = vim.g.db_connections or {}
+			for _, conn in ipairs(connections) do
+				local name = conn.name or conn.key
+				if db_name:find(name, 1, true) or name:find(db_name, 1, true) then
+					return conn
+				end
 			end
+			return nil
+		end
 
-			local local_port = conn.local_port
-			local tunnel_key = conn.box_ip .. ":" .. local_port
+		-- Expand database with auto-tunnel
+		local function dbui_expand_with_tunnel()
+			local line = vim.fn.getline(".")
+			local db_name = line:match("^%s*[▸▾]?%s*(.-)%s*$") or line:match("^%s*(.-)%s*$")
 
-			if check_port(local_port) then
-				vim.notify("Tunnel to " .. conn.box_ip .. " already active", vim.log.levels.INFO)
-				if callback then callback(true) end
-				return
-			end
-
-			if tunnel_jobs[tunnel_key] ~= nil then
-				vim.defer_fn(function()
-					ensure_tunnel(conn, callback)
-				end, 500)
-				return
-			end
-
-			vim.notify("Establishing SSH tunnel to " .. conn.box_ip .. "...", vim.log.levels.INFO)
-			local job_id = vim.fn.jobstart({
-				"ssh",
-				"-L",
-				local_port .. ":127.0.0.1:3306",
-				"-o",
-				"ServerAliveInterval=60",
-				"-o",
-				"ExitOnForwardFailure=yes",
-				"-N",
-				constants.ssh_user .. "@" .. conn.box_ip,
-			}, {
-				detach = true,
-				on_stderr = function(_, data)
-					if data and #data > 0 then
-						local err = table.concat(data, "\n")
-						if err:match("%S") then
-							vim.notify("SSH Error (" .. conn.box_ip .. "): " .. err, vim.log.levels.ERROR)
+			if db_name and db_name ~= "" then
+				local conn = find_conn_for_db(db_name)
+				if conn and conn.box_ip and conn.local_port then
+					tunnel.ensure(conn, function(success)
+						if success then
+							-- Small delay to let SSH tunnel fully stabilize
+							vim.defer_fn(function()
+								vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(DBUI_SelectLine)", true, true, true), "n")
+							end, 200)
+						else
+							vim.schedule(function()
+								vim.notify("Tunnel failed - database expansion aborted", vim.log.levels.WARN)
+							end)
 						end
-					end
-				end,
-				on_exit = function(_, code)
-					tunnel_jobs[tunnel_key] = nil
-					if code ~= 0 then
-						vim.notify("SSH tunnel to " .. conn.box_ip .. " failed (exit code: " .. code .. ")", vim.log.levels.ERROR)
-					end
-				end,
-			})
-
-			if job_id <= 0 then
-				vim.notify("Failed to start SSH tunnel job", vim.log.levels.ERROR)
-				if callback then callback(false) end
-				return
-			end
-			tunnel_jobs[tunnel_key] = job_id
-
-			local attempts = 0
-			local function wait_for_port()
-				attempts = attempts + 1
-				-- Check if job already failed
-				if tunnel_jobs[tunnel_key] == nil then
-					if callback then callback(false) end
+					end)
 					return
 				end
-				if check_port(local_port) then
-					vim.notify("SSH tunnel to " .. conn.box_ip .. " ready", vim.log.levels.INFO)
-					if callback then callback(true) end
-				elseif attempts < 20 then
-					vim.defer_fn(wait_for_port, 500)
-				else
-					vim.notify("Tunnel timeout for " .. conn.box_ip .. " - check SSH connection", vim.log.levels.ERROR)
-					if callback then callback(false) end
+			end
+			-- No tunnel needed, just expand
+			vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(DBUI_SelectLine)", true, true, true), "n")
+		end
+
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "dbui",
+			callback = function()
+				vim.opt_local.relativenumber = true
+				vim.opt_local.number = true
+
+				-- Remap expand keys to auto-establish tunnel
+				vim.keymap.set("n", "o", dbui_expand_with_tunnel, { buffer = true, silent = true, desc = "Expand with tunnel" })
+				vim.keymap.set("n", "<CR>", dbui_expand_with_tunnel, { buffer = true, silent = true, desc = "Expand with tunnel" })
+			end,
+		})
+
+		local function is_db_tab(tab)
+			for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+				local buf = vim.api.nvim_win_get_buf(win)
+				local ft = vim.bo[buf].filetype
+				if ft == "dbui" or ft == "dbout" then
+					return true
 				end
 			end
-			wait_for_port()
+			return false
+		end
+
+		local function open_dbui_in_tab()
+			-- If currently in a DB tab, close it
+			local current_tab = vim.api.nvim_get_current_tabpage()
+			if is_db_tab(current_tab) then
+				-- Close the DB tab if there are other tabs
+				if #vim.api.nvim_list_tabpages() > 1 then
+					vim.cmd("tabclose")
+				else
+					vim.cmd("DBUI") -- Toggle DBUI panel if it's the only tab
+				end
+				return
+			end
+
+			-- Look for existing DB tab
+			for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+				if is_db_tab(tab) then
+					vim.api.nvim_set_current_tabpage(tab)
+					vim.cmd("DBUI")
+					return
+				end
+			end
+
+			-- No DB tab found, create new one
+			vim.cmd("tabnew")
+			vim.cmd("DBUI")
 		end
 
 		local function connect_to_db(conn)
-			ensure_tunnel(conn, function(success)
+			tunnel.ensure(conn, function(success)
 				if success then
-					vim.cmd("DBUIToggle")
+					open_dbui_in_tab()
 				end
 			end)
 		end
@@ -205,20 +199,16 @@ return {
 		})
 
 		vim.api.nvim_create_user_command("DBDisconnect", function()
-			stop_all_tunnels()
+			tunnel.stop_all()
 			vim.notify("All tunnels stopped", vim.log.levels.INFO)
 		end, { desc = "Stop all DB tunnels" })
 
 		vim.api.nvim_create_user_command("DBStatus", function()
-			local count = vim.tbl_count(tunnel_jobs)
-			if count == 0 then
+			local tunnels = tunnel.get_status()
+			if #tunnels == 0 then
 				vim.notify("No active tunnels", vim.log.levels.INFO)
 			else
-				local tunnels = {}
-				for key, _ in pairs(tunnel_jobs) do
-					table.insert(tunnels, key)
-				end
-				vim.notify("Active tunnels (" .. count .. "): " .. table.concat(tunnels, ", "), vim.log.levels.INFO)
+				vim.notify("Active tunnels (" .. #tunnels .. "): " .. table.concat(tunnels, ", "), vim.log.levels.INFO)
 			end
 		end, { desc = "Show active DB tunnels" })
 
@@ -227,17 +217,30 @@ return {
 			if #connections == 1 then
 				connect_to_db(connections[1])
 			else
-				vim.cmd("DBUIToggle")
+				open_dbui_in_tab()
 			end
 		end, { desc = "Toggle Dadbod UI" })
 
+		vim.api.nvim_create_user_command("DBClean", function()
+			local closed = 0
+			for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+				local name = vim.api.nvim_buf_get_name(buf)
+				if name:match("%.dbout$") then
+					vim.api.nvim_buf_delete(buf, { force = true })
+					closed = closed + 1
+				end
+			end
+			vim.notify("Closed " .. closed .. " dbout buffer(s)", vim.log.levels.INFO)
+		end, { desc = "Close all DB result buffers" })
+
 		vim.api.nvim_create_autocmd("VimLeavePre", {
-			callback = stop_all_tunnels,
+			callback = tunnel.stop_all,
 		})
 	end,
 	keys = {
 		{ "<leader>dc", "<cmd>DBConnect<cr>", desc = "Dadbod Connect (picker)" },
 		{ "<leader>dd", "<cmd>DBToggle<cr>", desc = "Toggle Dadbod UI" },
+		{ "<leader>dx", "<cmd>DBClean<cr>", desc = "Clean DB result buffers" },
 		{ "<leader>df", "<cmd>DBUIFindBuffer<cr>", desc = "Find DB Buffer" },
 		{ "<leader>dq", "<cmd>DBDisconnect<cr>", desc = "Dadbod Disconnect" },
 		{ "<leader>di", "<cmd>DBStatus<cr>", desc = "Dadbod Tunnel Status" },

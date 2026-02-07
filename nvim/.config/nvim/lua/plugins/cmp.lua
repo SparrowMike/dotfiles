@@ -108,6 +108,10 @@ return {
 			luasnip.filetype_extend("javascriptreact", { "html" })
 			luasnip.filetype_extend("typescriptreact", { "html" })
 
+			-- Enable SQL snippets in DB filetypes
+			luasnip.filetype_extend("mysql", { "sql" })
+			luasnip.filetype_extend("plsql", { "sql" })
+
 			require("luasnip/loaders/from_vscode").lazy_load()
 		end,
 	},

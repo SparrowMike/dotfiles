@@ -35,7 +35,7 @@ return {
 			current_line_blame_opts = {
 				virt_text = true,
 				virt_text_pos = "eol",
-				delay = 500,
+				delay = 1500,
 				ignore_whitespace = false,
 				virt_text_priority = 100,
 				use_focus = true,
@@ -172,28 +172,14 @@ return {
 			vim.opt.fillchars:append({ diff = "╱" })
 		end,
 	},
-	{
-		"f-person/git-blame.nvim",
-		event = "VeryLazy",
-		config = function()
-			vim.g.skip_ts_context_commentstring_module = true
-			vim.g.gitblame_display_virtual_text = 0
-			vim.keymap.set("n", "<leader>gto", "<cmd>GitBlameOpenCommitURL<cr>")
-			-- vim.keymap.set("n", "<leader>gtb", "<cmd>GitBlameToggle<cr>")
-		end,
-	},
 	-- {
-	-- 	"tpope/vim-fugitive",
+	-- 	"f-person/git-blame.nvim",
 	-- 	event = "VeryLazy",
 	-- 	config = function()
-	-- 		-- vim.keymap.set("n", "<leader>gts", ":vert Git<CR>", { desc = "Git status" })
-	-- 		vim.keymap.set("n", "<leader>gtd", ":Gdiffsplit<CR>", { desc = "Git diff" }) -- Updated from deprecated Gvdiff
-	-- 		-- vim.keymap.set("n", "<leader>gtc", ":Git commit<CR>", { desc = "Git commit" })
-	-- 		-- vim.keymap.set("n", "<leader>gtb", ":Git_blame<CR>", { desc = "Git blame" }) -- Updated to new syntax
-	-- 		-- vim.keymap.set("n", "<leader>gtp", ":Git push<CR>", { desc = "Git push" })
-	-- 		-- vim.keymap.set("n", "<leader>gtl", ":Git pull<CR>", { desc = "Git pull" })
-	-- 		-- vim.keymap.set("n", "<leader>gtL", ":Git log<CR>", { desc = "Git log" })
-	-- 		-- vim.keymap.set("n", "<leader>gtw", ":Gwrite<CR>", { desc = "Git write (add) current file" })
+	-- 		vim.g.skip_ts_context_commentstring_module = true
+	-- 		vim.g.gitblame_display_virtual_text = 0
+	-- 		vim.keymap.set("n", "<leader>gto", "<cmd>GitBlameOpenCommitURL<cr>")
+	-- 		-- vim.keymap.set("n", "<leader>gtb", "<cmd>GitBlameToggle<cr>")
 	-- 	end,
 	-- },
 	{

@@ -52,6 +52,19 @@ return {
             end,
         },
         indent = {
+            chunk = {
+                enabled = true,
+                hl = {
+                    "SnacksIndent1",
+                    "SnacksIndent2",
+                    "SnacksIndent3",
+                    "SnacksIndent4",
+                    "SnacksIndent5",
+                    "SnacksIndent6",
+                    "SnacksIndent7",
+                    "SnacksIndent8",
+                },
+            },
             scope = {
                 hl = {
                     "SnacksIndent1",
@@ -63,7 +76,7 @@ return {
                     "SnacksIndent7",
                     "SnacksIndent8",
                 },
-            }
+            },
         },
         input = { enabled = true },
         notifier = {
