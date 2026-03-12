@@ -105,7 +105,7 @@ return {
 
 				file_panel = {
 					win_config = {
-						width = 40, -- Same width as neo-tree for consistency
+						width = 50, -- Same width as neo-tree for consistency
 					},
 				},
 

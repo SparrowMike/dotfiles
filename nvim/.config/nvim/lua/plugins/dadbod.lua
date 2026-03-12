@@ -11,6 +11,7 @@ return {
 		vim.g.db_ui_save_location = vim.fn.stdpath("data") .. "/db_ui"
 		vim.g.db_ui_winwidth = 40
 		vim.g.db_ui_auto_execute_table_helpers = 1
+		vim.g.db_ui_execute_on_save = 0
 		vim.g.db_ui_use_nvim_notify = 1
 
 		local function url_encode(str)
@@ -58,6 +59,18 @@ return {
 			end,
 		})
 
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = "dbout",
+            callback = function()
+                vim.defer_fn(function()
+                    local lines = vim.api.nvim_buf_get_lines(0, 0, 1, false)
+                    local first = lines[1] or ""
+                    if first:match("^%s*[{%[]") then
+                        pcall(vim.cmd, "%!python3 -m json.tool")
+                    end
+                end, 100)
+            end,
+        })
 		-- Find connection by matching database name from DBUI line
 		local function find_conn_for_db(db_name)
 			local connections = vim.g.db_connections or {}

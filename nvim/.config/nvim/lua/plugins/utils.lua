@@ -100,6 +100,18 @@ return {
 		},
 	},
 	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+			vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Toggle markdown preview" })
+		end,
+	},
+	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
@@ -110,8 +122,7 @@ return {
 			require("render-markdown").setup({
 				headings = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
 				code = {
-					width = "block",
-					right_pad = 1,
+					width = "full",
 				},
 				dash = "—",
 				checkbox = {
