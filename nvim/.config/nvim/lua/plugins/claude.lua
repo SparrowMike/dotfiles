@@ -8,7 +8,6 @@ return {
 		track_selection = true,
 		visual_demotion_delay_ms = 50,
 		focus_after_send = false, -- Focus terminal after sending content
-		-- terminal_cmd = "~/.claude/local/claude",
 		diff_opts = {
 			auto_close_on_accept = true,
 			vertical_split = true,

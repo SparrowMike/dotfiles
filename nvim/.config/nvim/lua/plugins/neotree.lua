@@ -14,14 +14,18 @@ return {
 					return
 				end
 
-				-- Smart focus: diffview focus if in diffview, otherwise neo-tree
-				local diffview_lib = require("diffview.lib")
-				if diffview_lib.get_current_view() then
-					-- In diffview: toggle focus between file panel and diff view
-					require("diffview.actions").focus_files()
-				else
-					vim.cmd("Neotree filesystem focus")
+				-- codediff active: toggle focus between diff view and explorer
+				if _G.codediff_active then
+					local cur = vim.api.nvim_get_current_win()
+					vim.cmd("wincmd h")
+					if vim.api.nvim_get_current_win() == cur then
+						-- already at leftmost (explorer), move right to diff
+						vim.cmd("wincmd l")
+					end
+					return
 				end
+
+				vim.cmd("Neotree filesystem focus")
 			end,
 			mode = { "n", "t" },
 			desc = "Smart focus (Neo-tree or Diffview)",

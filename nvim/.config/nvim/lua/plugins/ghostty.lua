@@ -1,7 +1,7 @@
 return {
 	"ghostty",
 	dir = "/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/",
-	lazy = false,
+	ft = { "ghostty" },
 	init = function()
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = "ghostty",

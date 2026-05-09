@@ -19,7 +19,7 @@ return {
 
 		local function get_worktree_cached()
 			local current_cwd = vim.fn.getcwd()
-			local now = vim.loop.hrtime()
+			local now = vim.uv.hrtime()
 			local cache_ttl = 5e9 -- 5 seconds in nanoseconds
 
 			-- Return cached result if still valid

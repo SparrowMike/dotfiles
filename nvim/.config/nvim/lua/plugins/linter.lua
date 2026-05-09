@@ -80,7 +80,8 @@ return {
 				end)
 				if not ok then
 					vim.notify("Tailwind sort failed: " .. tostring(result), vim.log.levels.WARN)
-				end			end
+				end
+			end
 
 			vim.keymap.set("n", "<leader>lx", function()
 				vim.lsp.buf.code_action({
@@ -157,52 +158,6 @@ return {
 				end
 				vim.notify("Stopped " .. count .. " Tailwind LSP client(s)", vim.log.levels.INFO)
 			end, { desc = "Stop all Tailwind LSP clients" })
-		end,
-	},
-
-	-- ESLint diagnostics AND code actions (same as before)
-	{
-		"nvimtools/none-ls.nvim",
-		event = { "BufReadPost", "BufNewFile" },
-		dependencies = { "nvimtools/none-ls-extras.nvim" },
-		config = function()
-			local null_ls = require("null-ls")
-			local eslint_diagnostics = require("none-ls.diagnostics.eslint_d")
-			local eslint_code_actions = require("none-ls.code_actions.eslint_d")
-
-			null_ls.setup({
-				debounce = 400,
-				sources = {
-					-- ESLint diagnostics (shows the problems)
-					eslint_diagnostics.with({
-						-- Only attach if ESLint config exists
-						condition = function(utils)
-							return utils.root_has_file({
-								".eslintrc",
-								".eslintrc.js",
-								".eslintrc.json",
-								".eslintrc.yml",
-								".eslintrc.yaml",
-								"eslint.config.js",
-							})
-						end,
-					}),
-					-- ESLint code actions (provides the fixes)
-					eslint_code_actions.with({
-						condition = function(utils)
-							return utils.root_has_file({
-								".eslintrc",
-								".eslintrc.js",
-								".eslintrc.json",
-								".eslintrc.yml",
-								".eslintrc.yaml",
-								"eslint.config.js",
-							})
-						end,
-					}),
-					-- Note: Python linting is now handled by ruff LSP (see lsp.lua)
-				},
-			})
 		end,
 	},
 
