@@ -14,9 +14,6 @@ return {
 			"kristijanhusak/vim-dadbod-completion",
 		},
 		config = function()
-			local lsp_zero = require("lsp-zero")
-			lsp_zero.extend_cmp()
-
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 
