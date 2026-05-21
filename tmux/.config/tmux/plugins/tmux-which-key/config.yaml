@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=config.schema.yaml
+command_alias_start_index: 200
+keybindings:
+  prefix_table: M
+title:
+  style: align=centre,bold
+  prefix: tmux
+  prefix_style: fg=green,align=centre,bold
+position:
+  x: R
+  y: P
+custom_variables: []
+macros:
+  - name: reload-config
+    commands:
+      - source-file $HOME/.tmux.conf
+      - display "Config reloaded"
+items:
+  - name: Last window
+    key: tab
+    command: last-window
+  - name: Last pane
+    key: '`'
+    command: last-pane
+  - separator: true
+  - name: +Sessions
+    key: s
+    menu:
+      - name: New named session
+        key: n
+        command: command-prompt -p "Session name:" "new-session -A -s \"%%\""
+      - name: Choose
+        key: s
+        command: choose-tree -Zs
+      - name: Rename
+        key: r
+        command: command-prompt -p "Rename session:" -I "#S" "rename-session -- \"%%\""
+      - name: Kill
+        key: X
+        command: 'confirm -p "Kill session #S? (y/n)" kill-session'
+  - name: +Windows
+    key: w
+    menu:
+      - name: Last
+        key: tab
+        command: last-window
+      - name: Choose
+        key: w
+        command: choose-tree -Zw
+      - name: Previous
+        key: p
+        command: previous-window
+      - name: Next
+        key: n
+        command: next-window
+      - name: New
+        key: c
+        command: 'neww -c #{pane_current_path}'
+      - name: Split horizontal
+        key: /
+        command: 'splitw -h -c #{pane_current_path}'
+      - name: Split vertical
+        key: '-'
+        command: 'splitw -v -c #{pane_current_path}'
+      - separator: true
+      - name: Rename
+        key: R
+        command: command-prompt -p "Rename window:" -I "#W" "renamew -- \"%%\""
+      - name: Kill
+        key: X
+        command: 'confirm -p "Kill window #W? (y/n)" killw'
+  - name: +Panes
+    key: p
+    menu:
+      - name: Last
+        key: tab
+        command: lastp
+      - name: Choose
+        key: p
+        command: displayp -d 0
+      - separator: true
+      - name: Left
+        key: h
+        command: selectp -L
+      - name: Down
+        key: j
+        command: selectp -D
+      - name: Up
+        key: k
+        command: selectp -U
+      - name: Right
+        key: l
+        command: selectp -R
+      - separator: true
+      - name: Zoom
+        key: z
+        command: resizep -Z
+      - name: Kill
+        key: X
+        command: 'confirm -p "Kill pane #P? (y/n)" killp'
+  - name: +Client
+    key: C
+    menu:
+      - name: Reload config
+        key: r
+        macro: reload-config
+      - name: +Plugins
+        key: P
+        menu:
+          - name: Install
+            key: i
+            command: run-shell $TMUX_PLUGIN_MANAGER_PATH/tpm/bindings/install_plugins
+          - name: Update
+            key: u
+            command: run-shell $TMUX_PLUGIN_MANAGER_PATH/tpm/bindings/update_plugins
+          - name: Clean
+            key: c
+            command: run-shell $TMUX_PLUGIN_MANAGER_PATH/tpm/bindings/clean_plugins
+      - name: Detach
+        key: D
+        command: detach
+  - separator: true
+  - name: Time
+    key: T
+    command: clock-mode
+  - name: +Keys
+    key: '?'
+    command: list-keys -N
