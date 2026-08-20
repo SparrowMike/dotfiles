@@ -122,7 +122,8 @@ return {
 			require("render-markdown").setup({
 				headings = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
 				code = {
-					width = "full",
+					width = "block",
+					right_pad = 1,
 				},
 				dash = "—",
 				checkbox = {

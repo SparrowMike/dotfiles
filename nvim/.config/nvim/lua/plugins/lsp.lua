@@ -94,7 +94,7 @@ return {
 					end
 
 					if client:supports_method("textDocument/inlayHint") then
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+						vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
 					end
 
 					local map = function(mode, lhs, rhs, desc)

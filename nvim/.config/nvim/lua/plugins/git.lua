@@ -19,6 +19,56 @@ return {
 				changedelete = { text = "▎" },
 				untracked = { text = "▎" },
 			},
+			on_attach = function(bufnr)
+				vim.keymap.set("n", "<leader>go", function()
+					local file = vim.api.nvim_buf_get_name(bufnr)
+					local line = vim.api.nvim_win_get_cursor(0)[1]
+
+					local blame = vim.system(
+						{ "git", "blame", "-L", line .. "," .. line, "--porcelain", file },
+						{ text = true }
+					):wait()
+
+					if blame.code ~= 0 or not blame.stdout then
+						vim.notify("git blame failed", vim.log.levels.WARN)
+						return
+					end
+
+					local sha = blame.stdout:match("^(%x+)")
+					if not sha or sha:match("^0+$") then
+						vim.notify("Line not yet committed", vim.log.levels.WARN)
+						return
+					end
+
+					local r = vim.system({ "git", "remote", "get-url", "origin" }, { text = true }):wait()
+					if r.code ~= 0 then
+						vim.notify("Could not get remote URL", vim.log.levels.WARN)
+						return
+					end
+
+					local remote = r.stdout:gsub("%s+$", "")
+					local host, path = remote:match("git@([^:]+):(.+)$")
+					if not host then
+						host, path = remote:match("https?://([^/]+)/(.+)$")
+					end
+					if not host then
+						vim.notify("Could not parse remote: " .. remote, vim.log.levels.WARN)
+						return
+					end
+
+					path = path:gsub("%.git$", "")
+					local url = string.format("https://%s/%s/-/commit/%s", host, path, sha)
+					vim.system({ "open", url }, { text = true }, function(obj)
+						if obj.code ~= 0 then
+							vim.schedule(function()
+								vim.notify("Failed to open browser", vim.log.levels.ERROR)
+							end)
+						end
+					end)
+					vim.notify("Opening: " .. url, vim.log.levels.INFO)
+				end, { buffer = bufnr, desc = "Open commit in browser" })
+			end,
+
 			signs_staged_enable = true,
 			signcolumn = true,
 			word_diff = false,
